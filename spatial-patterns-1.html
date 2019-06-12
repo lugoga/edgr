@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Chapter 17 Spatial Patterns | A glimpse of GIS and Remote Sensing with R</title>
+  <meta name="description" content="Introdution to geographical information system and remote sensing using an open source and powerful statical tool, R">
+  <meta name="generator" content="bookdown  and GitBook 2.6.7">
+
+  <meta property="og:title" content="Chapter 17 Spatial Patterns | A glimpse of GIS and Remote Sensing with R" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="Introdution to geographical information system and remote sensing using an open source and powerful statical tool, R" />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 17 Spatial Patterns | A glimpse of GIS and Remote Sensing with R" />
+  
+  <meta name="twitter:description" content="Introdution to geographical information system and remote sensing using an open source and powerful statical tool, R" />
+  
+
+<meta name="author" content="Masumbuko Semba">
+
+
+<meta name="date" content="2019-05-14">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  
+<link rel="prev" href="spatial-patterns.html">
+
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">A glimpse of GIS and Remote Sensing with R</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Prerequisites</a></li>
+<li class="chapter" data-level="1" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>1</b> Introduction to Spatial Analysis</a><ul>
+<li class="chapter" data-level="1.1" data-path="intro.html"><a href="intro.html#why-programming"><i class="fa fa-check"></i><b>1.1</b> Why Programming?</a></li>
+<li class="chapter" data-level="1.2" data-path="intro.html"><a href="intro.html#learning-to-program"><i class="fa fa-check"></i><b>1.2</b> Learning to program</a></li>
+<li class="chapter" data-level="1.3" data-path="intro.html"><a href="intro.html#programming-in-r"><i class="fa fa-check"></i><b>1.3</b> Programming in R</a><ul>
+<li class="chapter" data-level="1.3.1" data-path="intro.html"><a href="intro.html#what-is-r"><i class="fa fa-check"></i><b>1.3.1</b> What is R?</a></li>
+<li class="chapter" data-level="1.3.2" data-path="intro.html"><a href="intro.html#installing-r"><i class="fa fa-check"></i><b>1.3.2</b> Installing R</a></li>
+<li class="chapter" data-level="1.3.3" data-path="intro.html"><a href="intro.html#what-is-rstudio"><i class="fa fa-check"></i><b>1.3.3</b> What is RStudio?</a></li>
+<li class="chapter" data-level="1.3.4" data-path="intro.html"><a href="intro.html#basic-featurs-of-rstudio"><i class="fa fa-check"></i><b>1.3.4</b> Basic Featurs of RStudio</a></li>
+<li class="chapter" data-level="1.3.5" data-path="intro.html"><a href="intro.html#rstudio-editor"><i class="fa fa-check"></i><b>1.3.5</b> Rstudio editor</a></li>
+<li class="chapter" data-level="1.3.6" data-path="intro.html"><a href="intro.html#rmarkdown"><i class="fa fa-check"></i><b>1.3.6</b> Rmarkdown</a></li>
+<li class="chapter" data-level="1.3.7" data-path="intro.html"><a href="intro.html#use-descriptive-names"><i class="fa fa-check"></i><b>1.3.7</b> Use descriptive names</a></li>
+<li class="chapter" data-level="1.3.8" data-path="intro.html"><a href="intro.html#use-comments"><i class="fa fa-check"></i><b>1.3.8</b> Use comments</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="getting-started.html"><a href="getting-started.html"><i class="fa fa-check"></i><b>2</b> Getting started</a><ul>
+<li class="chapter" data-level="2.1" data-path="getting-started.html"><a href="getting-started.html#maths-in-r"><i class="fa fa-check"></i><b>2.1</b> Maths in R</a><ul>
+<li class="chapter" data-level="2.1.1" data-path="getting-started.html"><a href="getting-started.html#arithmetric"><i class="fa fa-check"></i><b>2.1.1</b> Arithmetric</a></li>
+<li class="chapter" data-level="2.1.2" data-path="getting-started.html"><a href="getting-started.html#precedence"><i class="fa fa-check"></i><b>2.1.2</b> Precedence</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="getting-started.html"><a href="getting-started.html#assignment-operator"><i class="fa fa-check"></i><b>2.2</b> Assignment operator</a><ul>
+<li class="chapter" data-level="2.2.1" data-path="getting-started.html"><a href="getting-started.html#variables"><i class="fa fa-check"></i><b>2.2.1</b> Variables</a></li>
+<li class="chapter" data-level="2.2.2" data-path="getting-started.html"><a href="getting-started.html#functions"><i class="fa fa-check"></i><b>2.2.2</b> Functions</a></li>
+<li class="chapter" data-level="2.2.3" data-path="getting-started.html"><a href="getting-started.html#essential-functions"><i class="fa fa-check"></i><b>2.2.3</b> Essential functions</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="getting-started.html"><a href="getting-started.html#wdirectory"><i class="fa fa-check"></i><b>2.3</b> Setting Working Directory</a></li>
+<li class="chapter" data-level="2.4" data-path="getting-started.html"><a href="getting-started.html#packages-or-libraries"><i class="fa fa-check"></i><b>2.4</b> Packages or Libraries</a><ul>
+<li class="chapter" data-level="2.4.1" data-path="getting-started.html"><a href="getting-started.html#installing-packages"><i class="fa fa-check"></i><b>2.4.1</b> Installing packages</a></li>
+<li class="chapter" data-level="2.4.2" data-path="getting-started.html"><a href="getting-started.html#loading-packages"><i class="fa fa-check"></i><b>2.4.2</b> Loading packages</a></li>
+</ul></li>
+<li class="chapter" data-level="2.5" data-path="getting-started.html"><a href="getting-started.html#understanding-data-in-r"><i class="fa fa-check"></i><b>2.5</b> Understanding Data in R</a><ul>
+<li class="chapter" data-level="2.5.1" data-path="getting-started.html"><a href="getting-started.html#data-types"><i class="fa fa-check"></i><b>2.5.1</b> Data Types</a></li>
+<li class="chapter" data-level="2.5.2" data-path="getting-started.html"><a href="getting-started.html#vectors"><i class="fa fa-check"></i><b>2.5.2</b> Vectors</a></li>
+<li class="chapter" data-level="2.5.3" data-path="getting-started.html"><a href="getting-started.html#indexing-the-element"><i class="fa fa-check"></i><b>2.5.3</b> Indexing the element</a></li>
+<li class="chapter" data-level="2.5.4" data-path="getting-started.html"><a href="getting-started.html#adding-and-replacing-an-element-in-a-vector"><i class="fa fa-check"></i><b>2.5.4</b> Adding and Replacing an element in a vector</a></li>
+<li class="chapter" data-level="2.5.5" data-path="getting-started.html"><a href="getting-started.html#number-of-elements-in-a-vector"><i class="fa fa-check"></i><b>2.5.5</b> Number of elements in a vector</a></li>
+</ul></li>
+<li class="chapter" data-level="2.6" data-path="getting-started.html"><a href="getting-started.html#data-frame"><i class="fa fa-check"></i><b>2.6</b> Data Frame</a></li>
+<li class="chapter" data-level="2.7" data-path="getting-started.html"><a href="getting-started.html#exercise"><i class="fa fa-check"></i><b>2.7</b> Exercise</a></li>
+<li class="chapter" data-level="2.8" data-path="getting-started.html"><a href="getting-started.html#exercise-1"><i class="fa fa-check"></i><b>2.8</b> Exercise</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="readr.html"><a href="readr.html"><i class="fa fa-check"></i><b>3</b> Importing data with <strong>readr</strong></a><ul>
+<li class="chapter" data-level="3.1" data-path="readr.html"><a href="readr.html#comma-separated-.csv"><i class="fa fa-check"></i><b>3.1</b> <em>Comma-Separated (.csv)</em></a></li>
+<li class="chapter" data-level="3.2" data-path="readr.html"><a href="readr.html#microsoft-excel.xlsx"><i class="fa fa-check"></i><b>3.2</b> Microsoft Excel(.xlsx)</a></li>
+<li class="chapter" data-level="3.3" data-path="readr.html"><a href="readr.html#writing-t-a-file"><i class="fa fa-check"></i><b>3.3</b> Writing t a File</a></li>
+<li class="chapter" data-level="3.4" data-path="readr.html"><a href="readr.html#basic-data-manipulation"><i class="fa fa-check"></i><b>3.4</b> Basic Data Manipulation</a><ul>
+<li class="chapter" data-level="3.4.1" data-path="readr.html"><a href="readr.html#explore-the-data-frame"><i class="fa fa-check"></i><b>3.4.1</b> Explore the Data Frame</a></li>
+<li class="chapter" data-level="3.4.2" data-path="readr.html"><a href="readr.html#simmple-summary-statistics"><i class="fa fa-check"></i><b>3.4.2</b> simmple summary statistics</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="vector.html"><a href="vector.html"><i class="fa fa-check"></i><b>4</b> Vector Data</a><ul>
+<li class="chapter" data-level="4.1" data-path="vector.html"><a href="vector.html#introduction"><i class="fa fa-check"></i><b>4.1</b> Introduction</a></li>
+<li class="chapter" data-level="4.2" data-path="vector.html"><a href="vector.html#vector-data"><i class="fa fa-check"></i><b>4.2</b> Vector Data</a><ul>
+<li class="chapter" data-level="4.2.1" data-path="vector.html"><a href="vector.html#simple-features"><i class="fa fa-check"></i><b>4.2.1</b> Simple features</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="vector.html"><a href="vector.html#reading-vector-data"><i class="fa fa-check"></i><b>4.3</b> Reading vector data</a><ul>
+<li class="chapter" data-level="4.3.1" data-path="vector.html"><a href="vector.html#reading-shapefiles"><i class="fa fa-check"></i><b>4.3.1</b> Reading shapefiles</a></li>
+<li class="chapter" data-level="4.3.2" data-path="vector.html"><a href="vector.html#reading-gpx-file"><i class="fa fa-check"></i><b>4.3.2</b> Reading GPX file</a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="vector.html"><a href="vector.html#make-shapefiles-from-tabular-data"><i class="fa fa-check"></i><b>4.4</b> Make shapefiles from Tabular data</a></li>
+<li class="chapter" data-level="4.5" data-path="vector.html"><a href="vector.html#export-simple-feature-as-shapefile"><i class="fa fa-check"></i><b>4.5</b> Export simple feature as shapefile</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="dplyr.html"><a href="dplyr.html"><i class="fa fa-check"></i><b>5</b> Manipulating Data with <strong>dplyr</strong></a><ul>
+<li class="chapter" data-level="5.1" data-path="dplyr.html"><a href="dplyr.html#why-use-dplyr"><i class="fa fa-check"></i><b>5.1</b> Why use dplyr?</a></li>
+<li class="chapter" data-level="5.2" data-path="dplyr.html"><a href="dplyr.html#dplyr-functionality"><i class="fa fa-check"></i><b>5.2</b> dplyr functionality</a></li>
+<li class="chapter" data-level="5.3" data-path="dplyr.html"><a href="dplyr.html#filter-keep-rows-matching-criteria"><i class="fa fa-check"></i><b>5.3</b> filter: Keep rows matching criteria</a></li>
+<li class="chapter" data-level="5.4" data-path="dplyr.html"><a href="dplyr.html#select-pick-columns-by-name"><i class="fa fa-check"></i><b>5.4</b> select: Pick columns by name</a></li>
+<li class="chapter" data-level="5.5" data-path="dplyr.html"><a href="dplyr.html#chaining-or-pipelining"><i class="fa fa-check"></i><b>5.5</b> “Chaining” or “Pipelining”</a></li>
+<li class="chapter" data-level="5.6" data-path="dplyr.html"><a href="dplyr.html#pipping-with"><i class="fa fa-check"></i><b>5.6</b> Pipping with</a><ul>
+<li class="chapter" data-level="5.6.1" data-path="dplyr.html"><a href="dplyr.html#choosing-columns-select-rename"><i class="fa fa-check"></i><b>5.6.1</b> Choosing columns: <code>select()</code>, <code>rename()</code></a></li>
+<li class="chapter" data-level="5.6.2" data-path="dplyr.html"><a href="dplyr.html#choosing-rows-filter-between-slice-sample_n-top_n-distinct"><i class="fa fa-check"></i><b>5.6.2</b> Choosing rows: filter, between, slice, sample_n, top_n, distinct</a></li>
+<li class="chapter" data-level="5.6.3" data-path="dplyr.html"><a href="dplyr.html#adding-new-variables-mutate-transmute-add_rownames"><i class="fa fa-check"></i><b>5.6.3</b> Adding new variables: mutate, transmute, add_rownames</a></li>
+<li class="chapter" data-level="5.6.4" data-path="dplyr.html"><a href="dplyr.html#grouping-and-counting-summarise-tally-count-group_size-n_groups-ungroup"><i class="fa fa-check"></i><b>5.6.4</b> Grouping and counting: summarise, tally, count, group_size, n_groups, ungroup</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="tidy.html"><a href="tidy.html"><i class="fa fa-check"></i><b>6</b> Reshaping data with <strong>tidyr</strong></a><ul>
+<li class="chapter" data-level="6.1" data-path="tidy.html"><a href="tidy.html#gather-function"><i class="fa fa-check"></i><b>6.1</b> gather( ) function:</a></li>
+<li class="chapter" data-level="6.2" data-path="tidy.html"><a href="tidy.html#separate-function"><i class="fa fa-check"></i><b>6.2</b> separate( ) function:</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="raster.html"><a href="raster.html"><i class="fa fa-check"></i><b>7</b> Raster Data</a><ul>
+<li class="chapter" data-level="7.1" data-path="raster.html"><a href="raster.html#introduction-to-raster-data"><i class="fa fa-check"></i><b>7.1</b> Introduction to Raster data</a><ul>
+<li class="chapter" data-level="7.1.1" data-path="raster.html"><a href="raster.html#geotiff"><i class="fa fa-check"></i><b>7.1.1</b> GeoTiff</a></li>
+<li class="chapter" data-level="7.1.2" data-path="raster.html"><a href="raster.html#explore-the-raster-attribute"><i class="fa fa-check"></i><b>7.1.2</b> Explore the raster attribute</a></li>
+<li class="chapter" data-level="7.1.3" data-path="raster.html"><a href="raster.html#read-a-geotiff-raster-data"><i class="fa fa-check"></i><b>7.1.3</b> Read a GeoTIFF raster data</a></li>
+<li class="chapter" data-level="7.1.4" data-path="raster.html"><a href="raster.html#view-raster-coordinate-reference-system"><i class="fa fa-check"></i><b>7.1.4</b> View Raster Coordinate Reference System</a></li>
+<li class="chapter" data-level="7.1.5" data-path="raster.html"><a href="raster.html#dealing-with-missing-data-in-raster"><i class="fa fa-check"></i><b>7.1.5</b> Dealing with missing data in raster</a></li>
+</ul></li>
+<li class="chapter" data-level="7.2" data-path="raster.html"><a href="raster.html#assign-projection-and-reproject-raster-data-in-r"><i class="fa fa-check"></i><b>7.2</b> Assign projection and Reproject Raster Data in R</a></li>
+<li class="chapter" data-level="7.3" data-path="raster.html"><a href="raster.html#raster-resolution"><i class="fa fa-check"></i><b>7.3</b> Raster resolution</a></li>
+<li class="chapter" data-level="7.4" data-path="raster.html"><a href="raster.html#raster-calculation"><i class="fa fa-check"></i><b>7.4</b> Raster Calculation</a></li>
+<li class="chapter" data-level="7.5" data-path="raster.html"><a href="raster.html#multi-bands-satellite-imagery"><i class="fa fa-check"></i><b>7.5</b> Multi-bands satellite imagery</a><ul>
+<li class="chapter" data-level="7.5.1" data-path="raster.html"><a href="raster.html#rater-stacks"><i class="fa fa-check"></i><b>7.5.1</b> Rater Stacks</a></li>
+</ul></li>
+<li class="chapter" data-level="7.6" data-path="raster.html"><a href="raster.html#manipulate-raster"><i class="fa fa-check"></i><b>7.6</b> Manipulate raster</a></li>
+<li class="chapter" data-level="7.7" data-path="raster.html"><a href="raster.html#raster-time-series-data"><i class="fa fa-check"></i><b>7.7</b> Raster time series data</a></li>
+<li class="chapter" data-level="7.8" data-path="raster.html"><a href="raster.html#comparing-ndvi-from-two-different-sites"><i class="fa fa-check"></i><b>7.8</b> comparing NDVI from Two different sites</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="rasterv.html"><a href="rasterv.html"><i class="fa fa-check"></i><b>8</b> Raster Visualization</a><ul>
+<li class="chapter" data-level="8.1" data-path="rasterv.html"><a href="rasterv.html#visualize-bathmetry-with-ggplot2"><i class="fa fa-check"></i><b>8.1</b> visualize bathmetry with ggplot2</a></li>
+<li class="chapter" data-level="8.2" data-path="rasterv.html"><a href="rasterv.html#convert-data-frame-to-bathmetric-object"><i class="fa fa-check"></i><b>8.2</b> Convert data frame to bathmetric object</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="graphics.html"><a href="graphics.html"><i class="fa fa-check"></i><b>9</b> Making Maps</a><ul>
+<li class="chapter" data-level="9.1" data-path="graphics.html"><a href="graphics.html#introduction-1"><i class="fa fa-check"></i><b>9.1</b> Introduction</a><ul>
+<li class="chapter" data-level="9.1.1" data-path="graphics.html"><a href="graphics.html#the-bathmetry-data"><i class="fa fa-check"></i><b>9.1.1</b> The bathmetry data</a></li>
+</ul></li>
+<li class="chapter" data-level="9.2" data-path="graphics.html"><a href="graphics.html#creating-a-ggplot"><i class="fa fa-check"></i><b>9.2</b> Creating a ggplot</a><ul>
+<li class="chapter" data-level="9.2.1" data-path="graphics.html"><a href="graphics.html#label"><i class="fa fa-check"></i><b>9.2.1</b> Label</a></li>
+<li class="chapter" data-level="9.2.2" data-path="graphics.html"><a href="graphics.html#annotations"><i class="fa fa-check"></i><b>9.2.2</b> Annotations</a></li>
+<li class="chapter" data-level="9.2.3" data-path="graphics.html"><a href="graphics.html#scales"><i class="fa fa-check"></i><b>9.2.3</b> Scales</a></li>
+<li class="chapter" data-level="9.2.4" data-path="graphics.html"><a href="graphics.html#zooming"><i class="fa fa-check"></i><b>9.2.4</b> Zooming</a></li>
+</ul></li>
+<li class="chapter" data-level="9.3" data-path="graphics.html"><a href="graphics.html#inset-maps"><i class="fa fa-check"></i><b>9.3</b> Inset maps</a></li>
+<li class="chapter" data-level="9.4" data-path="graphics.html"><a href="graphics.html#static-maps"><i class="fa fa-check"></i><b>9.4</b> Static Maps</a><ul>
+<li class="chapter" data-level="9.4.1" data-path="graphics.html"><a href="graphics.html#map-elements"><i class="fa fa-check"></i><b>9.4.1</b> Map elements</a></li>
+</ul></li>
+<li class="chapter" data-level="9.5" data-path="graphics.html"><a href="graphics.html#animated-maps"><i class="fa fa-check"></i><b>9.5</b> Animated maps</a></li>
+<li class="chapter" data-level="9.6" data-path="graphics.html"><a href="graphics.html#interactive-maps"><i class="fa fa-check"></i><b>9.6</b> Interactive maps</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="monsoon-circulation.html"><a href="monsoon-circulation.html"><i class="fa fa-check"></i><b>10</b> Monsoon circulation</a><ul>
+<li class="chapter" data-level="10.1" data-path="monsoon-circulation.html"><a href="monsoon-circulation.html#winds"><i class="fa fa-check"></i><b>10.1</b> winds</a><ul>
+<li class="chapter" data-level="10.1.1" data-path="monsoon-circulation.html"><a href="monsoon-circulation.html#climatologies"><i class="fa fa-check"></i><b>10.1.1</b> Climatologies</a></li>
+<li class="chapter" data-level="10.1.2" data-path="monsoon-circulation.html"><a href="monsoon-circulation.html#annual-cycles-and-means"><i class="fa fa-check"></i><b>10.1.2</b> Annual cycles and means</a></li>
+<li class="chapter" data-level="10.1.3" data-path="monsoon-circulation.html"><a href="monsoon-circulation.html#intraseasonal-variability"><i class="fa fa-check"></i><b>10.1.3</b> Intraseasonal variability</a></li>
+<li class="chapter" data-level="10.1.4" data-path="monsoon-circulation.html"><a href="monsoon-circulation.html#sea-surface-height"><i class="fa fa-check"></i><b>10.1.4</b> sea surface height</a></li>
+<li class="chapter" data-level="10.1.5" data-path="monsoon-circulation.html"><a href="monsoon-circulation.html#sea-surface-temperature"><i class="fa fa-check"></i><b>10.1.5</b> sea surface temperature</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="indian-ocean.html"><a href="indian-ocean.html"><i class="fa fa-check"></i><b>11</b> Indian Ocean</a><ul>
+<li class="chapter" data-level="11.1" data-path="indian-ocean.html"><a href="indian-ocean.html#ocean-circulation"><i class="fa fa-check"></i><b>11.1</b> Ocean circulation</a></li>
+<li class="chapter" data-level="11.2" data-path="indian-ocean.html"><a href="indian-ocean.html#wind"><i class="fa fa-check"></i><b>11.2</b> wind</a></li>
+<li class="chapter" data-level="11.3" data-path="indian-ocean.html"><a href="indian-ocean.html#calculate-the-zonal-departure-of-surface-wind"><i class="fa fa-check"></i><b>11.3</b> calculate the zonal departure of surface wind</a></li>
+<li class="chapter" data-level="11.4" data-path="indian-ocean.html"><a href="indian-ocean.html#regional-surface-ocean-dynamics"><i class="fa fa-check"></i><b>11.4</b> REGIONAL SURFACE OCEAN DYNAMICS</a><ul>
+<li class="chapter" data-level="11.4.1" data-path="indian-ocean.html"><a href="indian-ocean.html#the-eastafrican-coastal-current"><i class="fa fa-check"></i><b>11.4.1</b> The EastAfrican Coastal Current</a></li>
+<li class="chapter" data-level="11.4.2" data-path="indian-ocean.html"><a href="indian-ocean.html#the-somali-current-sc"><i class="fa fa-check"></i><b>11.4.2</b> The Somali Current (SC)</a></li>
+<li class="chapter" data-level="11.4.3" data-path="indian-ocean.html"><a href="indian-ocean.html#the-mozambique-current-mc"><i class="fa fa-check"></i><b>11.4.3</b> The Mozambique Current (MC)</a></li>
+<li class="chapter" data-level="11.4.4" data-path="indian-ocean.html"><a href="indian-ocean.html#the-south-equatorial-current-sec"><i class="fa fa-check"></i><b>11.4.4</b> The South Equatorial Current (SEC)</a></li>
+<li class="chapter" data-level="11.4.5" data-path="indian-ocean.html"><a href="indian-ocean.html#the-southern-gyre-sg"><i class="fa fa-check"></i><b>11.4.5</b> The Southern Gyre (SG)</a></li>
+</ul></li>
+<li class="chapter" data-level="11.5" data-path="indian-ocean.html"><a href="indian-ocean.html#physical"><i class="fa fa-check"></i><b>11.5</b> Physical</a><ul>
+<li class="chapter" data-level="11.5.1" data-path="indian-ocean.html"><a href="indian-ocean.html#temperature"><i class="fa fa-check"></i><b>11.5.1</b> Temperature</a></li>
+</ul></li>
+<li class="chapter" data-level="11.6" data-path="indian-ocean.html"><a href="indian-ocean.html#salinity"><i class="fa fa-check"></i><b>11.6</b> Salinity</a></li>
+<li class="chapter" data-level="11.7" data-path="indian-ocean.html"><a href="indian-ocean.html#chemical"><i class="fa fa-check"></i><b>11.7</b> Chemical</a><ul>
+<li class="chapter" data-level="11.7.1" data-path="indian-ocean.html"><a href="indian-ocean.html#dissolved-oxygen"><i class="fa fa-check"></i><b>11.7.1</b> Dissolved oxygen</a></li>
+<li class="chapter" data-level="11.7.2" data-path="indian-ocean.html"><a href="indian-ocean.html#nitrate"><i class="fa fa-check"></i><b>11.7.2</b> Nitrate</a></li>
+<li class="chapter" data-level="11.7.3" data-path="indian-ocean.html"><a href="indian-ocean.html#phosphate"><i class="fa fa-check"></i><b>11.7.3</b> Phosphate</a></li>
+<li class="chapter" data-level="11.7.4" data-path="indian-ocean.html"><a href="indian-ocean.html#silica"><i class="fa fa-check"></i><b>11.7.4</b> Silica</a></li>
+</ul></li>
+<li class="chapter" data-level="11.8" data-path="indian-ocean.html"><a href="indian-ocean.html#wind-1"><i class="fa fa-check"></i><b>11.8</b> wind</a></li>
+<li class="chapter" data-level="11.9" data-path="indian-ocean.html"><a href="indian-ocean.html#bagamoyo-ctd"><i class="fa fa-check"></i><b>11.9</b> Bagamoyo ctd</a></li>
+<li class="chapter" data-level="11.10" data-path="indian-ocean.html"><a href="indian-ocean.html#ctd"><i class="fa fa-check"></i><b>11.10</b> CTD</a></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="ocean-productivity.html"><a href="ocean-productivity.html"><i class="fa fa-check"></i><b>12</b> Ocean productivity</a></li>
+<li class="chapter" data-level="13" data-path="sea-surface-temperature-1.html"><a href="sea-surface-temperature-1.html"><i class="fa fa-check"></i><b>13</b> Sea Surface Temperature</a><ul>
+<li class="chapter" data-level="13.1" data-path="sea-surface-temperature-1.html"><a href="sea-surface-temperature-1.html#annual-mean-sea-surface-temperature"><i class="fa fa-check"></i><b>13.1</b> Annual Mean Sea Surface Temperature</a></li>
+<li class="chapter" data-level="13.2" data-path="sea-surface-temperature-1.html"><a href="sea-surface-temperature-1.html#anomaly-of-sea-surface-temperature"><i class="fa fa-check"></i><b>13.2</b> Anomaly of sea surface temperature</a></li>
+<li class="chapter" data-level="13.3" data-path="sea-surface-temperature-1.html"><a href="sea-surface-temperature-1.html#precipitation"><i class="fa fa-check"></i><b>13.3</b> Precipitation</a></li>
+<li class="chapter" data-level="13.4" data-path="sea-surface-temperature-1.html"><a href="sea-surface-temperature-1.html#wind-speed-and-direction"><i class="fa fa-check"></i><b>13.4</b> WInd speed and direction</a></li>
+<li class="chapter" data-level="13.5" data-path="sea-surface-temperature-1.html"><a href="sea-surface-temperature-1.html#air-temperature"><i class="fa fa-check"></i><b>13.5</b> air temperature</a></li>
+<li class="chapter" data-level="13.6" data-path="sea-surface-temperature-1.html"><a href="sea-surface-temperature-1.html#zonal-anomaly-of-air-temperature"><i class="fa fa-check"></i><b>13.6</b> Zonal anomaly of air temperature</a></li>
+</ul></li>
+<li class="chapter" data-level="14" data-path="precipitation-1.html"><a href="precipitation-1.html"><i class="fa fa-check"></i><b>14</b> precipitation</a><ul>
+<li class="chapter" data-level="14.1" data-path="precipitation-1.html"><a href="precipitation-1.html#handling-data"><i class="fa fa-check"></i><b>14.1</b> Handling data</a></li>
+<li class="chapter" data-level="14.2" data-path="precipitation-1.html"><a href="precipitation-1.html#required-packages"><i class="fa fa-check"></i><b>14.2</b> Required packages</a></li>
+<li class="chapter" data-level="14.3" data-path="precipitation-1.html"><a href="precipitation-1.html#formatting-data"><i class="fa fa-check"></i><b>14.3</b> Formatting data</a></li>
+<li class="chapter" data-level="14.4" data-path="precipitation-1.html"><a href="precipitation-1.html#plotting-with-ggplot2"><i class="fa fa-check"></i><b>14.4</b> Plotting with ggplot2</a></li>
+<li class="chapter" data-level="14.5" data-path="precipitation-1.html"><a href="precipitation-1.html#conclusion"><i class="fa fa-check"></i><b>14.5</b> Conclusion</a></li>
+<li class="chapter" data-level="14.6" data-path="precipitation-1.html"><a href="precipitation-1.html#references"><i class="fa fa-check"></i><b>14.6</b> References</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references-1.html"><a href="references-1.html"><i class="fa fa-check"></i>References</a></li>
+<li class="chapter" data-level="15" data-path="index.html"><a href="index.html#index"><i class="fa fa-check"></i><b>15</b> Index</a><ul>
+<li class="chapter" data-level="15.1" data-path="index.html"><a href="index.html#r"><i class="fa fa-check"></i><b>15.1</b> R</a></li>
+<li class="chapter" data-level="15.2" data-path="index.html"><a href="index.html#rmarkdown-1"><i class="fa fa-check"></i><b>15.2</b> Rmarkdown</a></li>
+<li class="chapter" data-level="15.3" data-path="index.html"><a href="index.html#bookdown"><i class="fa fa-check"></i><b>15.3</b> Bookdown</a></li>
+<li class="chapter" data-level="15.4" data-path="index.html"><a href="index.html#pandoc"><i class="fa fa-check"></i><b>15.4</b> Pandoc</a></li>
+<li class="chapter" data-level="15.5" data-path="index.html"><a href="index.html#woa-for-nyamisi-manuscript"><i class="fa fa-check"></i><b>15.5</b> WOA for Nyamisi manuscript</a></li>
+<li class="chapter" data-level="15.6" data-path="index.html"><a href="index.html#producing-maps-programatically"><i class="fa fa-check"></i><b>15.6</b> Producing Maps programatically</a><ul>
+<li class="chapter" data-level="15.6.1" data-path="index.html"><a href="index.html#satellite-data"><i class="fa fa-check"></i><b>15.6.1</b> satellite data</a></li>
+<li class="chapter" data-level="15.6.2" data-path="index.html"><a href="index.html#drifter-data"><i class="fa fa-check"></i><b>15.6.2</b> drifter data</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="16" data-path="spatial-patterns.html"><a href="spatial-patterns.html"><i class="fa fa-check"></i><b>16</b> Spatial Patterns</a></li>
+<li class="chapter" data-level="17" data-path="spatial-patterns-1.html"><a href="spatial-patterns-1.html"><i class="fa fa-check"></i><b>17</b> Spatial Patterns</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">A glimpse of GIS and Remote Sensing with R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="spatial-patterns-1" class="section level1">
+<h1><span class="header-section-number">Chapter 17</span> Spatial Patterns</h1>
+
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="spatial-patterns.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"download": ["spatil_r.pdf", "spatil_r.epub", "spatil_r.mobi"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+</body>
+
+</html>

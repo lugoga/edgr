@@ -1,0 +1,1561 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Chapter 17 Altimetry | A glimpse of GIS and Remote Sensing with R</title>
+  <meta name="description" content="Introdution to geographical information system and remote sensing using an open source and powerful statical tool, R">
+  <meta name="generator" content="bookdown  and GitBook 2.6.7">
+
+  <meta property="og:title" content="Chapter 17 Altimetry | A glimpse of GIS and Remote Sensing with R" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="Introdution to geographical information system and remote sensing using an open source and powerful statical tool, R" />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 17 Altimetry | A glimpse of GIS and Remote Sensing with R" />
+  
+  <meta name="twitter:description" content="Introdution to geographical information system and remote sensing using an open source and powerful statical tool, R" />
+  
+
+<meta name="author" content="Masumbuko Semba">
+
+
+<meta name="date" content="2019-05-16">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  
+<link rel="prev" href="buoys-data.html">
+<link rel="next" href="argo-floats.html">
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<script src="libs/htmlwidgets-1.3/htmlwidgets.js"></script>
+<link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
+<script src="libs/datatables-binding-0.5/datatables.js"></script>
+<link href="libs/dt-core-1.10.16/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="libs/dt-core-1.10.16/css/jquery.dataTables.extra.css" rel="stylesheet" />
+<script src="libs/dt-core-1.10.16/js/jquery.dataTables.min.js"></script>
+<link href="libs/crosstalk-1.0.0/css/crosstalk.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.0.0/js/crosstalk.min.js"></script>
+<link href="libs/leaflet-1.3.1/leaflet.css" rel="stylesheet" />
+<script src="libs/leaflet-1.3.1/leaflet.js"></script>
+<link href="libs/leafletfix-1.0.0/leafletfix.css" rel="stylesheet" />
+<script src="libs/Proj4Leaflet-1.0.1/proj4-compressed.js"></script>
+<script src="libs/Proj4Leaflet-1.0.1/proj4leaflet.js"></script>
+<link href="libs/rstudio_leaflet-1.3.1/rstudio_leaflet.css" rel="stylesheet" />
+<script src="libs/leaflet-binding-2.0.2/leaflet.js"></script>
+<script src="libs/proj4js-2.3.15/proj4.js"></script>
+<link href="libs/highcharts-7.0.1/css/motion.css" rel="stylesheet" />
+<link href="libs/highcharts-7.0.1/css/htmlwdgtgrid.css" rel="stylesheet" />
+<script src="libs/highcharts-7.0.1/highcharts.js"></script>
+<script src="libs/highcharts-7.0.1/highcharts-3d.js"></script>
+<script src="libs/highcharts-7.0.1/highcharts-more.js"></script>
+<script src="libs/highcharts-7.0.1/modules/stock.js"></script>
+<script src="libs/highcharts-7.0.1/modules/map.js"></script>
+<script src="libs/highcharts-7.0.1/modules/annotations.js"></script>
+<script src="libs/highcharts-7.0.1/modules/boost.js"></script>
+<script src="libs/highcharts-7.0.1/modules/data.js"></script>
+<script src="libs/highcharts-7.0.1/modules/drag-panes.js"></script>
+<script src="libs/highcharts-7.0.1/modules/drilldown.js"></script>
+<script src="libs/highcharts-7.0.1/modules/item-series.js"></script>
+<script src="libs/highcharts-7.0.1/modules/offline-exporting.js"></script>
+<script src="libs/highcharts-7.0.1/modules/overlapping-datalabels.js"></script>
+<script src="libs/highcharts-7.0.1/modules/exporting.js"></script>
+<script src="libs/highcharts-7.0.1/modules/export-data.js"></script>
+<script src="libs/highcharts-7.0.1/modules/funnel.js"></script>
+<script src="libs/highcharts-7.0.1/modules/heatmap.js"></script>
+<script src="libs/highcharts-7.0.1/modules/treemap.js"></script>
+<script src="libs/highcharts-7.0.1/modules/sankey.js"></script>
+<script src="libs/highcharts-7.0.1/modules/solid-gauge.js"></script>
+<script src="libs/highcharts-7.0.1/modules/streamgraph.js"></script>
+<script src="libs/highcharts-7.0.1/modules/sunburst.js"></script>
+<script src="libs/highcharts-7.0.1/modules/vector.js"></script>
+<script src="libs/highcharts-7.0.1/modules/wordcloud.js"></script>
+<script src="libs/highcharts-7.0.1/modules/xrange.js"></script>
+<script src="libs/highcharts-7.0.1/modules/tilemap.js"></script>
+<script src="libs/highcharts-7.0.1/modules/venn.js"></script>
+<script src="libs/highcharts-7.0.1/modules/gantt.js"></script>
+<script src="libs/highcharts-7.0.1/modules/timeline.js"></script>
+<script src="libs/highcharts-7.0.1/modules/parallel-coordinates.js"></script>
+<script src="libs/highcharts-7.0.1/plugins/grouped-categories.js"></script>
+<script src="libs/highcharts-7.0.1/plugins/motion.js"></script>
+<script src="libs/highcharts-7.0.1/plugins/multicolor_series.js"></script>
+<script src="libs/highcharts-7.0.1/custom/reset.js"></script>
+<script src="libs/highcharts-7.0.1/custom/symbols-extra.js"></script>
+<script src="libs/highcharts-7.0.1/custom/text-symbols.js"></script>
+<script src="libs/highchart-binding-0.7.0/highchart.js"></script>
+
+
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">A glimpse of GIS and Remote Sensing with R</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Prerequisites</a></li>
+<li class="chapter" data-level="" data-path="sources.html"><a href="sources.html"><i class="fa fa-check"></i>Sources</a></li>
+<li class="chapter" data-level="" data-path="note-to-the-reader.html"><a href="note-to-the-reader.html"><i class="fa fa-check"></i>Note to the reader</a></li>
+<li class="chapter" data-level="" data-path="what-is-r.html"><a href="what-is-r.html"><i class="fa fa-check"></i>What is R?</a></li>
+<li class="chapter" data-level="" data-path="who-is-this-book-for.html"><a href="who-is-this-book-for.html"><i class="fa fa-check"></i>Who is this book for?</a></li>
+<li class="chapter" data-level="1" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>1</b> Introduction to Spatial Analysis</a><ul>
+<li class="chapter" data-level="1.1" data-path="intro.html"><a href="intro.html#why-programming"><i class="fa fa-check"></i><b>1.1</b> Why Programming?</a></li>
+<li class="chapter" data-level="1.2" data-path="intro.html"><a href="intro.html#learning-to-program"><i class="fa fa-check"></i><b>1.2</b> Learning to program</a></li>
+<li class="chapter" data-level="1.3" data-path="intro.html"><a href="intro.html#programming-in-r"><i class="fa fa-check"></i><b>1.3</b> Programming in R</a><ul>
+<li class="chapter" data-level="1.3.1" data-path="intro.html"><a href="intro.html#what-is-r-1"><i class="fa fa-check"></i><b>1.3.1</b> What is R?</a></li>
+<li class="chapter" data-level="1.3.2" data-path="intro.html"><a href="intro.html#installing-r"><i class="fa fa-check"></i><b>1.3.2</b> Installing R</a></li>
+<li class="chapter" data-level="1.3.3" data-path="intro.html"><a href="intro.html#what-is-rstudio"><i class="fa fa-check"></i><b>1.3.3</b> What is RStudio?</a></li>
+<li class="chapter" data-level="1.3.4" data-path="intro.html"><a href="intro.html#basic-featurs-of-rstudio"><i class="fa fa-check"></i><b>1.3.4</b> Basic Featurs of RStudio</a></li>
+<li class="chapter" data-level="1.3.5" data-path="intro.html"><a href="intro.html#rstudio-editor"><i class="fa fa-check"></i><b>1.3.5</b> Rstudio editor</a></li>
+<li class="chapter" data-level="1.3.6" data-path="intro.html"><a href="intro.html#rmarkdown"><i class="fa fa-check"></i><b>1.3.6</b> Rmarkdown</a></li>
+<li class="chapter" data-level="1.3.7" data-path="intro.html"><a href="intro.html#use-descriptive-names"><i class="fa fa-check"></i><b>1.3.7</b> Use descriptive names</a></li>
+<li class="chapter" data-level="1.3.8" data-path="intro.html"><a href="intro.html#use-comments"><i class="fa fa-check"></i><b>1.3.8</b> Use comments</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="getting-started.html"><a href="getting-started.html"><i class="fa fa-check"></i><b>2</b> Getting started</a><ul>
+<li class="chapter" data-level="2.1" data-path="getting-started.html"><a href="getting-started.html#maths-in-r"><i class="fa fa-check"></i><b>2.1</b> Maths in R</a><ul>
+<li class="chapter" data-level="2.1.1" data-path="getting-started.html"><a href="getting-started.html#arithmetric"><i class="fa fa-check"></i><b>2.1.1</b> Arithmetric</a></li>
+<li class="chapter" data-level="2.1.2" data-path="getting-started.html"><a href="getting-started.html#precedence"><i class="fa fa-check"></i><b>2.1.2</b> Precedence</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="getting-started.html"><a href="getting-started.html#assignment-operator"><i class="fa fa-check"></i><b>2.2</b> Assignment operator</a><ul>
+<li class="chapter" data-level="2.2.1" data-path="getting-started.html"><a href="getting-started.html#variables"><i class="fa fa-check"></i><b>2.2.1</b> Variables</a></li>
+<li class="chapter" data-level="2.2.2" data-path="getting-started.html"><a href="getting-started.html#functions"><i class="fa fa-check"></i><b>2.2.2</b> Functions</a></li>
+<li class="chapter" data-level="2.2.3" data-path="getting-started.html"><a href="getting-started.html#essential-functions"><i class="fa fa-check"></i><b>2.2.3</b> Essential functions</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="getting-started.html"><a href="getting-started.html#wdirectory"><i class="fa fa-check"></i><b>2.3</b> Setting Working Directory</a></li>
+<li class="chapter" data-level="2.4" data-path="getting-started.html"><a href="getting-started.html#packages-or-libraries"><i class="fa fa-check"></i><b>2.4</b> Packages or Libraries</a><ul>
+<li class="chapter" data-level="2.4.1" data-path="getting-started.html"><a href="getting-started.html#installing-packages"><i class="fa fa-check"></i><b>2.4.1</b> Installing packages</a></li>
+<li class="chapter" data-level="2.4.2" data-path="getting-started.html"><a href="getting-started.html#loading-packages"><i class="fa fa-check"></i><b>2.4.2</b> Loading packages</a></li>
+</ul></li>
+<li class="chapter" data-level="2.5" data-path="getting-started.html"><a href="getting-started.html#understanding-data-in-r"><i class="fa fa-check"></i><b>2.5</b> Understanding Data in R</a><ul>
+<li class="chapter" data-level="2.5.1" data-path="getting-started.html"><a href="getting-started.html#data-types"><i class="fa fa-check"></i><b>2.5.1</b> Data Types</a></li>
+<li class="chapter" data-level="2.5.2" data-path="getting-started.html"><a href="getting-started.html#vectors"><i class="fa fa-check"></i><b>2.5.2</b> Vectors</a></li>
+<li class="chapter" data-level="2.5.3" data-path="getting-started.html"><a href="getting-started.html#indexing-the-element"><i class="fa fa-check"></i><b>2.5.3</b> Indexing the element</a></li>
+<li class="chapter" data-level="2.5.4" data-path="getting-started.html"><a href="getting-started.html#adding-and-replacing-an-element-in-a-vector"><i class="fa fa-check"></i><b>2.5.4</b> Adding and Replacing an element in a vector</a></li>
+<li class="chapter" data-level="2.5.5" data-path="getting-started.html"><a href="getting-started.html#number-of-elements-in-a-vector"><i class="fa fa-check"></i><b>2.5.5</b> Number of elements in a vector</a></li>
+</ul></li>
+<li class="chapter" data-level="2.6" data-path="getting-started.html"><a href="getting-started.html#data-frame"><i class="fa fa-check"></i><b>2.6</b> Data Frame</a></li>
+<li class="chapter" data-level="2.7" data-path="getting-started.html"><a href="getting-started.html#exercise"><i class="fa fa-check"></i><b>2.7</b> Exercise</a></li>
+<li class="chapter" data-level="2.8" data-path="getting-started.html"><a href="getting-started.html#exercise-1"><i class="fa fa-check"></i><b>2.8</b> Exercise</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="readr.html"><a href="readr.html"><i class="fa fa-check"></i><b>3</b> Importing data with <strong>readr</strong></a><ul>
+<li class="chapter" data-level="3.1" data-path="readr.html"><a href="readr.html#comma-separated-.csv"><i class="fa fa-check"></i><b>3.1</b> <em>Comma-Separated (.csv)</em></a></li>
+<li class="chapter" data-level="3.2" data-path="readr.html"><a href="readr.html#microsoft-excel.xlsx"><i class="fa fa-check"></i><b>3.2</b> Microsoft Excel(.xlsx)</a></li>
+<li class="chapter" data-level="3.3" data-path="readr.html"><a href="readr.html#writing-t-a-file"><i class="fa fa-check"></i><b>3.3</b> Writing t a File</a></li>
+<li class="chapter" data-level="3.4" data-path="readr.html"><a href="readr.html#basic-data-manipulation"><i class="fa fa-check"></i><b>3.4</b> Basic Data Manipulation</a><ul>
+<li class="chapter" data-level="3.4.1" data-path="readr.html"><a href="readr.html#explore-the-data-frame"><i class="fa fa-check"></i><b>3.4.1</b> Explore the Data Frame</a></li>
+<li class="chapter" data-level="3.4.2" data-path="readr.html"><a href="readr.html#simmple-summary-statistics"><i class="fa fa-check"></i><b>3.4.2</b> simmple summary statistics</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="vector.html"><a href="vector.html"><i class="fa fa-check"></i><b>4</b> Vector Data</a><ul>
+<li class="chapter" data-level="4.1" data-path="vector.html"><a href="vector.html#introduction"><i class="fa fa-check"></i><b>4.1</b> Introduction</a></li>
+<li class="chapter" data-level="4.2" data-path="vector.html"><a href="vector.html#vector-data"><i class="fa fa-check"></i><b>4.2</b> Vector Data</a><ul>
+<li class="chapter" data-level="4.2.1" data-path="vector.html"><a href="vector.html#simple-features"><i class="fa fa-check"></i><b>4.2.1</b> Simple features</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="vector.html"><a href="vector.html#reading-vector-data"><i class="fa fa-check"></i><b>4.3</b> Reading vector data</a><ul>
+<li class="chapter" data-level="4.3.1" data-path="vector.html"><a href="vector.html#reading-shapefiles"><i class="fa fa-check"></i><b>4.3.1</b> Reading shapefiles</a></li>
+<li class="chapter" data-level="4.3.2" data-path="vector.html"><a href="vector.html#reading-gpx-file"><i class="fa fa-check"></i><b>4.3.2</b> Reading GPX file</a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="vector.html"><a href="vector.html#make-shapefiles-from-tabular-data"><i class="fa fa-check"></i><b>4.4</b> Make shapefiles from Tabular data</a></li>
+<li class="chapter" data-level="4.5" data-path="vector.html"><a href="vector.html#export-simple-feature-as-shapefile"><i class="fa fa-check"></i><b>4.5</b> Export simple feature as shapefile</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="dplyr.html"><a href="dplyr.html"><i class="fa fa-check"></i><b>5</b> Manipulating Data with <strong>dplyr</strong></a><ul>
+<li class="chapter" data-level="5.1" data-path="dplyr.html"><a href="dplyr.html#why-use-dplyr"><i class="fa fa-check"></i><b>5.1</b> Why use dplyr?</a></li>
+<li class="chapter" data-level="5.2" data-path="dplyr.html"><a href="dplyr.html#dplyr-functionality"><i class="fa fa-check"></i><b>5.2</b> dplyr functionality</a></li>
+<li class="chapter" data-level="5.3" data-path="dplyr.html"><a href="dplyr.html#filter-keep-rows-matching-criteria"><i class="fa fa-check"></i><b>5.3</b> filter: Keep rows matching criteria</a></li>
+<li class="chapter" data-level="5.4" data-path="dplyr.html"><a href="dplyr.html#select-pick-columns-by-name"><i class="fa fa-check"></i><b>5.4</b> select: Pick columns by name</a></li>
+<li class="chapter" data-level="5.5" data-path="dplyr.html"><a href="dplyr.html#chaining-or-pipelining"><i class="fa fa-check"></i><b>5.5</b> “Chaining” or “Pipelining”</a></li>
+<li class="chapter" data-level="5.6" data-path="dplyr.html"><a href="dplyr.html#pipping-with"><i class="fa fa-check"></i><b>5.6</b> Pipping with</a><ul>
+<li class="chapter" data-level="5.6.1" data-path="dplyr.html"><a href="dplyr.html#choosing-columns-select-rename"><i class="fa fa-check"></i><b>5.6.1</b> Choosing columns: <code>select()</code>, <code>rename()</code></a></li>
+<li class="chapter" data-level="5.6.2" data-path="dplyr.html"><a href="dplyr.html#choosing-rows-filter-between-slice-sample_n-top_n-distinct"><i class="fa fa-check"></i><b>5.6.2</b> Choosing rows: filter, between, slice, sample_n, top_n, distinct</a></li>
+<li class="chapter" data-level="5.6.3" data-path="dplyr.html"><a href="dplyr.html#adding-new-variables-mutate-transmute-add_rownames"><i class="fa fa-check"></i><b>5.6.3</b> Adding new variables: mutate, transmute, add_rownames</a></li>
+<li class="chapter" data-level="5.6.4" data-path="dplyr.html"><a href="dplyr.html#grouping-and-counting-summarise-tally-count-group_size-n_groups-ungroup"><i class="fa fa-check"></i><b>5.6.4</b> Grouping and counting: summarise, tally, count, group_size, n_groups, ungroup</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="tidy.html"><a href="tidy.html"><i class="fa fa-check"></i><b>6</b> Reshaping data with <strong>tidyr</strong></a><ul>
+<li class="chapter" data-level="6.1" data-path="tidy.html"><a href="tidy.html#gather-function"><i class="fa fa-check"></i><b>6.1</b> gather( ) function:</a></li>
+<li class="chapter" data-level="6.2" data-path="tidy.html"><a href="tidy.html#separate-function"><i class="fa fa-check"></i><b>6.2</b> separate( ) function:</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="raster.html"><a href="raster.html"><i class="fa fa-check"></i><b>7</b> Raster Data</a><ul>
+<li class="chapter" data-level="7.1" data-path="raster.html"><a href="raster.html#introduction-to-raster-data"><i class="fa fa-check"></i><b>7.1</b> Introduction to Raster data</a><ul>
+<li class="chapter" data-level="7.1.1" data-path="raster.html"><a href="raster.html#geotiff"><i class="fa fa-check"></i><b>7.1.1</b> GeoTiff</a></li>
+<li class="chapter" data-level="7.1.2" data-path="raster.html"><a href="raster.html#explore-the-raster-attribute"><i class="fa fa-check"></i><b>7.1.2</b> Explore the raster attribute</a></li>
+<li class="chapter" data-level="7.1.3" data-path="raster.html"><a href="raster.html#read-a-geotiff-raster-data"><i class="fa fa-check"></i><b>7.1.3</b> Read a GeoTIFF raster data</a></li>
+<li class="chapter" data-level="7.1.4" data-path="raster.html"><a href="raster.html#view-raster-coordinate-reference-system"><i class="fa fa-check"></i><b>7.1.4</b> View Raster Coordinate Reference System</a></li>
+<li class="chapter" data-level="7.1.5" data-path="raster.html"><a href="raster.html#dealing-with-missing-data-in-raster"><i class="fa fa-check"></i><b>7.1.5</b> Dealing with missing data in raster</a></li>
+</ul></li>
+<li class="chapter" data-level="7.2" data-path="raster.html"><a href="raster.html#assign-projection-and-reproject-raster-data-in-r"><i class="fa fa-check"></i><b>7.2</b> Assign projection and Reproject Raster Data in R</a></li>
+<li class="chapter" data-level="7.3" data-path="raster.html"><a href="raster.html#raster-resolution"><i class="fa fa-check"></i><b>7.3</b> Raster resolution</a></li>
+<li class="chapter" data-level="7.4" data-path="raster.html"><a href="raster.html#raster-calculation"><i class="fa fa-check"></i><b>7.4</b> Raster Calculation</a></li>
+<li class="chapter" data-level="7.5" data-path="raster.html"><a href="raster.html#multi-bands-satellite-imagery"><i class="fa fa-check"></i><b>7.5</b> Multi-bands satellite imagery</a><ul>
+<li class="chapter" data-level="7.5.1" data-path="raster.html"><a href="raster.html#rater-stacks"><i class="fa fa-check"></i><b>7.5.1</b> Rater Stacks</a></li>
+</ul></li>
+<li class="chapter" data-level="7.6" data-path="raster.html"><a href="raster.html#manipulate-raster"><i class="fa fa-check"></i><b>7.6</b> Manipulate raster</a></li>
+<li class="chapter" data-level="7.7" data-path="raster.html"><a href="raster.html#raster-time-series-data"><i class="fa fa-check"></i><b>7.7</b> Raster time series data</a></li>
+<li class="chapter" data-level="7.8" data-path="raster.html"><a href="raster.html#comparing-ndvi-from-two-different-sites"><i class="fa fa-check"></i><b>7.8</b> comparing NDVI from Two different sites</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="rasterv.html"><a href="rasterv.html"><i class="fa fa-check"></i><b>8</b> Raster Visualization</a><ul>
+<li class="chapter" data-level="8.1" data-path="rasterv.html"><a href="rasterv.html#visualize-bathmetry-with-ggplot2"><i class="fa fa-check"></i><b>8.1</b> visualize bathmetry with ggplot2</a></li>
+<li class="chapter" data-level="8.2" data-path="rasterv.html"><a href="rasterv.html#convert-data-frame-to-bathmetric-object"><i class="fa fa-check"></i><b>8.2</b> Convert data frame to bathmetric object</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="graphics.html"><a href="graphics.html"><i class="fa fa-check"></i><b>9</b> Making Maps</a><ul>
+<li class="chapter" data-level="9.1" data-path="graphics.html"><a href="graphics.html#introduction-1"><i class="fa fa-check"></i><b>9.1</b> Introduction</a><ul>
+<li class="chapter" data-level="9.1.1" data-path="graphics.html"><a href="graphics.html#the-bathmetry-data"><i class="fa fa-check"></i><b>9.1.1</b> The bathmetry data</a></li>
+</ul></li>
+<li class="chapter" data-level="9.2" data-path="graphics.html"><a href="graphics.html#creating-a-ggplot"><i class="fa fa-check"></i><b>9.2</b> Creating a ggplot</a><ul>
+<li class="chapter" data-level="9.2.1" data-path="graphics.html"><a href="graphics.html#label"><i class="fa fa-check"></i><b>9.2.1</b> Label</a></li>
+<li class="chapter" data-level="9.2.2" data-path="graphics.html"><a href="graphics.html#annotations"><i class="fa fa-check"></i><b>9.2.2</b> Annotations</a></li>
+<li class="chapter" data-level="9.2.3" data-path="graphics.html"><a href="graphics.html#scales"><i class="fa fa-check"></i><b>9.2.3</b> Scales</a></li>
+<li class="chapter" data-level="9.2.4" data-path="graphics.html"><a href="graphics.html#zooming"><i class="fa fa-check"></i><b>9.2.4</b> Zooming</a></li>
+</ul></li>
+<li class="chapter" data-level="9.3" data-path="graphics.html"><a href="graphics.html#inset-maps"><i class="fa fa-check"></i><b>9.3</b> Inset maps</a></li>
+<li class="chapter" data-level="9.4" data-path="graphics.html"><a href="graphics.html#static-maps"><i class="fa fa-check"></i><b>9.4</b> Static Maps</a><ul>
+<li class="chapter" data-level="9.4.1" data-path="graphics.html"><a href="graphics.html#map-elements"><i class="fa fa-check"></i><b>9.4.1</b> Map elements</a></li>
+</ul></li>
+<li class="chapter" data-level="9.5" data-path="graphics.html"><a href="graphics.html#animated-maps"><i class="fa fa-check"></i><b>9.5</b> Animated maps</a></li>
+<li class="chapter" data-level="9.6" data-path="graphics.html"><a href="graphics.html#interactive-maps"><i class="fa fa-check"></i><b>9.6</b> Interactive maps</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="monsoon-circulation.html"><a href="monsoon-circulation.html"><i class="fa fa-check"></i><b>10</b> Monsoon circulation</a><ul>
+<li class="chapter" data-level="10.1" data-path="monsoon-circulation.html"><a href="monsoon-circulation.html#winds"><i class="fa fa-check"></i><b>10.1</b> winds</a><ul>
+<li class="chapter" data-level="10.1.1" data-path="monsoon-circulation.html"><a href="monsoon-circulation.html#climatologies"><i class="fa fa-check"></i><b>10.1.1</b> Climatologies</a></li>
+<li class="chapter" data-level="10.1.2" data-path="monsoon-circulation.html"><a href="monsoon-circulation.html#annual-cycles-and-means"><i class="fa fa-check"></i><b>10.1.2</b> Annual cycles and means</a></li>
+<li class="chapter" data-level="10.1.3" data-path="monsoon-circulation.html"><a href="monsoon-circulation.html#intraseasonal-variability"><i class="fa fa-check"></i><b>10.1.3</b> Intraseasonal variability</a></li>
+<li class="chapter" data-level="10.1.4" data-path="monsoon-circulation.html"><a href="monsoon-circulation.html#sea-surface-height"><i class="fa fa-check"></i><b>10.1.4</b> sea surface height</a></li>
+<li class="chapter" data-level="10.1.5" data-path="monsoon-circulation.html"><a href="monsoon-circulation.html#sea-surface-temperature"><i class="fa fa-check"></i><b>10.1.5</b> sea surface temperature</a></li>
+</ul></li>
+<li class="chapter" data-level="10.2" data-path="monsoon-circulation.html"><a href="monsoon-circulation.html#physical"><i class="fa fa-check"></i><b>10.2</b> Physical</a><ul>
+<li class="chapter" data-level="10.2.1" data-path="monsoon-circulation.html"><a href="monsoon-circulation.html#temperature"><i class="fa fa-check"></i><b>10.2.1</b> Temperature</a></li>
+</ul></li>
+<li class="chapter" data-level="10.3" data-path="monsoon-circulation.html"><a href="monsoon-circulation.html#salinity"><i class="fa fa-check"></i><b>10.3</b> Salinity</a></li>
+<li class="chapter" data-level="10.4" data-path="monsoon-circulation.html"><a href="monsoon-circulation.html#chemical"><i class="fa fa-check"></i><b>10.4</b> Chemical</a><ul>
+<li class="chapter" data-level="10.4.1" data-path="monsoon-circulation.html"><a href="monsoon-circulation.html#dissolved-oxygen"><i class="fa fa-check"></i><b>10.4.1</b> Dissolved oxygen</a></li>
+<li class="chapter" data-level="10.4.2" data-path="monsoon-circulation.html"><a href="monsoon-circulation.html#nitrate"><i class="fa fa-check"></i><b>10.4.2</b> Nitrate</a></li>
+<li class="chapter" data-level="10.4.3" data-path="monsoon-circulation.html"><a href="monsoon-circulation.html#phosphate"><i class="fa fa-check"></i><b>10.4.3</b> Phosphate</a></li>
+<li class="chapter" data-level="10.4.4" data-path="monsoon-circulation.html"><a href="monsoon-circulation.html#silica"><i class="fa fa-check"></i><b>10.4.4</b> Silica</a></li>
+</ul></li>
+<li class="chapter" data-level="10.5" data-path="monsoon-circulation.html"><a href="monsoon-circulation.html#wind"><i class="fa fa-check"></i><b>10.5</b> wind</a></li>
+<li class="chapter" data-level="10.6" data-path="monsoon-circulation.html"><a href="monsoon-circulation.html#bagamoyo-ctd"><i class="fa fa-check"></i><b>10.6</b> Bagamoyo ctd</a></li>
+<li class="chapter" data-level="10.7" data-path="monsoon-circulation.html"><a href="monsoon-circulation.html#ctd"><i class="fa fa-check"></i><b>10.7</b> CTD</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="ocean-productivity.html"><a href="ocean-productivity.html"><i class="fa fa-check"></i><b>11</b> Ocean productivity</a></li>
+<li class="chapter" data-level="12" data-path="sea-surface-temperature-1.html"><a href="sea-surface-temperature-1.html"><i class="fa fa-check"></i><b>12</b> Sea Surface Temperature</a><ul>
+<li class="chapter" data-level="12.1" data-path="sea-surface-temperature-1.html"><a href="sea-surface-temperature-1.html#annual-mean-sea-surface-temperature"><i class="fa fa-check"></i><b>12.1</b> Annual Mean Sea Surface Temperature</a></li>
+<li class="chapter" data-level="12.2" data-path="sea-surface-temperature-1.html"><a href="sea-surface-temperature-1.html#anomaly-of-sea-surface-temperature"><i class="fa fa-check"></i><b>12.2</b> Anomaly of sea surface temperature</a></li>
+<li class="chapter" data-level="12.3" data-path="sea-surface-temperature-1.html"><a href="sea-surface-temperature-1.html#precipitation"><i class="fa fa-check"></i><b>12.3</b> Precipitation</a></li>
+<li class="chapter" data-level="12.4" data-path="sea-surface-temperature-1.html"><a href="sea-surface-temperature-1.html#wind-speed-and-direction"><i class="fa fa-check"></i><b>12.4</b> WInd speed and direction</a></li>
+<li class="chapter" data-level="12.5" data-path="sea-surface-temperature-1.html"><a href="sea-surface-temperature-1.html#air-temperature"><i class="fa fa-check"></i><b>12.5</b> air temperature</a></li>
+<li class="chapter" data-level="12.6" data-path="sea-surface-temperature-1.html"><a href="sea-surface-temperature-1.html#zonal-anomaly-of-air-temperature"><i class="fa fa-check"></i><b>12.6</b> Zonal anomaly of air temperature</a></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="precipitation-1.html"><a href="precipitation-1.html"><i class="fa fa-check"></i><b>13</b> precipitation</a><ul>
+<li class="chapter" data-level="13.1" data-path="precipitation-1.html"><a href="precipitation-1.html#handling-data"><i class="fa fa-check"></i><b>13.1</b> Handling data</a></li>
+<li class="chapter" data-level="13.2" data-path="precipitation-1.html"><a href="precipitation-1.html#required-packages"><i class="fa fa-check"></i><b>13.2</b> Required packages</a></li>
+<li class="chapter" data-level="13.3" data-path="precipitation-1.html"><a href="precipitation-1.html#formatting-data"><i class="fa fa-check"></i><b>13.3</b> Formatting data</a></li>
+<li class="chapter" data-level="13.4" data-path="precipitation-1.html"><a href="precipitation-1.html#plotting-with-ggplot2"><i class="fa fa-check"></i><b>13.4</b> Plotting with ggplot2</a></li>
+<li class="chapter" data-level="13.5" data-path="precipitation-1.html"><a href="precipitation-1.html#conclusion"><i class="fa fa-check"></i><b>13.5</b> Conclusion</a></li>
+<li class="chapter" data-level="13.6" data-path="precipitation-1.html"><a href="precipitation-1.html#references"><i class="fa fa-check"></i><b>13.6</b> References</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references-1.html"><a href="references-1.html"><i class="fa fa-check"></i>References</a></li>
+<li class="chapter" data-level="14" data-path="index.html"><a href="index.html#index"><i class="fa fa-check"></i><b>14</b> Index</a><ul>
+<li class="chapter" data-level="14.1" data-path="index.html"><a href="index.html#r"><i class="fa fa-check"></i><b>14.1</b> R</a></li>
+<li class="chapter" data-level="14.2" data-path="index.html"><a href="index.html#rmarkdown-1"><i class="fa fa-check"></i><b>14.2</b> Rmarkdown</a></li>
+<li class="chapter" data-level="14.3" data-path="index.html"><a href="index.html#bookdown"><i class="fa fa-check"></i><b>14.3</b> Bookdown</a></li>
+<li class="chapter" data-level="14.4" data-path="index.html"><a href="index.html#pandoc"><i class="fa fa-check"></i><b>14.4</b> Pandoc</a></li>
+<li class="chapter" data-level="14.5" data-path="index.html"><a href="index.html#woa-for-nyamisi-manuscript"><i class="fa fa-check"></i><b>14.5</b> WOA for Nyamisi manuscript</a></li>
+<li class="chapter" data-level="14.6" data-path="index.html"><a href="index.html#producing-maps-programatically"><i class="fa fa-check"></i><b>14.6</b> Producing Maps programatically</a><ul>
+<li class="chapter" data-level="14.6.1" data-path="index.html"><a href="index.html#satellite-data"><i class="fa fa-check"></i><b>14.6.1</b> satellite data</a></li>
+<li class="chapter" data-level="14.6.2" data-path="index.html"><a href="index.html#drifter-data"><i class="fa fa-check"></i><b>14.6.2</b> drifter data</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="15" data-path="spatial-patterns.html"><a href="spatial-patterns.html"><i class="fa fa-check"></i><b>15</b> Spatial Patterns</a></li>
+<li class="chapter" data-level="16" data-path="buoys-data.html"><a href="buoys-data.html"><i class="fa fa-check"></i><b>16</b> buoys data</a></li>
+<li class="chapter" data-level="17" data-path="altimetry.html"><a href="altimetry.html"><i class="fa fa-check"></i><b>17</b> Altimetry</a><ul>
+<li class="chapter" data-level="17.1" data-path="altimetry.html"><a href="altimetry.html#sea-surface-height-1"><i class="fa fa-check"></i><b>17.1</b> Sea surface height</a></li>
+<li class="chapter" data-level="17.2" data-path="altimetry.html"><a href="altimetry.html#visualizing"><i class="fa fa-check"></i><b>17.2</b> Visualizing</a></li>
+<li class="chapter" data-level="17.3" data-path="altimetry.html"><a href="altimetry.html#read-netcdf-file-with-in-r"><i class="fa fa-check"></i><b>17.3</b> Read netCDF file with in R</a><ul>
+<li class="chapter" data-level="17.3.1" data-path="altimetry.html"><a href="altimetry.html#understand-the-metadata"><i class="fa fa-check"></i><b>17.3.1</b> Understand the metadata</a></li>
+<li class="chapter" data-level="17.3.2" data-path="altimetry.html"><a href="altimetry.html#extract-the-variable"><i class="fa fa-check"></i><b>17.3.2</b> Extract the variable</a></li>
+<li class="chapter" data-level="17.3.3" data-path="altimetry.html"><a href="altimetry.html#transform-to-data-frame"><i class="fa fa-check"></i><b>17.3.3</b> Transform to data frame</a></li>
+<li class="chapter" data-level="17.3.4" data-path="altimetry.html"><a href="altimetry.html#stitching-the-data"><i class="fa fa-check"></i><b>17.3.4</b> Stitching the data</a></li>
+<li class="chapter" data-level="17.3.5" data-path="altimetry.html"><a href="altimetry.html#visualizemapping-the-ssh"><i class="fa fa-check"></i><b>17.3.5</b> Visualize—Mapping the SSH</a></li>
+</ul></li>
+<li class="chapter" data-level="17.4" data-path="altimetry.html"><a href="altimetry.html#reference"><i class="fa fa-check"></i><b>17.4</b> Reference</a></li>
+</ul></li>
+<li class="chapter" data-level="18" data-path="argo-floats.html"><a href="argo-floats.html"><i class="fa fa-check"></i><b>18</b> Argo floats</a><ul>
+<li class="chapter" data-level="18.1" data-path="argo-floats.html"><a href="argo-floats.html#iso-surface"><i class="fa fa-check"></i><b>18.1</b> Iso-surface</a></li>
+<li class="chapter" data-level="18.2" data-path="argo-floats.html"><a href="argo-floats.html#regional-and-global-distributions"><i class="fa fa-check"></i><b>18.2</b> Regional and global distributions</a></li>
+<li class="chapter" data-level="18.3" data-path="argo-floats.html"><a href="argo-floats.html#introduction-2"><i class="fa fa-check"></i><b>18.3</b> Introduction</a><ul>
+<li class="chapter" data-level="18.3.1" data-path="argo-floats.html"><a href="argo-floats.html#import-data"><i class="fa fa-check"></i><b>18.3.1</b> Import Data</a></li>
+<li class="chapter" data-level="18.3.2" data-path="argo-floats.html"><a href="argo-floats.html#tidy-the-data"><i class="fa fa-check"></i><b>18.3.2</b> Tidy the data</a></li>
+<li class="chapter" data-level="18.3.3" data-path="argo-floats.html"><a href="argo-floats.html#data-frames"><i class="fa fa-check"></i><b>18.3.3</b> Data Frames</a></li>
+<li class="chapter" data-level="18.3.4" data-path="argo-floats.html"><a href="argo-floats.html#transform"><i class="fa fa-check"></i><b>18.3.4</b> Transform</a></li>
+<li class="chapter" data-level="18.3.5" data-path="argo-floats.html"><a href="argo-floats.html#create-simple-feature"><i class="fa fa-check"></i><b>18.3.5</b> Create Simple Feature</a></li>
+<li class="chapter" data-level="18.3.6" data-path="argo-floats.html"><a href="argo-floats.html#gridding"><i class="fa fa-check"></i><b>18.3.6</b> Gridding</a></li>
+<li class="chapter" data-level="18.3.7" data-path="argo-floats.html"><a href="argo-floats.html#populate-grids-with-drifter-observations-and-median-sst"><i class="fa fa-check"></i><b>18.3.7</b> Populate Grids with Drifter Observations and Median SST</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="19" data-path="ctd-1.html"><a href="ctd-1.html"><i class="fa fa-check"></i><b>19</b> CTD</a><ul>
+<li class="chapter" data-level="19.1" data-path="ctd-1.html"><a href="ctd-1.html#vertical-cross-sections"><i class="fa fa-check"></i><b>19.1</b> Vertical cross sections</a></li>
+<li class="chapter" data-level="19.2" data-path="ctd-1.html"><a href="ctd-1.html#ctd-list"><i class="fa fa-check"></i><b>19.2</b> ctd list</a><ul>
+<li class="chapter" data-level="19.2.1" data-path="ctd-1.html"><a href="ctd-1.html#pemba-channel-section"><i class="fa fa-check"></i><b>19.2.1</b> Pemba Channel Section</a></li>
+<li class="chapter" data-level="19.2.2" data-path="ctd-1.html"><a href="ctd-1.html#mtwara-section"><i class="fa fa-check"></i><b>19.2.2</b> Mtwara Section</a></li>
+<li class="chapter" data-level="19.2.3" data-path="ctd-1.html"><a href="ctd-1.html#iso-surface-1"><i class="fa fa-check"></i><b>19.2.3</b> Iso surface</a></li>
+<li class="chapter" data-level="19.2.4" data-path="ctd-1.html"><a href="ctd-1.html#location-information"><i class="fa fa-check"></i><b>19.2.4</b> Location information</a></li>
+<li class="chapter" data-level="19.2.5" data-path="ctd-1.html"><a href="ctd-1.html#make-a-data-frame-from-ctd-list"><i class="fa fa-check"></i><b>19.2.5</b> make a data frame from CTD list</a></li>
+<li class="chapter" data-level="19.2.6" data-path="ctd-1.html"><a href="ctd-1.html#isosurface-in-mafia-channel"><i class="fa fa-check"></i><b>19.2.6</b> Isosurface in Mafia Channel</a></li>
+</ul></li>
+<li class="chapter" data-level="19.3" data-path="ctd-1.html"><a href="ctd-1.html#mozambique-channel"><i class="fa fa-check"></i><b>19.3</b> Mozambique channel</a><ul>
+<li class="chapter" data-level="19.3.1" data-path="ctd-1.html"><a href="ctd-1.html#references-2"><i class="fa fa-check"></i><b>19.3.1</b> References</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="20" data-path="surface-circulation.html"><a href="surface-circulation.html"><i class="fa fa-check"></i><b>20</b> Surface circulation</a><ul>
+<li class="chapter" data-level="20.1" data-path="surface-circulation.html"><a href="surface-circulation.html#ocean-circulation"><i class="fa fa-check"></i><b>20.1</b> Ocean circulation</a></li>
+<li class="chapter" data-level="20.2" data-path="surface-circulation.html"><a href="surface-circulation.html#regional-surface-ocean-dynamics"><i class="fa fa-check"></i><b>20.2</b> REGIONAL SURFACE OCEAN DYNAMICS</a><ul>
+<li class="chapter" data-level="20.2.1" data-path="surface-circulation.html"><a href="surface-circulation.html#the-eastafrican-coastal-current"><i class="fa fa-check"></i><b>20.2.1</b> The EastAfrican Coastal Current</a></li>
+<li class="chapter" data-level="20.2.2" data-path="surface-circulation.html"><a href="surface-circulation.html#the-somali-current-sc"><i class="fa fa-check"></i><b>20.2.2</b> The Somali Current (SC)</a></li>
+<li class="chapter" data-level="20.2.3" data-path="surface-circulation.html"><a href="surface-circulation.html#the-mozambique-current-mc"><i class="fa fa-check"></i><b>20.2.3</b> The Mozambique Current (MC)</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="21" data-path="world-ocean-atlas-datasets.html"><a href="world-ocean-atlas-datasets.html"><i class="fa fa-check"></i><b>21</b> World Ocean Atlas Datasets</a><ul>
+<li class="chapter" data-level="21.1" data-path="world-ocean-atlas-datasets.html"><a href="world-ocean-atlas-datasets.html#temperature-1"><i class="fa fa-check"></i><b>21.1</b> Temperature</a></li>
+<li class="chapter" data-level="21.2" data-path="world-ocean-atlas-datasets.html"><a href="world-ocean-atlas-datasets.html#salinity-1"><i class="fa fa-check"></i><b>21.2</b> Salinity</a></li>
+<li class="chapter" data-level="21.3" data-path="world-ocean-atlas-datasets.html"><a href="world-ocean-atlas-datasets.html#dissolved-oxygen-1"><i class="fa fa-check"></i><b>21.3</b> Dissolved oxygen</a></li>
+<li class="chapter" data-level="21.4" data-path="world-ocean-atlas-datasets.html"><a href="world-ocean-atlas-datasets.html#phosphate-1"><i class="fa fa-check"></i><b>21.4</b> Phosphate</a></li>
+<li class="chapter" data-level="21.5" data-path="world-ocean-atlas-datasets.html"><a href="world-ocean-atlas-datasets.html#silica-1"><i class="fa fa-check"></i><b>21.5</b> Silica</a></li>
+</ul></li>
+<li class="chapter" data-level="22" data-path="processing-adcp-data-with-r.html"><a href="processing-adcp-data-with-r.html"><i class="fa fa-check"></i><b>22</b> Processing ADCP Data with R</a><ul>
+<li class="chapter" data-level="22.0.1" data-path="processing-adcp-data-with-r.html"><a href="processing-adcp-data-with-r.html#introduction-3"><i class="fa fa-check"></i><b>22.0.1</b> Introduction</a></li>
+<li class="chapter" data-level="22.0.2" data-path="processing-adcp-data-with-r.html"><a href="processing-adcp-data-with-r.html#ingestion-of-the-data"><i class="fa fa-check"></i><b>22.0.2</b> Ingestion of the data</a></li>
+<li class="chapter" data-level="22.0.3" data-path="processing-adcp-data-with-r.html"><a href="processing-adcp-data-with-r.html#ensemble-adp-objects"><i class="fa fa-check"></i><b>22.0.3</b> Ensemble adp objects</a></li>
+<li class="chapter" data-level="22.0.4" data-path="processing-adcp-data-with-r.html"><a href="processing-adcp-data-with-r.html#depth-cell-mapping"><i class="fa fa-check"></i><b>22.0.4</b> Depth cell mapping</a></li>
+<li class="chapter" data-level="22.0.5" data-path="processing-adcp-data-with-r.html"><a href="processing-adcp-data-with-r.html#extract-the-variables"><i class="fa fa-check"></i><b>22.0.5</b> Extract the variables</a></li>
+<li class="chapter" data-level="22.0.6" data-path="processing-adcp-data-with-r.html"><a href="processing-adcp-data-with-r.html#subset-adcp"><i class="fa fa-check"></i><b>22.0.6</b> Subset ADCP</a></li>
+<li class="chapter" data-level="22.0.7" data-path="processing-adcp-data-with-r.html"><a href="processing-adcp-data-with-r.html#spurious-measurements"><i class="fa fa-check"></i><b>22.0.7</b> Spurious measurements</a></li>
+<li class="chapter" data-level="22.0.8" data-path="processing-adcp-data-with-r.html"><a href="processing-adcp-data-with-r.html#compute-absolute-velocity"><i class="fa fa-check"></i><b>22.0.8</b> Compute Absolute velocity</a></li>
+<li class="chapter" data-level="22.0.9" data-path="processing-adcp-data-with-r.html"><a href="processing-adcp-data-with-r.html#conclusion-1"><i class="fa fa-check"></i><b>22.0.9</b> Conclusion</a></li>
+<li class="chapter" data-level="22.0.10" data-path="processing-adcp-data-with-r.html"><a href="processing-adcp-data-with-r.html#cited-literature"><i class="fa fa-check"></i><b>22.0.10</b> Cited Literature</a></li>
+<li class="chapter" data-level="22.0.11" data-path="processing-adcp-data-with-r.html"><a href="processing-adcp-data-with-r.html#introduction-4"><i class="fa fa-check"></i><b>22.0.11</b> Introduction</a></li>
+<li class="chapter" data-level="22.0.12" data-path="processing-adcp-data-with-r.html"><a href="processing-adcp-data-with-r.html#chlorophyll-a"><i class="fa fa-check"></i><b>22.0.12</b> chlorophyll-a</a></li>
+<li class="chapter" data-level="22.0.13" data-path="processing-adcp-data-with-r.html"><a href="processing-adcp-data-with-r.html#looping-the-files"><i class="fa fa-check"></i><b>22.0.13</b> Looping the files</a></li>
+<li class="chapter" data-level="22.0.14" data-path="processing-adcp-data-with-r.html"><a href="processing-adcp-data-with-r.html#primary-productivity"><i class="fa fa-check"></i><b>22.0.14</b> Primary productivity</a></li>
+<li class="chapter" data-level="22.0.15" data-path="processing-adcp-data-with-r.html"><a href="processing-adcp-data-with-r.html#temperature-2"><i class="fa fa-check"></i><b>22.0.15</b> Temperature</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">A glimpse of GIS and Remote Sensing with R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="altimetry" class="section level1">
+<h1><span class="header-section-number">Chapter 17</span> Altimetry</h1>
+<p>Scientist often store most of oceanographic and environmental data from satellite sensors in <em>netCDF</em> format. The <em>netCDF</em> data file format contain one or more variables, which are usually structured as regular arrays and metadata describing the contents and format of the data. For example, you might have a variable named “Temperature” that is a function of longitude, latitude, and depth. <em>NetCDF</em> files also contain dimensions, which describe the extent of the variables’ arrays. In our Temperature example, the dimensions are <code>longitude</code>, <code>latitude</code>, and <code>depth</code>.</p>
+<p><strong>R</strong> has a <strong>ncdf4</strong> package that allows to read and write netCDF files and its outputs are either array or matrix for the data and atomic vector for other variables like the longitude, latitude, time and depth <span class="citation">(Pierce <a href="#ref-ncdf4">2017</a>)</span>. Unfortunately, neither <em>array</em> nor <em>matrix</em> are the fundamental data storage in R. Instead <em>data table</em> is the primary data storage and its this structure that R like to wrange data— manipulation, transformation, analysis. Similarly, most plotting package use data frame for drawing plots pretty easy. in this chapter I explain how to read the NetCDF file of aviso in R. I also showed how to make plot of the processed sea surface height with <strong>ggplot2</strong> package <span class="citation">(Wickham <a href="#ref-ggplot">2016</a>)</span> and also animated a series of map with <strong>gganimate</strong> packages <span class="citation">(Pedersen and Robinson <a href="#ref-gganimate">2019</a>)</span>.</p>
+<p>R has powerful packages that can download data from ERDAPP server. Among the dataset that are public available are product of AVISO. You can use the <code>searchData()</code> function from <strong>xtractomatic</strong> package to search for a dataset name that you need <span class="citation">(Mendelssohn <a href="#ref-xtracto">2018</a>)</span>. For example the chunk below highlight how to search dataset name of daily products from ERDAPP server.</p>
+<p>The file contains a lot of information, you can have a glimpse of the structure of the file with the <code>glimpse()</code> function from <strong>dplyr</strong> package <span class="citation">(Wickham et al. <a href="#ref-dplyr">2019</a>)</span>. This gives a list of the datasetname of the 46 daily products.</p>
+<pre><code>Observations: 19
+Variables: 46
+$ agssta1day               &lt;list&gt; [&quot;agssta1day&quot;, &quot;erdAGssta1day&quot;, &quot;SST...
+$ atssta1day               &lt;list&gt; [&quot;atssta1day&quot;, &quot;erdATssta1day&quot;, &quot;SST...
+$ erdG1ssta1day            &lt;list&gt; [&quot;erdG1ssta1day&quot;, &quot;erdG1ssta1day&quot;, &quot;...
+$ erdGAtfnt1day            &lt;list&gt; [&quot;erdGAtfnt1day&quot;, &quot;erdGAtfnt1day&quot;, &quot;...
+$ erdGRssta1day            &lt;list&gt; [&quot;erdGRssta1day&quot;, &quot;erdGRssta1day&quot;, &quot;...
+$ erdMBsstd1day            &lt;list&gt; [&quot;erdMBsstd1day&quot;, &quot;erdMBsstd1day&quot;, &quot;...
+$ erdMH1pp1day             &lt;list&gt; [&quot;erdMH1pp1day&quot;, &quot;erdMH1pp1day&quot;, &quot;Pr...
+$ erdMWchla1day            &lt;list&gt; [&quot;erdMWchla1day&quot;, &quot;erdMWchla1day&quot;, &quot;...
+$ erdMWpp1day              &lt;list&gt; [&quot;erdMWpp1day&quot;, &quot;erdMWpp1day&quot;, &quot;Prim...
+$ erdMWsstd1day            &lt;list&gt; [&quot;erdMWsstd1day&quot;, &quot;erdMWsstd1day&quot;, &quot;...
+$ erdQAstress1daycurl      &lt;list&gt; [&quot;erdQAstress1daycurl&quot;, &quot;erdQAstress...
+$ erdQAstress1daymodStress &lt;list&gt; [&quot;erdQAstress1daymodStress&quot;, &quot;erdQAs...
+$ erdQAstress1daytaux      &lt;list&gt; [&quot;erdQAstress1daytaux&quot;, &quot;erdQAstress...
+$ erdQAstress1daytauy      &lt;list&gt; [&quot;erdQAstress1daytauy&quot;, &quot;erdQAstress...
+$ erdQAstress1dayupwelling &lt;list&gt; [&quot;erdQAstress1dayupwelling&quot;, &quot;erdQAs...
+$ erdQAwind1dayx_wind      &lt;list&gt; [&quot;erdQAwind1dayx_wind&quot;, &quot;erdQAwind1d...
+$ erdQAwind1dayy_wind      &lt;list&gt; [&quot;erdQAwind1dayy_wind&quot;, &quot;erdQAwind1d...
+$ erdQAxwind1day           &lt;list&gt; [&quot;erdQAxwind1day&quot;, &quot;erdQAwind1day&quot;, ...
+$ erdQAywind1day           &lt;list&gt; [&quot;erdQAywind1day&quot;, &quot;erdQAwind1day&quot;, ...
+$ erdSHchla1day            &lt;list&gt; [&quot;erdSHchla1day&quot;, &quot;erdSHchla1day&quot;, &quot;...
+$ erdSW1chla1day           &lt;list&gt; [&quot;erdSW1chla1day&quot;, &quot;erdSW1chla1day&quot;,...
+$ erdTAssh1day             &lt;list&gt; [&quot;erdTAssh1day&quot;, &quot;erdTAssh1day&quot;, &quot;Se...
+$ erdTAugeo1day            &lt;list&gt; [&quot;erdTAugeo1day&quot;, &quot;erdTAgeo1day&quot;, &quot;U...
+$ erdTAvgeo1day            &lt;list&gt; [&quot;erdTAvgeo1day&quot;, &quot;erdTAgeo1day&quot;, &quot;V...
+$ erdVH3chla1day           &lt;list&gt; [&quot;erdVH3chla1day&quot;, &quot;erdVH3chla1day&quot;,...
+$ erdVH3k4901day           &lt;list&gt; [&quot;erdVH3k4901day&quot;, &quot;erdVH3k4901day&quot;,...
+$ erdVH3par1day            &lt;list&gt; [&quot;erdVH3par1day&quot;, &quot;erdVH3par1day&quot;, &quot;...
+$ erdVH3pic1day            &lt;list&gt; [&quot;erdVH3pic1day&quot;, &quot;erdVH3pic1day&quot;, &quot;...
+$ erdVH3poc1day            &lt;list&gt; [&quot;erdVH3poc1day&quot;, &quot;erdVH3poc1day&quot;, &quot;...
+$ erdVH3r6711day           &lt;list&gt; [&quot;erdVH3r6711day&quot;, &quot;erdVH3r6711day&quot;,...
+$ erdVHNchla1day           &lt;list&gt; [&quot;erdVHNchla1day&quot;, &quot;erdVHNchla1day&quot;,...
+$ gassta1day               &lt;list&gt; [&quot;gassta1day&quot;, &quot;erdGAssta1day&quot;, &quot;SST...
+$ jplMURSST41anom1day      &lt;list&gt; [&quot;jplMURSST41anom1day&quot;, &quot;jplMURSST41...
+$ mbchla1day               &lt;list&gt; [&quot;mbchla1day&quot;, &quot;erdMBchla1day&quot;, &quot;Chl...
+$ mhchla1day               &lt;list&gt; [&quot;mhchla1day&quot;, &quot;erdMH1chla1day&quot;, &quot;Ch...
+$ mhsstd1day               &lt;list&gt; [&quot;mhsstd1day&quot;, &quot;erdMH1sstd1day&quot;, &quot;SS...
+$ nodcPH2sstd1day          &lt;list&gt; [&quot;nodcPH2sstd1day&quot;, &quot;nodcPH2sstd1day...
+$ qnux101day               &lt;list&gt; [&quot;qnux101day&quot;, &quot;erdQSwind1day&quot;, &quot;Win...
+$ qscurl1day               &lt;list&gt; [&quot;qscurl1day&quot;, &quot;erdQSstress1day&quot;, &quot;W...
+$ qstaux1day               &lt;list&gt; [&quot;qstaux1day&quot;, &quot;erdQSstress1day&quot;, &quot;X...
+$ qstauy1day               &lt;list&gt; [&quot;qstauy1day&quot;, &quot;erdQSstress1day&quot;, &quot;Y...
+$ qstmod1day               &lt;list&gt; [&quot;qstmod1day&quot;, &quot;erdQSstress1day&quot;, &quot;W...
+$ qsumod1day               &lt;list&gt; [&quot;qsumod1day&quot;, &quot;erdQSdivmod1day&quot;, &quot;W...
+$ qsux101day               &lt;list&gt; [&quot;qsux101day&quot;, &quot;erdQSwind1day&quot;, &quot;X_W...
+$ qsuy101day               &lt;list&gt; [&quot;qsuy101day&quot;, &quot;erdQSwind1day&quot;, &quot;Y_W...
+$ tasshd1day               &lt;list&gt; [&quot;tasshd1day&quot;, &quot;erdTAssh1day&quot;, &quot;Sea ...</code></pre>
+<p>we can obtain:</p>
+<ul>
+<li>Sea Surface Height (erdTAssh1day),</li>
+<li>U-Geostrophic Currents (erdTAugeo1day) and</li>
+<li>V-Geostrophic Currents (erdTAvgeo1day).</li>
+</ul>
+<p>Once you have identified the datasetname of the daily product, you can use the <code>xtracto_3D()</code> function from <strong>xtractomatic</strong> package to download the file by specifying the geogrpahical extent and time bound of interest. For example, I am interested with the confluence where the South Equatorial Current splits and form the East African Coastal Current (EACC) and Mozambique Current (MC). I have defined the geographical extent of the area and the time bound in the chunk below.</p>
+<p>We can now download the gridded sea surface height (ssh) and geostrophic zonal(U) and meridional(Z) currents within the geographical domain and the time bound defined. We starat with zonal currents. We use the <code>xtracto_3D()</code> function and parse the arguments as shown in the code block below.</p>
+<p>The downloaded <code>u</code> file is the list. We can explore the internal structure of the file with the <code>glimpse()</code> function to see the type of variables in the list file.</p>
+<pre><code>List of 7
+ $ data       : num [1:45, 1:33, 1:2] NA NA NA NA NA ...
+ $ varname    : chr &quot;u_current&quot;
+ $ datasetname: chr &quot;erdTAgeo1day&quot;
+ $ latitude   : num [1:33(1d)] -15 -14.8 -14.5 -14.2 -14 ...
+ $ longitude  : num [1:45(1d)] 39 39.2 39.5 39.7 40 ...
+ $ time       : POSIXlt[1:2], format: &quot;2010-12-22 12:00:00&quot; &quot;2010-12-29 12:00:00&quot;
+ $ altitude   : num 0</code></pre>
+<p>From this list file, we are only interested with four files, the <code>longitude</code>, <code>latitude</code>, <code>time</code> and the zonal currents. We can extract these files using the <code>$</code> sign operator.</p>
+<p>The <code>longitude</code>, <code>latitude</code>, and <code>time</code> are vector and the zonal current is an array. We can look the dimension of these objects.</p>
+<pre><code>[1] 45</code></pre>
+<pre><code>[1] 33</code></pre>
+<pre><code>[1] 2</code></pre>
+<pre><code>[1] 45 33  2</code></pre>
+<p>We notice that there 45 longitude, 33 latitude, and 2 time difference and the u.data as an array of the longitude, latitude and time has the dimension of 45,35, and 2. Having this information, we can convert the array into data frame and combine them with the respective longitude, latitude and time. For demonstration purpose, I only use the first day of the time component. The chunk below show the lines of codes for the tranformation of the array into the data frame presented in table <a href="altimetry.html#tab:tab2301">17.1</a></p>
+<table>
+<caption>
+<span id="tab:tab2301">Table 17.1: </span>The table showing the randomly selected eight zonal geostrophic current
+</caption>
+<thead>
+<tr>
+<th style="text-align:right;">
+lon
+</th>
+<th style="text-align:right;">
+lat
+</th>
+<th style="text-align:left;">
+time
+</th>
+<th style="text-align:right;">
+u
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+48.50
+</td>
+<td style="text-align:right;">
+-7.75
+</td>
+<td style="text-align:left;">
+2010-12-22
+</td>
+<td style="text-align:right;">
+-0.3194
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+47.00
+</td>
+<td style="text-align:right;">
+-8.00
+</td>
+<td style="text-align:left;">
+2010-12-22
+</td>
+<td style="text-align:right;">
+-0.1865
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+40.25
+</td>
+<td style="text-align:right;">
+-7.75
+</td>
+<td style="text-align:left;">
+2010-12-22
+</td>
+<td style="text-align:right;">
+-0.0617
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+46.75
+</td>
+<td style="text-align:right;">
+-11.75
+</td>
+<td style="text-align:left;">
+2010-12-22
+</td>
+<td style="text-align:right;">
+-0.1067
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+40.25
+</td>
+<td style="text-align:right;">
+-9.50
+</td>
+<td style="text-align:left;">
+2010-12-22
+</td>
+<td style="text-align:right;">
+-0.1542
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+40.25
+</td>
+<td style="text-align:right;">
+-9.00
+</td>
+<td style="text-align:left;">
+2010-12-22
+</td>
+<td style="text-align:right;">
+-0.0864
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+39.25
+</td>
+<td style="text-align:right;">
+-9.75
+</td>
+<td style="text-align:left;">
+2010-12-22
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+49.25
+</td>
+<td style="text-align:right;">
+-12.00
+</td>
+<td style="text-align:left;">
+2010-12-22
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+</tbody>
+</table>
+<p>We can use the same procedure we used to process the zonal compoent for the meridional component as shown in the code block below</p>
+<div id="sea-surface-height-1" class="section level2">
+<h2><span class="header-section-number">17.1</span> Sea surface height</h2>
+<p>Similarly, the sea surface height (ssh) is processed using the same approaches used to process the zonal and meridional components.</p>
+<p>Once we have data frames of zonal , meridional and ssh, we can stitch together to form a large data frame. The chunk below contains lines of code for binding the ssh, zonal (u) and meridional (v) currents.</p>
+</div>
+<div id="visualizing" class="section level2">
+<h2><span class="header-section-number">17.2</span> Visualizing</h2>
+<p>Once the aviso data is tidy and arranged in data frame format, we can use the <strong>ggplot2</strong> functions to make maps that show the sea surface height as shown in figure <a href="altimetry.html#fig:fig2301">17.1</a> that was created using the lines of code in the chunk below.</p>
+<div class="figure"><span id="fig:fig2301"></span>
+<img src="spatil_r_files/figure-html/fig2301-1.png" alt="Sea surface height as on 2010-10-22" width="672" />
+<p class="caption">
+Figure 17.1: Sea surface height as on 2010-10-22
+</p>
+</div>
+<p>We can also map the geostrophic currents speed and direction on top of the sea surface height as shown in figure <a href="altimetry.html#fig:fig2302">17.2</a>.</p>
+<div class="figure"><span id="fig:fig2302"></span>
+<img src="spatil_r_files/figure-html/fig2302-1.png" alt="geostrophic current overalid on the sea surface height" width="672" />
+<p class="caption">
+Figure 17.2: geostrophic current overalid on the sea surface height
+</p>
+</div>
+</div>
+<div id="read-netcdf-file-with-in-r" class="section level2">
+<h2><span class="header-section-number">17.3</span> Read netCDF file with in R</h2>
+<p>This subsection, the book will take you through the process of converting a netcdf files into a tabular form widely known as data frame. I have divided this post into three main steps. First, I will show you how to read the metadata contained in the netCDF file, explore the data stored in it and glimpse their internal structures. Second, I will illustrate how to extract the data and Last, we sill finish with the transformation of the data and organize them as data frames.</p>
+<p>We will use the geostrophic current and sea surface height dataset from <a href="http://www.aviso.altimetry.fr">AVISO</a>. The dataset was extracted from <a href="http://opendap.aviso.altimetry.fr/thredds/dodsC/dataset-duacs-nrt-over30d-global-allsat-madt-uv" class="uri">http://opendap.aviso.altimetry.fr/thredds/dodsC/dataset-duacs-nrt-over30d-global-allsat-madt-uv</a>. This dataset provides gridded values of zonal (u) and meridional (v) velocity component. There are several packages in CRAN that read and write netCDF files. I prefer the <strong>ncdf4</strong> packages because it provide tools and functions to access the netCDF files <span class="citation">(Pierce <a href="#ref-ncdf4">2017</a>)</span>.</p>
+<div id="understand-the-metadata" class="section level3">
+<h3><span class="header-section-number">17.3.1</span> Understand the metadata</h3>
+<p>We first explore the metadata of the file with the with the <code>NetCDF()</code> function from <strong>ncdump</strong> package.</p>
+<p>In summary, the metadata contains information about the netCDF file. One group of the data in the file include vector format variables like longitude, latitude and time as vector (table <a href="altimetry.html#tab:tab2303">17.2</a>)</p>
+<table>
+<caption>
+<span id="tab:tab2303">Table 17.2: </span>Vector data types in the netCDF file
+</caption>
+<thead>
+<tr>
+<th style="text-align:center;">
+Id
+</th>
+<th style="text-align:center;">
+Type
+</th>
+<th style="text-align:center;">
+Length
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center;width: 4cm; color: 1 !important;">
+0
+</td>
+<td style="text-align:center;width: 4cm; color: 1 !important;">
+time
+</td>
+<td style="text-align:center;width: 4cm; color: 1 !important;">
+31
+</td>
+</tr>
+<tr>
+<td style="text-align:center;width: 4cm; color: 1 !important;">
+1
+</td>
+<td style="text-align:center;width: 4cm; color: 1 !important;">
+lat
+</td>
+<td style="text-align:center;width: 4cm; color: 1 !important;">
+420
+</td>
+</tr>
+<tr>
+<td style="text-align:center;width: 4cm; color: 1 !important;">
+2
+</td>
+<td style="text-align:center;width: 4cm; color: 1 !important;">
+lon
+</td>
+<td style="text-align:center;width: 4cm; color: 1 !important;">
+401
+</td>
+</tr>
+</tbody>
+</table>
+<p>The second group of the data in the metadata are array of velocity. The array contained the zonal velocity (U) and meridional velocity (V) as matrix (table <a href="altimetry.html#tab:tab2304">17.3</a>). Because this is the daily data, each matrice represent a single day.We can view the information about the file by printing the <code>uv</code> file in the console.</p>
+<table>
+<caption>
+<span id="tab:tab2304">Table 17.3: </span>Array data types in the netcdf file
+</caption>
+<thead>
+<tr>
+<th style="text-align:center;">
+Variable
+</th>
+<th style="text-align:center;">
+Name
+</th>
+<th style="text-align:center;">
+Unit
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center;width: 4cm; font-weight: bold;color: 1 !important;">
+v
+</td>
+<td style="text-align:center;width: 10cm; color: 1 !important;">
+meridional component
+</td>
+<td style="text-align:center;">
+m/s
+</td>
+</tr>
+<tr>
+<td style="text-align:center;width: 4cm; font-weight: bold;color: 1 !important;">
+u
+</td>
+<td style="text-align:center;width: 10cm; color: 1 !important;">
+zonal component
+</td>
+<td style="text-align:center;">
+m/s
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="extract-the-variable" class="section level3">
+<h3><span class="header-section-number">17.3.2</span> Extract the variable</h3>
+<p>Once we have identified the variables contained in the netCDF file, we use the <code>nc_open()</code> function to read the the file and assign it with uv name.</p>
+<p>Once we have the file in the console, we are ready to extract the vector and array from the file. We can do this with <code>ncvar_get()</code>function.</p>
+<p>Printing the time we realized that time is the julian days but we do know the starting of the date. However, in the metadata provide information of the beginning data that we can use to transform this julian day into gregorian calendar that we are familiar with.</p>
+<pre><code> [1] 23922 23923 23924 23925 23926 23927 23928 23929 23930 23931 23932
+[12] 23933 23934 23935 23936 23937 23938 23939 23940 23941 23942 23943
+[23] 23944 23945 23946 23947 23948 23949 23950 23951 23952</code></pre>
+<p>We can transform this days into the calender once we know the original date that AVISO used. Looking on the metadata we spotted that the original date for the calender was assigned as <code>julian_day_unit: days since 1950-01-01 00:00:00</code>. Here comes another challenges, the time is in Julian but the original date is in gregorian format. Therefore, we need to standardize the time to a common format. We first convert the origin time—1950-01-01 00:00:00 to julian day. Once the original time is in the same with the vector time file—julian format, we can add them up and convert from the julian to gregorian calender.</p>
+<p>The converted julian days are summarized in table <a href="altimetry.html#tab:tab2305">17.4</a> which show the julian number, julian day and the calender (gregorian date). We notice that our data were acquired from 2015-07-01 15:00:00 to 2015-07-31 15:00:00.</p>
+<table>
+<caption>
+<span id="tab:tab2305">Table 17.4: </span>Time in number, julian day and gregorian
+</caption>
+<thead>
+<tr>
+<th style="text-align:center;">
+Number time
+</th>
+<th style="text-align:center;">
+Julian Day
+</th>
+<th style="text-align:center;">
+Gregorian Day
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+23922
+</td>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+2457205
+</td>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+2015-07-01 15:00:00
+</td>
+</tr>
+<tr>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+23923
+</td>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+2457206
+</td>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+2015-07-02 15:00:00
+</td>
+</tr>
+<tr>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+23924
+</td>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+2457207
+</td>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+2015-07-03 15:00:00
+</td>
+</tr>
+<tr>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+23925
+</td>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+2457208
+</td>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+2015-07-04 15:00:00
+</td>
+</tr>
+<tr>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+23926
+</td>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+2457209
+</td>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+2015-07-05 15:00:00
+</td>
+</tr>
+<tr>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+23927
+</td>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+2457210
+</td>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+2015-07-06 15:00:00
+</td>
+</tr>
+<tr>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+23928
+</td>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+2457211
+</td>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+2015-07-07 15:00:00
+</td>
+</tr>
+<tr>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+23929
+</td>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+2457212
+</td>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+2015-07-08 15:00:00
+</td>
+</tr>
+<tr>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+23930
+</td>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+2457213
+</td>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+2015-07-09 15:00:00
+</td>
+</tr>
+<tr>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+23931
+</td>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+2457214
+</td>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+2015-07-10 15:00:00
+</td>
+</tr>
+<tr>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+23932
+</td>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+2457215
+</td>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+2015-07-11 15:00:00
+</td>
+</tr>
+<tr>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+23933
+</td>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+2457216
+</td>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+2015-07-12 15:00:00
+</td>
+</tr>
+<tr>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+23934
+</td>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+2457217
+</td>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+2015-07-13 15:00:00
+</td>
+</tr>
+<tr>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+23935
+</td>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+2457218
+</td>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+2015-07-14 15:00:00
+</td>
+</tr>
+<tr>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+23936
+</td>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+2457219
+</td>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+2015-07-15 15:00:00
+</td>
+</tr>
+<tr>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+23937
+</td>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+2457220
+</td>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+2015-07-16 15:00:00
+</td>
+</tr>
+<tr>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+23938
+</td>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+2457221
+</td>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+2015-07-17 15:00:00
+</td>
+</tr>
+<tr>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+23939
+</td>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+2457222
+</td>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+2015-07-18 15:00:00
+</td>
+</tr>
+<tr>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+23940
+</td>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+2457223
+</td>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+2015-07-19 15:00:00
+</td>
+</tr>
+<tr>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+23941
+</td>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+2457224
+</td>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+2015-07-20 15:00:00
+</td>
+</tr>
+<tr>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+23942
+</td>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+2457225
+</td>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+2015-07-21 15:00:00
+</td>
+</tr>
+<tr>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+23943
+</td>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+2457226
+</td>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+2015-07-22 15:00:00
+</td>
+</tr>
+<tr>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+23944
+</td>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+2457227
+</td>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+2015-07-23 15:00:00
+</td>
+</tr>
+<tr>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+23945
+</td>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+2457228
+</td>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+2015-07-24 15:00:00
+</td>
+</tr>
+<tr>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+23946
+</td>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+2457229
+</td>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+2015-07-25 15:00:00
+</td>
+</tr>
+<tr>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+23947
+</td>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+2457230
+</td>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+2015-07-26 15:00:00
+</td>
+</tr>
+<tr>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+23948
+</td>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+2457231
+</td>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+2015-07-27 15:00:00
+</td>
+</tr>
+<tr>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+23949
+</td>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+2457232
+</td>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+2015-07-28 15:00:00
+</td>
+</tr>
+<tr>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+23950
+</td>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+2457233
+</td>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+2015-07-29 15:00:00
+</td>
+</tr>
+<tr>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+23951
+</td>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+2457234
+</td>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+2015-07-30 15:00:00
+</td>
+</tr>
+<tr>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+23952
+</td>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+2457235
+</td>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+2015-07-31 15:00:00
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="transform-to-data-frame" class="section level3">
+<h3><span class="header-section-number">17.3.3</span> Transform to data frame</h3>
+<p>The final step is the transformation of matrix in arrays into data frame. Because there are thirty one matrix in each array—u,v, and adt, we chained the process in the loop as shown in the chunk below. I will not repeate the looping process in this post, If you cant follow the code in the chunk, I recommend you to read previous chapter that have sufficient information about how to use the <code>matrix_tb()</code> function, which convert matrix from array into list of data frames.</p>
+</div>
+<div id="stitching-the-data" class="section level3">
+<h3><span class="header-section-number">17.3.4</span> Stitching the data</h3>
+<p>Once the geostrophic current (zonala and meridional) and the sea surface height anomaly data frame have been created, was combined and organized in a consistency format that makes analysis and plotting easy.</p>
+<p>Table <a href="altimetry.html#tab:tab2306">17.5</a> is the random sample of twelve observations showing the information of geostrophic current and sea surface height within the tropical Indian Ocean for thirty one days in July 2015.</p>
+<table>
+<caption>
+<span id="tab:tab2306">Table 17.5: </span>Random sample observations
+</caption>
+<thead>
+<tr>
+<th style="text-align:center;">
+Date
+</th>
+<th style="text-align:center;">
+Longitude
+</th>
+<th style="text-align:center;">
+Latitude
+</th>
+<th style="text-align:center;">
+U
+</th>
+<th style="text-align:center;">
+V
+</th>
+<th style="text-align:center;">
+adt
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+2015-07-29
+</td>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+29.62
+</td>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+-67.125
+</td>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+NA
+</td>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+NA
+</td>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+2015-07-20
+</td>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+93.12
+</td>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+-51.125
+</td>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+0.1359
+</td>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+0.4006
+</td>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+-0.3624
+</td>
+</tr>
+<tr>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+2015-07-04
+</td>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+85.88
+</td>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+7.375
+</td>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+0.3729
+</td>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+0.2732
+</td>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+1.0422
+</td>
+</tr>
+<tr>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+2015-07-10
+</td>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+102.88
+</td>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+-72.875
+</td>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+NA
+</td>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+NA
+</td>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+2015-07-06
+</td>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+95.62
+</td>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+-28.875
+</td>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+-0.0802
+</td>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+0.1179
+</td>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+0.5274
+</td>
+</tr>
+<tr>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+2015-07-08
+</td>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+42.38
+</td>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+5.625
+</td>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+NA
+</td>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+NA
+</td>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+2015-07-18
+</td>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+42.12
+</td>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+-15.125
+</td>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+-0.3447
+</td>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+0.0589
+</td>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+0.9890
+</td>
+</tr>
+<tr>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+2015-07-21
+</td>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+61.38
+</td>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+-16.625
+</td>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+-0.1792
+</td>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+0.1045
+</td>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+0.9401
+</td>
+</tr>
+<tr>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+2015-07-21
+</td>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+53.88
+</td>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+15.625
+</td>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+0.5426
+</td>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+-0.2504
+</td>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+0.5582
+</td>
+</tr>
+<tr>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+2015-07-01
+</td>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+110.38
+</td>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+25.125
+</td>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+NA
+</td>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+NA
+</td>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+2015-07-17
+</td>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+61.38
+</td>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+9.625
+</td>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+0.1031
+</td>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+-0.1323
+</td>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+0.9344
+</td>
+</tr>
+<tr>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+2015-07-13
+</td>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+94.62
+</td>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+-40.875
+</td>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+-0.0024
+</td>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+-0.0605
+</td>
+<td style="text-align:center;width: 5cm; color: 1 !important;">
+0.6417
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="visualizemapping-the-ssh" class="section level3">
+<h3><span class="header-section-number">17.3.5</span> Visualize—Mapping the SSH</h3>
+<p>We have come long way from reading the data from the local machine into R’s environment, extract the variables and transform them into data frame. But the subtle information we are looking from this dataset are still hidden and we ought to uncover them. One way of understanding the data is through visualization. Visualizing data may range from common static exploratory data analysis plots to dynamic, interactive data visualizations in web browsers. R offers control over many aesthetic aspects of plots, but we will stick on <strong>ggplot2</strong> developed by Hadley Wickham <span class="citation">(<a href="#ref-ggplot">2016</a>)</span> because it provide new ways to visualize and communicate data. Figure <a href="altimetry.html#fig:fig2303">17.3</a> for example show the sea surface height anomaly in the tropical Indian Ocean. We can easily spot region with higher and lower sea surface height anomaly. We see a region with high sea surface anomaly in the Mozambique channel and low sea surface height anomaly between latitude 8°S and 4°S and longitude38°EE and 54°E.</p>
+<pre><code>Reading layer `afcntry&#39; from data source `e:\GIS\Tanzania spatial data Bank\EAF14 Tanzania spatial datasets\africa\Spatial\AdmInfr\afcntry.shp&#39; using driver `ESRI Shapefile&#39;
+Simple feature collection with 59 features and 7 fields
+geometry type:  MULTIPOLYGON
+dimension:      XY
+bbox:           xmin: -25.36 ymin: -34.84 xmax: 57.8 ymax: 37.35
+epsg (SRID):    4326
+proj4string:    +proj=longlat +datum=WGS84 +no_defs</code></pre>
+<div class="figure"><span id="fig:fig2303"></span>
+<img src="spatil_r_files/figure-html/fig2303-1.png" alt="Sea Surface Height  in the Tropical Indian Ocean Region as of 2015-07-01" width="672" />
+<p class="caption">
+Figure 17.3: Sea Surface Height in the Tropical Indian Ocean Region as of 2015-07-01
+</p>
+</div>
+<div class="figure"><span id="fig:fig2304"></span>
+<img src="spatil_r_files/figure-html/fig2304-1.png" alt="geostrophic current overlaid on the sea surface height" width="672" />
+<p class="caption">
+Figure 17.4: geostrophic current overlaid on the sea surface height
+</p>
+</div>
+<p><img src="spatil_r_files/figure-html/unnamed-chunk-268-1.png" width="672" /></p>
+<p>If we want to check how the sea surface height anaomaly changes over the month of July 2015, then we ought to produce figure <a href="precipitation-1.html#fig:fig1">13.1</a> for each day and obtain a total of 31 maps. Then visualize one after the other. That also wont save much and we will still miss the information as they are hidden in the table. Beside, we can animate them and make smooth transition of these maps. Thanks to Thomas Pedersen and David Robinson <span class="citation">(<a href="#ref-gganimate">2019</a>)</span>for developing a <strong>gganimate</strong> that transorm static plot of <strong>ggplot2</strong> into animation. With few line of codes, we transformed static map in figure <a href="altimetry.html#fig:fig2303">17.3</a> into animated figure <a href="altimetry.html#fig:fig2304">17.4</a>, which shown a seamless change of sea surface height in the area.</p>
+</div>
+</div>
+<div id="reference" class="section level2">
+<h2><span class="header-section-number">17.4</span> Reference</h2>
+
+</div>
+</div>
+<h3>References</h3>
+<div id="refs" class="references">
+<div id="ref-ncdf4">
+<p>Pierce, David. 2017. <em>Ncdf4: Interface to Unidata netCDF (Version 4 or Earlier) Format Data Files</em>. <a href="https://CRAN.R-project.org/package=ncdf4">https://CRAN.R-project.org/package=ncdf4</a>.</p>
+</div>
+<div id="ref-ggplot">
+<p>Wickham, Hadley. 2016. <em>Ggplot2: Elegant Graphics for Data Analysis</em>. Springer-Verlag New York. <a href="https://ggplot2.tidyverse.org">https://ggplot2.tidyverse.org</a>.</p>
+</div>
+<div id="ref-gganimate">
+<p>Pedersen, Thomas Lin, and David Robinson. 2019. <em>Gganimate: A Grammar of Animated Graphics</em>. <a href="https://CRAN.R-project.org/package=gganimate">https://CRAN.R-project.org/package=gganimate</a>.</p>
+</div>
+<div id="ref-xtracto">
+<p>Mendelssohn, Roy. 2018. <em>Xtractomatic: Accessing Environmental Data from Erd’s Erddap Server</em>. <a href="https://CRAN.R-project.org/package=xtractomatic">https://CRAN.R-project.org/package=xtractomatic</a>.</p>
+</div>
+<div id="ref-dplyr">
+<p>Wickham, Hadley, Romain François, Lionel Henry, and Kirill Müller. 2019. <em>Dplyr: A Grammar of Data Manipulation</em>. <a href="https://CRAN.R-project.org/package=dplyr">https://CRAN.R-project.org/package=dplyr</a>.</p>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="buoys-data.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="argo-floats.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"download": ["spatil_r.pdf", "spatil_r.epub", "spatil_r.mobi"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:" && /^https?:/.test(src))
+      src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

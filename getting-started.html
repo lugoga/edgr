@@ -1,0 +1,1316 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Chapter 2 Getting started | A glimpse of GIS and Remote Sensing with R</title>
+  <meta name="description" content="Introdution to geographical information system and remote sensing using an open source and powerful statical tool, R">
+  <meta name="generator" content="bookdown  and GitBook 2.6.7">
+
+  <meta property="og:title" content="Chapter 2 Getting started | A glimpse of GIS and Remote Sensing with R" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="Introdution to geographical information system and remote sensing using an open source and powerful statical tool, R" />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 2 Getting started | A glimpse of GIS and Remote Sensing with R" />
+  
+  <meta name="twitter:description" content="Introdution to geographical information system and remote sensing using an open source and powerful statical tool, R" />
+  
+
+<meta name="author" content="Masumbuko Semba">
+
+
+<meta name="date" content="2019-05-16">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  
+<link rel="prev" href="intro.html">
+<link rel="next" href="readr.html">
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<script src="libs/htmlwidgets-1.3/htmlwidgets.js"></script>
+<link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
+<script src="libs/datatables-binding-0.5/datatables.js"></script>
+<link href="libs/dt-core-1.10.16/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="libs/dt-core-1.10.16/css/jquery.dataTables.extra.css" rel="stylesheet" />
+<script src="libs/dt-core-1.10.16/js/jquery.dataTables.min.js"></script>
+<link href="libs/crosstalk-1.0.0/css/crosstalk.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.0.0/js/crosstalk.min.js"></script>
+<link href="libs/leaflet-1.3.1/leaflet.css" rel="stylesheet" />
+<script src="libs/leaflet-1.3.1/leaflet.js"></script>
+<link href="libs/leafletfix-1.0.0/leafletfix.css" rel="stylesheet" />
+<script src="libs/Proj4Leaflet-1.0.1/proj4-compressed.js"></script>
+<script src="libs/Proj4Leaflet-1.0.1/proj4leaflet.js"></script>
+<link href="libs/rstudio_leaflet-1.3.1/rstudio_leaflet.css" rel="stylesheet" />
+<script src="libs/leaflet-binding-2.0.2/leaflet.js"></script>
+<script src="libs/proj4js-2.3.15/proj4.js"></script>
+<link href="libs/highcharts-7.0.1/css/motion.css" rel="stylesheet" />
+<link href="libs/highcharts-7.0.1/css/htmlwdgtgrid.css" rel="stylesheet" />
+<script src="libs/highcharts-7.0.1/highcharts.js"></script>
+<script src="libs/highcharts-7.0.1/highcharts-3d.js"></script>
+<script src="libs/highcharts-7.0.1/highcharts-more.js"></script>
+<script src="libs/highcharts-7.0.1/modules/stock.js"></script>
+<script src="libs/highcharts-7.0.1/modules/map.js"></script>
+<script src="libs/highcharts-7.0.1/modules/annotations.js"></script>
+<script src="libs/highcharts-7.0.1/modules/boost.js"></script>
+<script src="libs/highcharts-7.0.1/modules/data.js"></script>
+<script src="libs/highcharts-7.0.1/modules/drag-panes.js"></script>
+<script src="libs/highcharts-7.0.1/modules/drilldown.js"></script>
+<script src="libs/highcharts-7.0.1/modules/item-series.js"></script>
+<script src="libs/highcharts-7.0.1/modules/offline-exporting.js"></script>
+<script src="libs/highcharts-7.0.1/modules/overlapping-datalabels.js"></script>
+<script src="libs/highcharts-7.0.1/modules/exporting.js"></script>
+<script src="libs/highcharts-7.0.1/modules/export-data.js"></script>
+<script src="libs/highcharts-7.0.1/modules/funnel.js"></script>
+<script src="libs/highcharts-7.0.1/modules/heatmap.js"></script>
+<script src="libs/highcharts-7.0.1/modules/treemap.js"></script>
+<script src="libs/highcharts-7.0.1/modules/sankey.js"></script>
+<script src="libs/highcharts-7.0.1/modules/solid-gauge.js"></script>
+<script src="libs/highcharts-7.0.1/modules/streamgraph.js"></script>
+<script src="libs/highcharts-7.0.1/modules/sunburst.js"></script>
+<script src="libs/highcharts-7.0.1/modules/vector.js"></script>
+<script src="libs/highcharts-7.0.1/modules/wordcloud.js"></script>
+<script src="libs/highcharts-7.0.1/modules/xrange.js"></script>
+<script src="libs/highcharts-7.0.1/modules/tilemap.js"></script>
+<script src="libs/highcharts-7.0.1/modules/venn.js"></script>
+<script src="libs/highcharts-7.0.1/modules/gantt.js"></script>
+<script src="libs/highcharts-7.0.1/modules/timeline.js"></script>
+<script src="libs/highcharts-7.0.1/modules/parallel-coordinates.js"></script>
+<script src="libs/highcharts-7.0.1/plugins/grouped-categories.js"></script>
+<script src="libs/highcharts-7.0.1/plugins/motion.js"></script>
+<script src="libs/highcharts-7.0.1/plugins/multicolor_series.js"></script>
+<script src="libs/highcharts-7.0.1/custom/reset.js"></script>
+<script src="libs/highcharts-7.0.1/custom/symbols-extra.js"></script>
+<script src="libs/highcharts-7.0.1/custom/text-symbols.js"></script>
+<script src="libs/highchart-binding-0.7.0/highchart.js"></script>
+
+
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">A glimpse of GIS and Remote Sensing with R</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Prerequisites</a></li>
+<li class="chapter" data-level="" data-path="sources.html"><a href="sources.html"><i class="fa fa-check"></i>Sources</a></li>
+<li class="chapter" data-level="" data-path="note-to-the-reader.html"><a href="note-to-the-reader.html"><i class="fa fa-check"></i>Note to the reader</a></li>
+<li class="chapter" data-level="" data-path="what-is-r.html"><a href="what-is-r.html"><i class="fa fa-check"></i>What is R?</a></li>
+<li class="chapter" data-level="" data-path="who-is-this-book-for.html"><a href="who-is-this-book-for.html"><i class="fa fa-check"></i>Who is this book for?</a></li>
+<li class="chapter" data-level="1" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>1</b> Introduction to Spatial Analysis</a><ul>
+<li class="chapter" data-level="1.1" data-path="intro.html"><a href="intro.html#why-programming"><i class="fa fa-check"></i><b>1.1</b> Why Programming?</a></li>
+<li class="chapter" data-level="1.2" data-path="intro.html"><a href="intro.html#learning-to-program"><i class="fa fa-check"></i><b>1.2</b> Learning to program</a></li>
+<li class="chapter" data-level="1.3" data-path="intro.html"><a href="intro.html#programming-in-r"><i class="fa fa-check"></i><b>1.3</b> Programming in R</a><ul>
+<li class="chapter" data-level="1.3.1" data-path="intro.html"><a href="intro.html#what-is-r-1"><i class="fa fa-check"></i><b>1.3.1</b> What is R?</a></li>
+<li class="chapter" data-level="1.3.2" data-path="intro.html"><a href="intro.html#installing-r"><i class="fa fa-check"></i><b>1.3.2</b> Installing R</a></li>
+<li class="chapter" data-level="1.3.3" data-path="intro.html"><a href="intro.html#what-is-rstudio"><i class="fa fa-check"></i><b>1.3.3</b> What is RStudio?</a></li>
+<li class="chapter" data-level="1.3.4" data-path="intro.html"><a href="intro.html#basic-featurs-of-rstudio"><i class="fa fa-check"></i><b>1.3.4</b> Basic Featurs of RStudio</a></li>
+<li class="chapter" data-level="1.3.5" data-path="intro.html"><a href="intro.html#rstudio-editor"><i class="fa fa-check"></i><b>1.3.5</b> Rstudio editor</a></li>
+<li class="chapter" data-level="1.3.6" data-path="intro.html"><a href="intro.html#rmarkdown"><i class="fa fa-check"></i><b>1.3.6</b> Rmarkdown</a></li>
+<li class="chapter" data-level="1.3.7" data-path="intro.html"><a href="intro.html#use-descriptive-names"><i class="fa fa-check"></i><b>1.3.7</b> Use descriptive names</a></li>
+<li class="chapter" data-level="1.3.8" data-path="intro.html"><a href="intro.html#use-comments"><i class="fa fa-check"></i><b>1.3.8</b> Use comments</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="getting-started.html"><a href="getting-started.html"><i class="fa fa-check"></i><b>2</b> Getting started</a><ul>
+<li class="chapter" data-level="2.1" data-path="getting-started.html"><a href="getting-started.html#maths-in-r"><i class="fa fa-check"></i><b>2.1</b> Maths in R</a><ul>
+<li class="chapter" data-level="2.1.1" data-path="getting-started.html"><a href="getting-started.html#arithmetric"><i class="fa fa-check"></i><b>2.1.1</b> Arithmetric</a></li>
+<li class="chapter" data-level="2.1.2" data-path="getting-started.html"><a href="getting-started.html#precedence"><i class="fa fa-check"></i><b>2.1.2</b> Precedence</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="getting-started.html"><a href="getting-started.html#assignment-operator"><i class="fa fa-check"></i><b>2.2</b> Assignment operator</a><ul>
+<li class="chapter" data-level="2.2.1" data-path="getting-started.html"><a href="getting-started.html#variables"><i class="fa fa-check"></i><b>2.2.1</b> Variables</a></li>
+<li class="chapter" data-level="2.2.2" data-path="getting-started.html"><a href="getting-started.html#functions"><i class="fa fa-check"></i><b>2.2.2</b> Functions</a></li>
+<li class="chapter" data-level="2.2.3" data-path="getting-started.html"><a href="getting-started.html#essential-functions"><i class="fa fa-check"></i><b>2.2.3</b> Essential functions</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="getting-started.html"><a href="getting-started.html#wdirectory"><i class="fa fa-check"></i><b>2.3</b> Setting Working Directory</a></li>
+<li class="chapter" data-level="2.4" data-path="getting-started.html"><a href="getting-started.html#packages-or-libraries"><i class="fa fa-check"></i><b>2.4</b> Packages or Libraries</a><ul>
+<li class="chapter" data-level="2.4.1" data-path="getting-started.html"><a href="getting-started.html#installing-packages"><i class="fa fa-check"></i><b>2.4.1</b> Installing packages</a></li>
+<li class="chapter" data-level="2.4.2" data-path="getting-started.html"><a href="getting-started.html#loading-packages"><i class="fa fa-check"></i><b>2.4.2</b> Loading packages</a></li>
+</ul></li>
+<li class="chapter" data-level="2.5" data-path="getting-started.html"><a href="getting-started.html#understanding-data-in-r"><i class="fa fa-check"></i><b>2.5</b> Understanding Data in R</a><ul>
+<li class="chapter" data-level="2.5.1" data-path="getting-started.html"><a href="getting-started.html#data-types"><i class="fa fa-check"></i><b>2.5.1</b> Data Types</a></li>
+<li class="chapter" data-level="2.5.2" data-path="getting-started.html"><a href="getting-started.html#vectors"><i class="fa fa-check"></i><b>2.5.2</b> Vectors</a></li>
+<li class="chapter" data-level="2.5.3" data-path="getting-started.html"><a href="getting-started.html#indexing-the-element"><i class="fa fa-check"></i><b>2.5.3</b> Indexing the element</a></li>
+<li class="chapter" data-level="2.5.4" data-path="getting-started.html"><a href="getting-started.html#adding-and-replacing-an-element-in-a-vector"><i class="fa fa-check"></i><b>2.5.4</b> Adding and Replacing an element in a vector</a></li>
+<li class="chapter" data-level="2.5.5" data-path="getting-started.html"><a href="getting-started.html#number-of-elements-in-a-vector"><i class="fa fa-check"></i><b>2.5.5</b> Number of elements in a vector</a></li>
+</ul></li>
+<li class="chapter" data-level="2.6" data-path="getting-started.html"><a href="getting-started.html#data-frame"><i class="fa fa-check"></i><b>2.6</b> Data Frame</a></li>
+<li class="chapter" data-level="2.7" data-path="getting-started.html"><a href="getting-started.html#exercise"><i class="fa fa-check"></i><b>2.7</b> Exercise</a></li>
+<li class="chapter" data-level="2.8" data-path="getting-started.html"><a href="getting-started.html#exercise-1"><i class="fa fa-check"></i><b>2.8</b> Exercise</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="readr.html"><a href="readr.html"><i class="fa fa-check"></i><b>3</b> Importing data with <strong>readr</strong></a><ul>
+<li class="chapter" data-level="3.1" data-path="readr.html"><a href="readr.html#comma-separated-.csv"><i class="fa fa-check"></i><b>3.1</b> <em>Comma-Separated (.csv)</em></a></li>
+<li class="chapter" data-level="3.2" data-path="readr.html"><a href="readr.html#microsoft-excel.xlsx"><i class="fa fa-check"></i><b>3.2</b> Microsoft Excel(.xlsx)</a></li>
+<li class="chapter" data-level="3.3" data-path="readr.html"><a href="readr.html#writing-t-a-file"><i class="fa fa-check"></i><b>3.3</b> Writing t a File</a></li>
+<li class="chapter" data-level="3.4" data-path="readr.html"><a href="readr.html#basic-data-manipulation"><i class="fa fa-check"></i><b>3.4</b> Basic Data Manipulation</a><ul>
+<li class="chapter" data-level="3.4.1" data-path="readr.html"><a href="readr.html#explore-the-data-frame"><i class="fa fa-check"></i><b>3.4.1</b> Explore the Data Frame</a></li>
+<li class="chapter" data-level="3.4.2" data-path="readr.html"><a href="readr.html#simmple-summary-statistics"><i class="fa fa-check"></i><b>3.4.2</b> simmple summary statistics</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="vector.html"><a href="vector.html"><i class="fa fa-check"></i><b>4</b> Vector Data</a><ul>
+<li class="chapter" data-level="4.1" data-path="vector.html"><a href="vector.html#introduction"><i class="fa fa-check"></i><b>4.1</b> Introduction</a></li>
+<li class="chapter" data-level="4.2" data-path="vector.html"><a href="vector.html#vector-data"><i class="fa fa-check"></i><b>4.2</b> Vector Data</a><ul>
+<li class="chapter" data-level="4.2.1" data-path="vector.html"><a href="vector.html#simple-features"><i class="fa fa-check"></i><b>4.2.1</b> Simple features</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="vector.html"><a href="vector.html#reading-vector-data"><i class="fa fa-check"></i><b>4.3</b> Reading vector data</a><ul>
+<li class="chapter" data-level="4.3.1" data-path="vector.html"><a href="vector.html#reading-shapefiles"><i class="fa fa-check"></i><b>4.3.1</b> Reading shapefiles</a></li>
+<li class="chapter" data-level="4.3.2" data-path="vector.html"><a href="vector.html#reading-gpx-file"><i class="fa fa-check"></i><b>4.3.2</b> Reading GPX file</a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="vector.html"><a href="vector.html#make-shapefiles-from-tabular-data"><i class="fa fa-check"></i><b>4.4</b> Make shapefiles from Tabular data</a></li>
+<li class="chapter" data-level="4.5" data-path="vector.html"><a href="vector.html#export-simple-feature-as-shapefile"><i class="fa fa-check"></i><b>4.5</b> Export simple feature as shapefile</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="dplyr.html"><a href="dplyr.html"><i class="fa fa-check"></i><b>5</b> Manipulating Data with <strong>dplyr</strong></a><ul>
+<li class="chapter" data-level="5.1" data-path="dplyr.html"><a href="dplyr.html#why-use-dplyr"><i class="fa fa-check"></i><b>5.1</b> Why use dplyr?</a></li>
+<li class="chapter" data-level="5.2" data-path="dplyr.html"><a href="dplyr.html#dplyr-functionality"><i class="fa fa-check"></i><b>5.2</b> dplyr functionality</a></li>
+<li class="chapter" data-level="5.3" data-path="dplyr.html"><a href="dplyr.html#filter-keep-rows-matching-criteria"><i class="fa fa-check"></i><b>5.3</b> filter: Keep rows matching criteria</a></li>
+<li class="chapter" data-level="5.4" data-path="dplyr.html"><a href="dplyr.html#select-pick-columns-by-name"><i class="fa fa-check"></i><b>5.4</b> select: Pick columns by name</a></li>
+<li class="chapter" data-level="5.5" data-path="dplyr.html"><a href="dplyr.html#chaining-or-pipelining"><i class="fa fa-check"></i><b>5.5</b> “Chaining” or “Pipelining”</a></li>
+<li class="chapter" data-level="5.6" data-path="dplyr.html"><a href="dplyr.html#pipping-with"><i class="fa fa-check"></i><b>5.6</b> Pipping with</a><ul>
+<li class="chapter" data-level="5.6.1" data-path="dplyr.html"><a href="dplyr.html#choosing-columns-select-rename"><i class="fa fa-check"></i><b>5.6.1</b> Choosing columns: <code>select()</code>, <code>rename()</code></a></li>
+<li class="chapter" data-level="5.6.2" data-path="dplyr.html"><a href="dplyr.html#choosing-rows-filter-between-slice-sample_n-top_n-distinct"><i class="fa fa-check"></i><b>5.6.2</b> Choosing rows: filter, between, slice, sample_n, top_n, distinct</a></li>
+<li class="chapter" data-level="5.6.3" data-path="dplyr.html"><a href="dplyr.html#adding-new-variables-mutate-transmute-add_rownames"><i class="fa fa-check"></i><b>5.6.3</b> Adding new variables: mutate, transmute, add_rownames</a></li>
+<li class="chapter" data-level="5.6.4" data-path="dplyr.html"><a href="dplyr.html#grouping-and-counting-summarise-tally-count-group_size-n_groups-ungroup"><i class="fa fa-check"></i><b>5.6.4</b> Grouping and counting: summarise, tally, count, group_size, n_groups, ungroup</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="tidy.html"><a href="tidy.html"><i class="fa fa-check"></i><b>6</b> Reshaping data with <strong>tidyr</strong></a><ul>
+<li class="chapter" data-level="6.1" data-path="tidy.html"><a href="tidy.html#gather-function"><i class="fa fa-check"></i><b>6.1</b> gather( ) function:</a></li>
+<li class="chapter" data-level="6.2" data-path="tidy.html"><a href="tidy.html#separate-function"><i class="fa fa-check"></i><b>6.2</b> separate( ) function:</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="raster.html"><a href="raster.html"><i class="fa fa-check"></i><b>7</b> Raster Data</a><ul>
+<li class="chapter" data-level="7.1" data-path="raster.html"><a href="raster.html#introduction-to-raster-data"><i class="fa fa-check"></i><b>7.1</b> Introduction to Raster data</a><ul>
+<li class="chapter" data-level="7.1.1" data-path="raster.html"><a href="raster.html#geotiff"><i class="fa fa-check"></i><b>7.1.1</b> GeoTiff</a></li>
+<li class="chapter" data-level="7.1.2" data-path="raster.html"><a href="raster.html#explore-the-raster-attribute"><i class="fa fa-check"></i><b>7.1.2</b> Explore the raster attribute</a></li>
+<li class="chapter" data-level="7.1.3" data-path="raster.html"><a href="raster.html#read-a-geotiff-raster-data"><i class="fa fa-check"></i><b>7.1.3</b> Read a GeoTIFF raster data</a></li>
+<li class="chapter" data-level="7.1.4" data-path="raster.html"><a href="raster.html#view-raster-coordinate-reference-system"><i class="fa fa-check"></i><b>7.1.4</b> View Raster Coordinate Reference System</a></li>
+<li class="chapter" data-level="7.1.5" data-path="raster.html"><a href="raster.html#dealing-with-missing-data-in-raster"><i class="fa fa-check"></i><b>7.1.5</b> Dealing with missing data in raster</a></li>
+</ul></li>
+<li class="chapter" data-level="7.2" data-path="raster.html"><a href="raster.html#assign-projection-and-reproject-raster-data-in-r"><i class="fa fa-check"></i><b>7.2</b> Assign projection and Reproject Raster Data in R</a></li>
+<li class="chapter" data-level="7.3" data-path="raster.html"><a href="raster.html#raster-resolution"><i class="fa fa-check"></i><b>7.3</b> Raster resolution</a></li>
+<li class="chapter" data-level="7.4" data-path="raster.html"><a href="raster.html#raster-calculation"><i class="fa fa-check"></i><b>7.4</b> Raster Calculation</a></li>
+<li class="chapter" data-level="7.5" data-path="raster.html"><a href="raster.html#multi-bands-satellite-imagery"><i class="fa fa-check"></i><b>7.5</b> Multi-bands satellite imagery</a><ul>
+<li class="chapter" data-level="7.5.1" data-path="raster.html"><a href="raster.html#rater-stacks"><i class="fa fa-check"></i><b>7.5.1</b> Rater Stacks</a></li>
+</ul></li>
+<li class="chapter" data-level="7.6" data-path="raster.html"><a href="raster.html#manipulate-raster"><i class="fa fa-check"></i><b>7.6</b> Manipulate raster</a></li>
+<li class="chapter" data-level="7.7" data-path="raster.html"><a href="raster.html#raster-time-series-data"><i class="fa fa-check"></i><b>7.7</b> Raster time series data</a></li>
+<li class="chapter" data-level="7.8" data-path="raster.html"><a href="raster.html#comparing-ndvi-from-two-different-sites"><i class="fa fa-check"></i><b>7.8</b> comparing NDVI from Two different sites</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="rasterv.html"><a href="rasterv.html"><i class="fa fa-check"></i><b>8</b> Raster Visualization</a><ul>
+<li class="chapter" data-level="8.1" data-path="rasterv.html"><a href="rasterv.html#visualize-bathmetry-with-ggplot2"><i class="fa fa-check"></i><b>8.1</b> visualize bathmetry with ggplot2</a></li>
+<li class="chapter" data-level="8.2" data-path="rasterv.html"><a href="rasterv.html#convert-data-frame-to-bathmetric-object"><i class="fa fa-check"></i><b>8.2</b> Convert data frame to bathmetric object</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="graphics.html"><a href="graphics.html"><i class="fa fa-check"></i><b>9</b> Making Maps</a><ul>
+<li class="chapter" data-level="9.1" data-path="graphics.html"><a href="graphics.html#introduction-1"><i class="fa fa-check"></i><b>9.1</b> Introduction</a><ul>
+<li class="chapter" data-level="9.1.1" data-path="graphics.html"><a href="graphics.html#the-bathmetry-data"><i class="fa fa-check"></i><b>9.1.1</b> The bathmetry data</a></li>
+</ul></li>
+<li class="chapter" data-level="9.2" data-path="graphics.html"><a href="graphics.html#creating-a-ggplot"><i class="fa fa-check"></i><b>9.2</b> Creating a ggplot</a><ul>
+<li class="chapter" data-level="9.2.1" data-path="graphics.html"><a href="graphics.html#label"><i class="fa fa-check"></i><b>9.2.1</b> Label</a></li>
+<li class="chapter" data-level="9.2.2" data-path="graphics.html"><a href="graphics.html#annotations"><i class="fa fa-check"></i><b>9.2.2</b> Annotations</a></li>
+<li class="chapter" data-level="9.2.3" data-path="graphics.html"><a href="graphics.html#scales"><i class="fa fa-check"></i><b>9.2.3</b> Scales</a></li>
+<li class="chapter" data-level="9.2.4" data-path="graphics.html"><a href="graphics.html#zooming"><i class="fa fa-check"></i><b>9.2.4</b> Zooming</a></li>
+</ul></li>
+<li class="chapter" data-level="9.3" data-path="graphics.html"><a href="graphics.html#inset-maps"><i class="fa fa-check"></i><b>9.3</b> Inset maps</a></li>
+<li class="chapter" data-level="9.4" data-path="graphics.html"><a href="graphics.html#static-maps"><i class="fa fa-check"></i><b>9.4</b> Static Maps</a><ul>
+<li class="chapter" data-level="9.4.1" data-path="graphics.html"><a href="graphics.html#map-elements"><i class="fa fa-check"></i><b>9.4.1</b> Map elements</a></li>
+</ul></li>
+<li class="chapter" data-level="9.5" data-path="graphics.html"><a href="graphics.html#animated-maps"><i class="fa fa-check"></i><b>9.5</b> Animated maps</a></li>
+<li class="chapter" data-level="9.6" data-path="graphics.html"><a href="graphics.html#interactive-maps"><i class="fa fa-check"></i><b>9.6</b> Interactive maps</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="monsoon-circulation.html"><a href="monsoon-circulation.html"><i class="fa fa-check"></i><b>10</b> Monsoon circulation</a><ul>
+<li class="chapter" data-level="10.1" data-path="monsoon-circulation.html"><a href="monsoon-circulation.html#winds"><i class="fa fa-check"></i><b>10.1</b> winds</a><ul>
+<li class="chapter" data-level="10.1.1" data-path="monsoon-circulation.html"><a href="monsoon-circulation.html#climatologies"><i class="fa fa-check"></i><b>10.1.1</b> Climatologies</a></li>
+<li class="chapter" data-level="10.1.2" data-path="monsoon-circulation.html"><a href="monsoon-circulation.html#annual-cycles-and-means"><i class="fa fa-check"></i><b>10.1.2</b> Annual cycles and means</a></li>
+<li class="chapter" data-level="10.1.3" data-path="monsoon-circulation.html"><a href="monsoon-circulation.html#intraseasonal-variability"><i class="fa fa-check"></i><b>10.1.3</b> Intraseasonal variability</a></li>
+<li class="chapter" data-level="10.1.4" data-path="monsoon-circulation.html"><a href="monsoon-circulation.html#sea-surface-height"><i class="fa fa-check"></i><b>10.1.4</b> sea surface height</a></li>
+<li class="chapter" data-level="10.1.5" data-path="monsoon-circulation.html"><a href="monsoon-circulation.html#sea-surface-temperature"><i class="fa fa-check"></i><b>10.1.5</b> sea surface temperature</a></li>
+</ul></li>
+<li class="chapter" data-level="10.2" data-path="monsoon-circulation.html"><a href="monsoon-circulation.html#physical"><i class="fa fa-check"></i><b>10.2</b> Physical</a><ul>
+<li class="chapter" data-level="10.2.1" data-path="monsoon-circulation.html"><a href="monsoon-circulation.html#temperature"><i class="fa fa-check"></i><b>10.2.1</b> Temperature</a></li>
+</ul></li>
+<li class="chapter" data-level="10.3" data-path="monsoon-circulation.html"><a href="monsoon-circulation.html#salinity"><i class="fa fa-check"></i><b>10.3</b> Salinity</a></li>
+<li class="chapter" data-level="10.4" data-path="monsoon-circulation.html"><a href="monsoon-circulation.html#chemical"><i class="fa fa-check"></i><b>10.4</b> Chemical</a><ul>
+<li class="chapter" data-level="10.4.1" data-path="monsoon-circulation.html"><a href="monsoon-circulation.html#dissolved-oxygen"><i class="fa fa-check"></i><b>10.4.1</b> Dissolved oxygen</a></li>
+<li class="chapter" data-level="10.4.2" data-path="monsoon-circulation.html"><a href="monsoon-circulation.html#nitrate"><i class="fa fa-check"></i><b>10.4.2</b> Nitrate</a></li>
+<li class="chapter" data-level="10.4.3" data-path="monsoon-circulation.html"><a href="monsoon-circulation.html#phosphate"><i class="fa fa-check"></i><b>10.4.3</b> Phosphate</a></li>
+<li class="chapter" data-level="10.4.4" data-path="monsoon-circulation.html"><a href="monsoon-circulation.html#silica"><i class="fa fa-check"></i><b>10.4.4</b> Silica</a></li>
+</ul></li>
+<li class="chapter" data-level="10.5" data-path="monsoon-circulation.html"><a href="monsoon-circulation.html#wind"><i class="fa fa-check"></i><b>10.5</b> wind</a></li>
+<li class="chapter" data-level="10.6" data-path="monsoon-circulation.html"><a href="monsoon-circulation.html#bagamoyo-ctd"><i class="fa fa-check"></i><b>10.6</b> Bagamoyo ctd</a></li>
+<li class="chapter" data-level="10.7" data-path="monsoon-circulation.html"><a href="monsoon-circulation.html#ctd"><i class="fa fa-check"></i><b>10.7</b> CTD</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="ocean-productivity.html"><a href="ocean-productivity.html"><i class="fa fa-check"></i><b>11</b> Ocean productivity</a></li>
+<li class="chapter" data-level="12" data-path="sea-surface-temperature-1.html"><a href="sea-surface-temperature-1.html"><i class="fa fa-check"></i><b>12</b> Sea Surface Temperature</a><ul>
+<li class="chapter" data-level="12.1" data-path="sea-surface-temperature-1.html"><a href="sea-surface-temperature-1.html#annual-mean-sea-surface-temperature"><i class="fa fa-check"></i><b>12.1</b> Annual Mean Sea Surface Temperature</a></li>
+<li class="chapter" data-level="12.2" data-path="sea-surface-temperature-1.html"><a href="sea-surface-temperature-1.html#anomaly-of-sea-surface-temperature"><i class="fa fa-check"></i><b>12.2</b> Anomaly of sea surface temperature</a></li>
+<li class="chapter" data-level="12.3" data-path="sea-surface-temperature-1.html"><a href="sea-surface-temperature-1.html#precipitation"><i class="fa fa-check"></i><b>12.3</b> Precipitation</a></li>
+<li class="chapter" data-level="12.4" data-path="sea-surface-temperature-1.html"><a href="sea-surface-temperature-1.html#wind-speed-and-direction"><i class="fa fa-check"></i><b>12.4</b> WInd speed and direction</a></li>
+<li class="chapter" data-level="12.5" data-path="sea-surface-temperature-1.html"><a href="sea-surface-temperature-1.html#air-temperature"><i class="fa fa-check"></i><b>12.5</b> air temperature</a></li>
+<li class="chapter" data-level="12.6" data-path="sea-surface-temperature-1.html"><a href="sea-surface-temperature-1.html#zonal-anomaly-of-air-temperature"><i class="fa fa-check"></i><b>12.6</b> Zonal anomaly of air temperature</a></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="precipitation-1.html"><a href="precipitation-1.html"><i class="fa fa-check"></i><b>13</b> precipitation</a><ul>
+<li class="chapter" data-level="13.1" data-path="precipitation-1.html"><a href="precipitation-1.html#handling-data"><i class="fa fa-check"></i><b>13.1</b> Handling data</a></li>
+<li class="chapter" data-level="13.2" data-path="precipitation-1.html"><a href="precipitation-1.html#required-packages"><i class="fa fa-check"></i><b>13.2</b> Required packages</a></li>
+<li class="chapter" data-level="13.3" data-path="precipitation-1.html"><a href="precipitation-1.html#formatting-data"><i class="fa fa-check"></i><b>13.3</b> Formatting data</a></li>
+<li class="chapter" data-level="13.4" data-path="precipitation-1.html"><a href="precipitation-1.html#plotting-with-ggplot2"><i class="fa fa-check"></i><b>13.4</b> Plotting with ggplot2</a></li>
+<li class="chapter" data-level="13.5" data-path="precipitation-1.html"><a href="precipitation-1.html#conclusion"><i class="fa fa-check"></i><b>13.5</b> Conclusion</a></li>
+<li class="chapter" data-level="13.6" data-path="precipitation-1.html"><a href="precipitation-1.html#references"><i class="fa fa-check"></i><b>13.6</b> References</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references-1.html"><a href="references-1.html"><i class="fa fa-check"></i>References</a></li>
+<li class="chapter" data-level="14" data-path="index.html"><a href="index.html#index"><i class="fa fa-check"></i><b>14</b> Index</a><ul>
+<li class="chapter" data-level="14.1" data-path="index.html"><a href="index.html#r"><i class="fa fa-check"></i><b>14.1</b> R</a></li>
+<li class="chapter" data-level="14.2" data-path="index.html"><a href="index.html#rmarkdown-1"><i class="fa fa-check"></i><b>14.2</b> Rmarkdown</a></li>
+<li class="chapter" data-level="14.3" data-path="index.html"><a href="index.html#bookdown"><i class="fa fa-check"></i><b>14.3</b> Bookdown</a></li>
+<li class="chapter" data-level="14.4" data-path="index.html"><a href="index.html#pandoc"><i class="fa fa-check"></i><b>14.4</b> Pandoc</a></li>
+<li class="chapter" data-level="14.5" data-path="index.html"><a href="index.html#woa-for-nyamisi-manuscript"><i class="fa fa-check"></i><b>14.5</b> WOA for Nyamisi manuscript</a></li>
+<li class="chapter" data-level="14.6" data-path="index.html"><a href="index.html#producing-maps-programatically"><i class="fa fa-check"></i><b>14.6</b> Producing Maps programatically</a><ul>
+<li class="chapter" data-level="14.6.1" data-path="index.html"><a href="index.html#satellite-data"><i class="fa fa-check"></i><b>14.6.1</b> satellite data</a></li>
+<li class="chapter" data-level="14.6.2" data-path="index.html"><a href="index.html#drifter-data"><i class="fa fa-check"></i><b>14.6.2</b> drifter data</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="15" data-path="spatial-patterns.html"><a href="spatial-patterns.html"><i class="fa fa-check"></i><b>15</b> Spatial Patterns</a></li>
+<li class="chapter" data-level="16" data-path="buoys-data.html"><a href="buoys-data.html"><i class="fa fa-check"></i><b>16</b> buoys data</a></li>
+<li class="chapter" data-level="17" data-path="altimetry.html"><a href="altimetry.html"><i class="fa fa-check"></i><b>17</b> Altimetry</a><ul>
+<li class="chapter" data-level="17.1" data-path="altimetry.html"><a href="altimetry.html#sea-surface-height-1"><i class="fa fa-check"></i><b>17.1</b> Sea surface height</a></li>
+<li class="chapter" data-level="17.2" data-path="altimetry.html"><a href="altimetry.html#visualizing"><i class="fa fa-check"></i><b>17.2</b> Visualizing</a></li>
+<li class="chapter" data-level="17.3" data-path="altimetry.html"><a href="altimetry.html#read-netcdf-file-with-in-r"><i class="fa fa-check"></i><b>17.3</b> Read netCDF file with in R</a><ul>
+<li class="chapter" data-level="17.3.1" data-path="altimetry.html"><a href="altimetry.html#understand-the-metadata"><i class="fa fa-check"></i><b>17.3.1</b> Understand the metadata</a></li>
+<li class="chapter" data-level="17.3.2" data-path="altimetry.html"><a href="altimetry.html#extract-the-variable"><i class="fa fa-check"></i><b>17.3.2</b> Extract the variable</a></li>
+<li class="chapter" data-level="17.3.3" data-path="altimetry.html"><a href="altimetry.html#transform-to-data-frame"><i class="fa fa-check"></i><b>17.3.3</b> Transform to data frame</a></li>
+<li class="chapter" data-level="17.3.4" data-path="altimetry.html"><a href="altimetry.html#stitching-the-data"><i class="fa fa-check"></i><b>17.3.4</b> Stitching the data</a></li>
+<li class="chapter" data-level="17.3.5" data-path="altimetry.html"><a href="altimetry.html#visualizemapping-the-ssh"><i class="fa fa-check"></i><b>17.3.5</b> Visualize—Mapping the SSH</a></li>
+</ul></li>
+<li class="chapter" data-level="17.4" data-path="altimetry.html"><a href="altimetry.html#reference"><i class="fa fa-check"></i><b>17.4</b> Reference</a></li>
+</ul></li>
+<li class="chapter" data-level="18" data-path="argo-floats.html"><a href="argo-floats.html"><i class="fa fa-check"></i><b>18</b> Argo floats</a><ul>
+<li class="chapter" data-level="18.1" data-path="argo-floats.html"><a href="argo-floats.html#iso-surface"><i class="fa fa-check"></i><b>18.1</b> Iso-surface</a></li>
+<li class="chapter" data-level="18.2" data-path="argo-floats.html"><a href="argo-floats.html#regional-and-global-distributions"><i class="fa fa-check"></i><b>18.2</b> Regional and global distributions</a></li>
+<li class="chapter" data-level="18.3" data-path="argo-floats.html"><a href="argo-floats.html#introduction-2"><i class="fa fa-check"></i><b>18.3</b> Introduction</a><ul>
+<li class="chapter" data-level="18.3.1" data-path="argo-floats.html"><a href="argo-floats.html#import-data"><i class="fa fa-check"></i><b>18.3.1</b> Import Data</a></li>
+<li class="chapter" data-level="18.3.2" data-path="argo-floats.html"><a href="argo-floats.html#tidy-the-data"><i class="fa fa-check"></i><b>18.3.2</b> Tidy the data</a></li>
+<li class="chapter" data-level="18.3.3" data-path="argo-floats.html"><a href="argo-floats.html#data-frames"><i class="fa fa-check"></i><b>18.3.3</b> Data Frames</a></li>
+<li class="chapter" data-level="18.3.4" data-path="argo-floats.html"><a href="argo-floats.html#transform"><i class="fa fa-check"></i><b>18.3.4</b> Transform</a></li>
+<li class="chapter" data-level="18.3.5" data-path="argo-floats.html"><a href="argo-floats.html#create-simple-feature"><i class="fa fa-check"></i><b>18.3.5</b> Create Simple Feature</a></li>
+<li class="chapter" data-level="18.3.6" data-path="argo-floats.html"><a href="argo-floats.html#gridding"><i class="fa fa-check"></i><b>18.3.6</b> Gridding</a></li>
+<li class="chapter" data-level="18.3.7" data-path="argo-floats.html"><a href="argo-floats.html#populate-grids-with-drifter-observations-and-median-sst"><i class="fa fa-check"></i><b>18.3.7</b> Populate Grids with Drifter Observations and Median SST</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="19" data-path="ctd-1.html"><a href="ctd-1.html"><i class="fa fa-check"></i><b>19</b> CTD</a><ul>
+<li class="chapter" data-level="19.1" data-path="ctd-1.html"><a href="ctd-1.html#vertical-cross-sections"><i class="fa fa-check"></i><b>19.1</b> Vertical cross sections</a></li>
+<li class="chapter" data-level="19.2" data-path="ctd-1.html"><a href="ctd-1.html#ctd-list"><i class="fa fa-check"></i><b>19.2</b> ctd list</a><ul>
+<li class="chapter" data-level="19.2.1" data-path="ctd-1.html"><a href="ctd-1.html#pemba-channel-section"><i class="fa fa-check"></i><b>19.2.1</b> Pemba Channel Section</a></li>
+<li class="chapter" data-level="19.2.2" data-path="ctd-1.html"><a href="ctd-1.html#mtwara-section"><i class="fa fa-check"></i><b>19.2.2</b> Mtwara Section</a></li>
+<li class="chapter" data-level="19.2.3" data-path="ctd-1.html"><a href="ctd-1.html#iso-surface-1"><i class="fa fa-check"></i><b>19.2.3</b> Iso surface</a></li>
+<li class="chapter" data-level="19.2.4" data-path="ctd-1.html"><a href="ctd-1.html#location-information"><i class="fa fa-check"></i><b>19.2.4</b> Location information</a></li>
+<li class="chapter" data-level="19.2.5" data-path="ctd-1.html"><a href="ctd-1.html#make-a-data-frame-from-ctd-list"><i class="fa fa-check"></i><b>19.2.5</b> make a data frame from CTD list</a></li>
+<li class="chapter" data-level="19.2.6" data-path="ctd-1.html"><a href="ctd-1.html#isosurface-in-mafia-channel"><i class="fa fa-check"></i><b>19.2.6</b> Isosurface in Mafia Channel</a></li>
+</ul></li>
+<li class="chapter" data-level="19.3" data-path="ctd-1.html"><a href="ctd-1.html#mozambique-channel"><i class="fa fa-check"></i><b>19.3</b> Mozambique channel</a><ul>
+<li class="chapter" data-level="19.3.1" data-path="ctd-1.html"><a href="ctd-1.html#references-2"><i class="fa fa-check"></i><b>19.3.1</b> References</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="20" data-path="surface-circulation.html"><a href="surface-circulation.html"><i class="fa fa-check"></i><b>20</b> Surface circulation</a><ul>
+<li class="chapter" data-level="20.1" data-path="surface-circulation.html"><a href="surface-circulation.html#ocean-circulation"><i class="fa fa-check"></i><b>20.1</b> Ocean circulation</a></li>
+<li class="chapter" data-level="20.2" data-path="surface-circulation.html"><a href="surface-circulation.html#regional-surface-ocean-dynamics"><i class="fa fa-check"></i><b>20.2</b> REGIONAL SURFACE OCEAN DYNAMICS</a><ul>
+<li class="chapter" data-level="20.2.1" data-path="surface-circulation.html"><a href="surface-circulation.html#the-eastafrican-coastal-current"><i class="fa fa-check"></i><b>20.2.1</b> The EastAfrican Coastal Current</a></li>
+<li class="chapter" data-level="20.2.2" data-path="surface-circulation.html"><a href="surface-circulation.html#the-somali-current-sc"><i class="fa fa-check"></i><b>20.2.2</b> The Somali Current (SC)</a></li>
+<li class="chapter" data-level="20.2.3" data-path="surface-circulation.html"><a href="surface-circulation.html#the-mozambique-current-mc"><i class="fa fa-check"></i><b>20.2.3</b> The Mozambique Current (MC)</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="21" data-path="world-ocean-atlas-datasets.html"><a href="world-ocean-atlas-datasets.html"><i class="fa fa-check"></i><b>21</b> World Ocean Atlas Datasets</a><ul>
+<li class="chapter" data-level="21.1" data-path="world-ocean-atlas-datasets.html"><a href="world-ocean-atlas-datasets.html#temperature-1"><i class="fa fa-check"></i><b>21.1</b> Temperature</a></li>
+<li class="chapter" data-level="21.2" data-path="world-ocean-atlas-datasets.html"><a href="world-ocean-atlas-datasets.html#salinity-1"><i class="fa fa-check"></i><b>21.2</b> Salinity</a></li>
+<li class="chapter" data-level="21.3" data-path="world-ocean-atlas-datasets.html"><a href="world-ocean-atlas-datasets.html#dissolved-oxygen-1"><i class="fa fa-check"></i><b>21.3</b> Dissolved oxygen</a></li>
+<li class="chapter" data-level="21.4" data-path="world-ocean-atlas-datasets.html"><a href="world-ocean-atlas-datasets.html#phosphate-1"><i class="fa fa-check"></i><b>21.4</b> Phosphate</a></li>
+<li class="chapter" data-level="21.5" data-path="world-ocean-atlas-datasets.html"><a href="world-ocean-atlas-datasets.html#silica-1"><i class="fa fa-check"></i><b>21.5</b> Silica</a></li>
+</ul></li>
+<li class="chapter" data-level="22" data-path="processing-adcp-data-with-r.html"><a href="processing-adcp-data-with-r.html"><i class="fa fa-check"></i><b>22</b> Processing ADCP Data with R</a><ul>
+<li class="chapter" data-level="22.0.1" data-path="processing-adcp-data-with-r.html"><a href="processing-adcp-data-with-r.html#introduction-3"><i class="fa fa-check"></i><b>22.0.1</b> Introduction</a></li>
+<li class="chapter" data-level="22.0.2" data-path="processing-adcp-data-with-r.html"><a href="processing-adcp-data-with-r.html#ingestion-of-the-data"><i class="fa fa-check"></i><b>22.0.2</b> Ingestion of the data</a></li>
+<li class="chapter" data-level="22.0.3" data-path="processing-adcp-data-with-r.html"><a href="processing-adcp-data-with-r.html#ensemble-adp-objects"><i class="fa fa-check"></i><b>22.0.3</b> Ensemble adp objects</a></li>
+<li class="chapter" data-level="22.0.4" data-path="processing-adcp-data-with-r.html"><a href="processing-adcp-data-with-r.html#depth-cell-mapping"><i class="fa fa-check"></i><b>22.0.4</b> Depth cell mapping</a></li>
+<li class="chapter" data-level="22.0.5" data-path="processing-adcp-data-with-r.html"><a href="processing-adcp-data-with-r.html#extract-the-variables"><i class="fa fa-check"></i><b>22.0.5</b> Extract the variables</a></li>
+<li class="chapter" data-level="22.0.6" data-path="processing-adcp-data-with-r.html"><a href="processing-adcp-data-with-r.html#subset-adcp"><i class="fa fa-check"></i><b>22.0.6</b> Subset ADCP</a></li>
+<li class="chapter" data-level="22.0.7" data-path="processing-adcp-data-with-r.html"><a href="processing-adcp-data-with-r.html#spurious-measurements"><i class="fa fa-check"></i><b>22.0.7</b> Spurious measurements</a></li>
+<li class="chapter" data-level="22.0.8" data-path="processing-adcp-data-with-r.html"><a href="processing-adcp-data-with-r.html#compute-absolute-velocity"><i class="fa fa-check"></i><b>22.0.8</b> Compute Absolute velocity</a></li>
+<li class="chapter" data-level="22.0.9" data-path="processing-adcp-data-with-r.html"><a href="processing-adcp-data-with-r.html#conclusion-1"><i class="fa fa-check"></i><b>22.0.9</b> Conclusion</a></li>
+<li class="chapter" data-level="22.0.10" data-path="processing-adcp-data-with-r.html"><a href="processing-adcp-data-with-r.html#cited-literature"><i class="fa fa-check"></i><b>22.0.10</b> Cited Literature</a></li>
+<li class="chapter" data-level="22.0.11" data-path="processing-adcp-data-with-r.html"><a href="processing-adcp-data-with-r.html#introduction-4"><i class="fa fa-check"></i><b>22.0.11</b> Introduction</a></li>
+<li class="chapter" data-level="22.0.12" data-path="processing-adcp-data-with-r.html"><a href="processing-adcp-data-with-r.html#chlorophyll-a"><i class="fa fa-check"></i><b>22.0.12</b> chlorophyll-a</a></li>
+<li class="chapter" data-level="22.0.13" data-path="processing-adcp-data-with-r.html"><a href="processing-adcp-data-with-r.html#looping-the-files"><i class="fa fa-check"></i><b>22.0.13</b> Looping the files</a></li>
+<li class="chapter" data-level="22.0.14" data-path="processing-adcp-data-with-r.html"><a href="processing-adcp-data-with-r.html#primary-productivity"><i class="fa fa-check"></i><b>22.0.14</b> Primary productivity</a></li>
+<li class="chapter" data-level="22.0.15" data-path="processing-adcp-data-with-r.html"><a href="processing-adcp-data-with-r.html#temperature-2"><i class="fa fa-check"></i><b>22.0.15</b> Temperature</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">A glimpse of GIS and Remote Sensing with R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="getting-started" class="section level1">
+<h1><span class="header-section-number">Chapter 2</span> Getting started</h1>
+<p>This chapter provides example of foundational programming concepts in R. These include the basic tasks like importing data in R, manipulating data, visualizing the data and conduct explatory and inferencial statistics. These basics will provide building blocks for handling data, analysing data and make plots with R. In the examples, R codes are presented in the light gray chunk blocks. Inside these chunk blocks, lines that begin with two number signs (##) are the outputs of the preceding lines of codes that have been executed and lines without the number signs are are the code that generated the output.</p>
+<div id="maths-in-r" class="section level2">
+<h2><span class="header-section-number">2.1</span> Maths in R</h2>
+<div id="arithmetric" class="section level3">
+<h3><span class="header-section-number">2.1.1</span> Arithmetric</h3>
+<p><strong>R</strong> provides standard arithmetic operators for <code>addition (+)</code> , <code>substraction (-)</code>, <code>multiplication (*)</code>, <code>division (/)</code>, and <code>exponential (^)</code>.
+Because of the convinient, we will use <strong>Rstudio</strong>. In console just write an expression <code>2 + 3</code> and click enter.</p>
+<pre><code>[1] 5</code></pre>
+<p>As we expected, R returns the answer as 5. Unlike other programming languages, coding in R does not need to terminate the expression or lines with a semicolon.</p>
+<pre><code>[1] 6</code></pre>
+<pre><code>[1] 46</code></pre>
+<pre><code>[1] 4</code></pre>
+<pre><code>[1] 25</code></pre>
+<pre><code>[1] 2</code></pre>
+<pre><code>[1] 0</code></pre>
+</div>
+<div id="precedence" class="section level3">
+<h3><span class="header-section-number">2.1.2</span> Precedence</h3>
+<p>R can be used to express complicated mathematical formulars. For anyone unfamiliar with writing formulas on computers, it is important to recognize that R will make assumptions abot which part of the formular to compute first. This is called <strong>predecence</strong><a href="#fn4" class="footnote-ref" id="fnref4"><sup>4</sup></a>. This i similar to a traditional and common mathematical term <em>BODMAS</em>. What is the answer for the mathematical expression in the chunk below. The answer should be 14. Accordings to BODMAS, the first operation in the expression is divide <code>8/2 = 4</code>, then multiply <code>4*3 = 12</code>, then addition <code>12+5 = 17</code> and last operation is substract <code>17-3 = 14</code> to obtain 14.</p>
+<pre><code>[1] 14</code></pre>
+</div>
+</div>
+<div id="assignment-operator" class="section level2">
+<h2><span class="header-section-number">2.2</span> Assignment operator</h2>
+<p>We often use an assignment operator to assing the value of an expression to a variable. R has two assignment operators—the conventional assignment operator <code>=</code>, which is present in most programming languages, and the arrows <code>&lt;-</code> and <code>-&gt;</code> which are specific to R. The expression <code>x = 5</code> assign the value 5 to x, likewise the expression <code>x &lt;- 5</code> and <code>5 -&gt; x</code> have the same effect. Throughout this book, we stick on the conventional assignment operator <code>(=)</code></p>
+<div id="variables" class="section level3">
+<h3><span class="header-section-number">2.2.1</span> Variables</h3>
+<p>We can create expression using variables. for instance, we assign the value 5 to the variable x and evaluate the square of x using the exponential <code>^</code> operator.</p>
+<pre><code>[1] 25</code></pre>
+<p>R has many types of variables that store different kinds of data in different ways. Example you can store a list of numbers or text</p>
+<p>R has peculiar syntax when it comes to variable names. The dot character <code>.</code>
+has a completely different meaning as compared to other programming languages.
+In R, we can use <code>.</code> in the variable names, so x.1 and x_1 are perfectly valid. In
+practice, the dot operator is used as a visual separator in variable names, similar to underscore in most other programming languages.</p>
+</div>
+<div id="functions" class="section level3">
+<h3><span class="header-section-number">2.2.2</span> Functions</h3>
+<p>Functions in R are <code>first class objects</code>, which means that they can be treated much like any other R object. Importantly,</p>
+<ul>
+<li>Functions can be passed as arguments to other functions</li>
+<li>Functions can be nested, so that you can define a function inside of another function</li>
+</ul>
+<p>The return value of a function is the last expression in the function
+body to be evaluated.</p>
+<p>R functions arguments can be matched positionally or by name. So the following calls to <code>sd</code> are all equivalent</p>
+<pre><code>[1] -5.344</code></pre>
+<pre><code>[1] 1.006</code></pre>
+<pre><code>[1] -0.2137</code></pre>
+<pre><code>[1] -0.368</code></pre>
+</div>
+<div id="essential-functions" class="section level3">
+<h3><span class="header-section-number">2.2.3</span> Essential functions</h3>
+<p>R has many built-in functions that can be used fo a great variety of tasks. These can be suplemented with packages, which contains more functions bundled in one document. Here is a list of common and widely used functions
++ <code>rep()</code> — repeates a value some number of times to make a list
++ <code>seq()</code> — creates a sequence of values between a start and end number and spaced at certain interval
++ <code>aggregate()</code> — used to bin data by condition
++ <code>table()</code> — used to summarise categorical data
++ <code>plot()</code> — graphical plots of data
++ <code>hist()</code> — a function for plotting a histogram
++ <code>boxplot()</code> — a function for plotting boxplot
++ <code>mean()</code> — compute arithmetric mean
++ <code>sd()</code> — compute arithmetric standard deviation
++ <code>sum()</code> — compute the total of the set of elements
++ <code>length()</code> — function to count the number of elements in a vector</p>
+</div>
+</div>
+<div id="wdirectory" class="section level2">
+<h2><span class="header-section-number">2.3</span> Setting Working Directory</h2>
+<p><span class="citation">(<span class="citeproc-not-found" data-reference-id="xia"><strong>???</strong></span>)</span> defined a working directory as a folder in your computer or server where you stores the raw data, codes and output for that specific project. This folder is important in programming because it allows to read the data and write outputs to this working directory. In R you can set working directory with <code>setwd()</code> function and check whether you are in the right working directory with the <code>getwd()</code> function.</p>
+</div>
+<div id="packages-or-libraries" class="section level2">
+<h2><span class="header-section-number">2.4</span> Packages or Libraries</h2>
+<p>R is made up of many user-written package. The base version of R allows user to get started in R, but the capabilities of base R are limited and additional packages are required for smooth performance of working with data. packages are collections of R functions, data, and compiled code in a well-defined format. A package bundles together code, data, documentation and tests and provide ana easy method to share with others. Until November 2018, there were 1300+ packages available for download on CRAN and countless more avaialble trought GitHub. The huge number of package has made R so successful and the chance is that some one has already created a package that can solve the problem you about to tackle and you can benefit from their work by downloading their package.</p>
+<div id="installing-packages" class="section level3">
+<h3><span class="header-section-number">2.4.1</span> Installing packages</h3>
+<p>R comes with a standard set of packages. Others are available for download and installation. The primary of stable package is the CRAN. In R you can install a package from CRAN with an <code>install.packages("packagename")</code> function that allows you to install the package you want to use into R. In have already installed the <strong>ggplot2</strong> packages in my machine, so if you want to install in your machine you can simply uncomment the chunk below by removing the hash tag (#)</p>
+</div>
+<div id="loading-packages" class="section level3">
+<h3><span class="header-section-number">2.4.2</span> Loading packages</h3>
+<p>Once package is downloaded and installed in your computer, you have to them into the session to access its functions and resources of the package. Yu can load the packages you want ot use with ether <code>library()</code> or <code>required()</code> function.</p>
+</div>
+</div>
+<div id="understanding-data-in-r" class="section level2">
+<h2><span class="header-section-number">2.5</span> Understanding Data in R</h2>
+<p>Clearing the workspace is always recommended before working on a new R project to avoid name conflicts with provious projects. We can also clear all figures using <code>graphics.off()' function and clear the console with a combinantion of</code>CTRL+L`. It is a good code practise that a new R project start with the code in the chunk below:</p>
+<div id="data-types" class="section level3">
+<h3><span class="header-section-number">2.5.1</span> Data Types</h3>
+<p>R is a flexible language that allows to work with different kind of data format <span class="citation">(<span class="citeproc-not-found" data-reference-id="bradley"><strong>???</strong></span>)</span>. This inluced integer, numeric, character, complex, dates and logical. The default data type or class in <strong>R</strong> is double precision—numeric. In a nutshell, R treats all kind of data into five categories but we deal with only four in this book. Before proceeding, we need to clear the workspace by typing <code>rm(list = ls())</code> after the prompt in the in a console.</p>
+<ol style="list-style-type: decimal">
+<li><code>Integers</code>:Integer values do not have decimal places. They are commonly used for counting or indexing.</li>
+</ol>
+<p>You can check if the data is integer with <code>is.integer()</code> and can convert numeric value to an integer with <code>as.integer()</code></p>
+<pre><code>[1] FALSE</code></pre>
+<p>You can query the class of the object with the <code>class()</code> to know the class of the object</p>
+<pre><code>[1] &quot;numeric&quot;</code></pre>
+<p>Although the object bb is integer as confirmed with <code>as.integer()</code> function, the <code>class()</code> ouput the answer as numeric. This is because the defaul type of number in r is numeric. However, you can use the function <code>as.integer()</code> to convert numeric value to integer</p>
+<pre><code>[1] &quot;integer&quot;</code></pre>
+<ol start="2" style="list-style-type: decimal">
+<li><code>Numeric</code>: The numeric class holds the set of real numbers — decimal place numbers. The numeric class is more general than the integer class, and inclused the integer numbers.</li>
+</ol>
+<p>These could be any number (whole or decimal number). You can check if the data is integer with <code>is.integer()</code></p>
+<pre><code>[1] &quot;numeric&quot;</code></pre>
+<pre><code>[1] TRUE</code></pre>
+<ol start="3" style="list-style-type: decimal">
+<li><code>Strings</code>: These collection of characters. This often are <code>text</code> data like names. You can check if the data is integer with <code>is.character()</code></li>
+</ol>
+<pre><code>[1] &quot;character&quot;</code></pre>
+<ol start="4" style="list-style-type: decimal">
+<li><code>Factor</code>: These are strings from finite set of values. For example, we might wish to store a variable that records gender of people. You can check if the data is factor with <code>is.factor()</code> and use <code>as.factor()</code> to convert <code>string</code> to <code>factor</code></li>
+</ol>
+<pre><code>[1] &quot;factor&quot;</code></pre>
+<pre><code>[1] &quot;Female&quot; &quot;Male&quot;  </code></pre>
+<p>Often times we need to know the possible groups that are in the factor data. This can be achieved with the <code>levels()</code> function</p>
+<pre><code>[1] &quot;Female&quot; &quot;Male&quot;  </code></pre>
+<pre><code>NULL</code></pre>
+<p>Often we wish to take a continuous numerical vector and transform it into a factor. The function <code>cut()</code> takes a vector of numerical data and creates a factor based on your give cut-points. Let us make a fictional income of 508 people with <code>rnorm()</code> function.</p>
+<div class="figure"><span id="fig:hist"></span>
+<img src="spatil_r_files/figure-html/hist-1.png" alt="Income distribution" width="672" />
+<p class="caption">
+Figure 2.1: Income distribution
+</p>
+</div>
+<p>We can now breaks the distribution into groups and make a simple plot as shown in figure <a href="getting-started.html#fig:fig21">2.2</a>, where those with income less than 400 were about 50, followed with a group with income range between 400 and 500 of about 200 and 250 people receive income above 500</p>
+<pre><code>[1] TRUE</code></pre>
+<pre><code>[1] &quot;Below 400&quot; &quot;400-500&quot;   &quot;Above 500&quot;</code></pre>
+<div class="figure"><span id="fig:fig21"></span>
+<img src="spatil_r_files/figure-html/fig21-1.png" alt="Barplot of grouped income" width="672" />
+<p class="caption">
+Figure 2.2: Barplot of grouped income
+</p>
+</div>
+<ol start="5" style="list-style-type: decimal">
+<li><p><code>Logicals</code>: This is a special case of a factor that can only take on the values <code>TRUE</code> and <code>FALSE</code>. R is case-sensitive, therefore you must always capitalize <code>TRUE</code> and <code>FALSE</code> in function in R.</p></li>
+<li><p><code>Date and time</code></p></li>
+</ol>
+</div>
+<div id="vectors" class="section level3">
+<h3><span class="header-section-number">2.5.2</span> Vectors</h3>
+<p>Ofen times we want to store a set of numbers in once place. One way to do this is using the vectors in R. Vectors store severl numbers– a set of numbers in one container. let us look on the example below</p>
+<p>Notice that the <code>c()</code> function, which is short for concatenate wraps the list of numbers. The <code>c()</code> function combines all numbers together into one container. Notice also that all the individual numbers are separated with a comma. The comma is reffered to an an item-delimiter. It allows R to hold each of the numbers separately. This is vital as without the item-delimiter, R will treat a vector as one big, unsperated number.</p>
+</div>
+<div id="indexing-the-element" class="section level3">
+<h3><span class="header-section-number">2.5.3</span> Indexing the element</h3>
+<p>One advantage of vector is that you can extract individual element in the vector object by indexing, which is accomplished using the square bracket as illustrated below.</p>
+<pre><code>[1] 5</code></pre>
+<pre><code>[1] 759</code></pre>
+<pre><code>[1] &quot;Cheka&quot;</code></pre>
+<p>Apart from extracting single element, indexing allows to extract a range of element in a vector. This is extremely important because it allows to subset a portion of data in a vector. A colon operator is used to extract a range of data</p>
+<pre><code>[1] &quot;Mchikichini&quot;  &quot;Mwembe Mdogo&quot; &quot;Mwongozo&quot;    </code></pre>
+</div>
+<div id="adding-and-replacing-an-element-in-a-vector" class="section level3">
+<h3><span class="header-section-number">2.5.4</span> Adding and Replacing an element in a vector</h3>
+<p>It is possible to add element of an axisting vecor. Here ia an example</p>
+<p>Sometimes you may need to replace an element from a vector, this can be achieved with indexing</p>
+</div>
+<div id="number-of-elements-in-a-vector" class="section level3">
+<h3><span class="header-section-number">2.5.5</span> Number of elements in a vector</h3>
+<p>Sometimes you may have a long vector and want to know the numbers of elements in the object. R has <code>length()</code> function that allows you to query the vector and print the answer</p>
+<pre><code>[1] 6</code></pre>
+</div>
+</div>
+<div id="data-frame" class="section level2">
+<h2><span class="header-section-number">2.6</span> Data Frame</h2>
+<p><code>data.frame</code> is very much like a simple Excel spreadsheet where each column represents a variable type and each row represent observations. Perhaps the easiest way to create a data frame is to parse vectors in <code>data.frame()</code> function.</p>
+<p>Table <a href="getting-started.html#tab:tab21">2.1</a> show the the data frame created by fusing the two vectors together.</p>
+<table>
+<caption>
+<span id="tab:tab21">Table 2.1: </span>Variables in the data frame
+</caption>
+<thead>
+<tr>
+<th style="text-align:center;">
+Name
+</th>
+<th style="text-align:center;">
+Score
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center;width: 4cm; ">
+Bob
+</td>
+<td style="text-align:center;width: 4cm; ">
+90
+</td>
+</tr>
+<tr>
+<td style="text-align:center;width: 4cm; ">
+Jeff
+</td>
+<td style="text-align:center;width: 4cm; ">
+75
+</td>
+</tr>
+<tr>
+<td style="text-align:center;width: 4cm; ">
+Mary
+</td>
+<td style="text-align:center;width: 4cm; ">
+92
+</td>
+</tr>
+</tbody>
+</table>
+<p>Because the columns have meaning and we have given them column names, it is desirable to want to access an element by the name of the column as opposed to the column number.In large Excel spreadsheets I often get annoyed trying to remember which column something was. The <code>$</code>sign and <code>[]</code>are used in R to select variable from the data frame.</p>
+<pre><code>[1] Bob  Jeff Mary
+Levels: Bob Jeff Mary</code></pre>
+<pre><code>[1] Bob  Jeff Mary
+Levels: Bob Jeff Mary</code></pre>
+<pre><code>[1] 90 75 92</code></pre>
+<pre><code>[1] 90 75 92</code></pre>
+R has build in dataset that we can use for illustration. For example, <span class="citation">(<span class="citeproc-not-found" data-reference-id="longley"><strong>???</strong></span>)</span> created a <code>longley</code> dataset, which is data frame with 7 economic variables observed every year from 1947 ti 1962 (Table <a href="getting-started.html#tab:tab22">2.2</a>). We can add the data in the workspace with <code>data()</code> function
+<table>
+<caption>
+<span id="tab:tab22">Table 2.2: </span>Longleys’ Economic dataset
+</caption>
+<thead>
+<tr>
+<th style="text-align:center;">
+GNP.deflator
+</th>
+<th style="text-align:center;">
+GNP
+</th>
+<th style="text-align:center;">
+Unemployed
+</th>
+<th style="text-align:center;">
+Armed.Forces
+</th>
+<th style="text-align:center;">
+Population
+</th>
+<th style="text-align:center;">
+Year
+</th>
+<th style="text-align:center;">
+Employed
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center;width: 3cm; ">
+83.0
+</td>
+<td style="text-align:center;width: 3cm; ">
+234.3
+</td>
+<td style="text-align:center;width: 3cm; ">
+235.6
+</td>
+<td style="text-align:center;width: 3cm; ">
+159.0
+</td>
+<td style="text-align:center;width: 3cm; ">
+107.6
+</td>
+<td style="text-align:center;width: 3cm; ">
+1947
+</td>
+<td style="text-align:center;width: 3cm; ">
+60.32
+</td>
+</tr>
+<tr>
+<td style="text-align:center;width: 3cm; ">
+88.5
+</td>
+<td style="text-align:center;width: 3cm; ">
+259.4
+</td>
+<td style="text-align:center;width: 3cm; ">
+232.5
+</td>
+<td style="text-align:center;width: 3cm; ">
+145.6
+</td>
+<td style="text-align:center;width: 3cm; ">
+108.6
+</td>
+<td style="text-align:center;width: 3cm; ">
+1948
+</td>
+<td style="text-align:center;width: 3cm; ">
+61.12
+</td>
+</tr>
+<tr>
+<td style="text-align:center;width: 3cm; ">
+88.2
+</td>
+<td style="text-align:center;width: 3cm; ">
+258.1
+</td>
+<td style="text-align:center;width: 3cm; ">
+368.2
+</td>
+<td style="text-align:center;width: 3cm; ">
+161.6
+</td>
+<td style="text-align:center;width: 3cm; ">
+109.8
+</td>
+<td style="text-align:center;width: 3cm; ">
+1949
+</td>
+<td style="text-align:center;width: 3cm; ">
+60.17
+</td>
+</tr>
+<tr>
+<td style="text-align:center;width: 3cm; ">
+89.5
+</td>
+<td style="text-align:center;width: 3cm; ">
+284.6
+</td>
+<td style="text-align:center;width: 3cm; ">
+335.1
+</td>
+<td style="text-align:center;width: 3cm; ">
+165.0
+</td>
+<td style="text-align:center;width: 3cm; ">
+110.9
+</td>
+<td style="text-align:center;width: 3cm; ">
+1950
+</td>
+<td style="text-align:center;width: 3cm; ">
+61.19
+</td>
+</tr>
+<tr>
+<td style="text-align:center;width: 3cm; ">
+96.2
+</td>
+<td style="text-align:center;width: 3cm; ">
+329.0
+</td>
+<td style="text-align:center;width: 3cm; ">
+209.9
+</td>
+<td style="text-align:center;width: 3cm; ">
+309.9
+</td>
+<td style="text-align:center;width: 3cm; ">
+112.1
+</td>
+<td style="text-align:center;width: 3cm; ">
+1951
+</td>
+<td style="text-align:center;width: 3cm; ">
+63.22
+</td>
+</tr>
+<tr>
+<td style="text-align:center;width: 3cm; ">
+98.1
+</td>
+<td style="text-align:center;width: 3cm; ">
+347.0
+</td>
+<td style="text-align:center;width: 3cm; ">
+193.2
+</td>
+<td style="text-align:center;width: 3cm; ">
+359.4
+</td>
+<td style="text-align:center;width: 3cm; ">
+113.3
+</td>
+<td style="text-align:center;width: 3cm; ">
+1952
+</td>
+<td style="text-align:center;width: 3cm; ">
+63.64
+</td>
+</tr>
+<tr>
+<td style="text-align:center;width: 3cm; ">
+99.0
+</td>
+<td style="text-align:center;width: 3cm; ">
+365.4
+</td>
+<td style="text-align:center;width: 3cm; ">
+187.0
+</td>
+<td style="text-align:center;width: 3cm; ">
+354.7
+</td>
+<td style="text-align:center;width: 3cm; ">
+115.1
+</td>
+<td style="text-align:center;width: 3cm; ">
+1953
+</td>
+<td style="text-align:center;width: 3cm; ">
+64.99
+</td>
+</tr>
+<tr>
+<td style="text-align:center;width: 3cm; ">
+100.0
+</td>
+<td style="text-align:center;width: 3cm; ">
+363.1
+</td>
+<td style="text-align:center;width: 3cm; ">
+357.8
+</td>
+<td style="text-align:center;width: 3cm; ">
+335.0
+</td>
+<td style="text-align:center;width: 3cm; ">
+116.2
+</td>
+<td style="text-align:center;width: 3cm; ">
+1954
+</td>
+<td style="text-align:center;width: 3cm; ">
+63.76
+</td>
+</tr>
+<tr>
+<td style="text-align:center;width: 3cm; ">
+101.2
+</td>
+<td style="text-align:center;width: 3cm; ">
+397.5
+</td>
+<td style="text-align:center;width: 3cm; ">
+290.4
+</td>
+<td style="text-align:center;width: 3cm; ">
+304.8
+</td>
+<td style="text-align:center;width: 3cm; ">
+117.4
+</td>
+<td style="text-align:center;width: 3cm; ">
+1955
+</td>
+<td style="text-align:center;width: 3cm; ">
+66.02
+</td>
+</tr>
+<tr>
+<td style="text-align:center;width: 3cm; ">
+104.6
+</td>
+<td style="text-align:center;width: 3cm; ">
+419.2
+</td>
+<td style="text-align:center;width: 3cm; ">
+282.2
+</td>
+<td style="text-align:center;width: 3cm; ">
+285.7
+</td>
+<td style="text-align:center;width: 3cm; ">
+118.7
+</td>
+<td style="text-align:center;width: 3cm; ">
+1956
+</td>
+<td style="text-align:center;width: 3cm; ">
+67.86
+</td>
+</tr>
+<tr>
+<td style="text-align:center;width: 3cm; ">
+108.4
+</td>
+<td style="text-align:center;width: 3cm; ">
+442.8
+</td>
+<td style="text-align:center;width: 3cm; ">
+293.6
+</td>
+<td style="text-align:center;width: 3cm; ">
+279.8
+</td>
+<td style="text-align:center;width: 3cm; ">
+120.4
+</td>
+<td style="text-align:center;width: 3cm; ">
+1957
+</td>
+<td style="text-align:center;width: 3cm; ">
+68.17
+</td>
+</tr>
+<tr>
+<td style="text-align:center;width: 3cm; ">
+110.8
+</td>
+<td style="text-align:center;width: 3cm; ">
+444.5
+</td>
+<td style="text-align:center;width: 3cm; ">
+468.1
+</td>
+<td style="text-align:center;width: 3cm; ">
+263.7
+</td>
+<td style="text-align:center;width: 3cm; ">
+122.0
+</td>
+<td style="text-align:center;width: 3cm; ">
+1958
+</td>
+<td style="text-align:center;width: 3cm; ">
+66.51
+</td>
+</tr>
+<tr>
+<td style="text-align:center;width: 3cm; ">
+112.6
+</td>
+<td style="text-align:center;width: 3cm; ">
+482.7
+</td>
+<td style="text-align:center;width: 3cm; ">
+381.3
+</td>
+<td style="text-align:center;width: 3cm; ">
+255.2
+</td>
+<td style="text-align:center;width: 3cm; ">
+123.4
+</td>
+<td style="text-align:center;width: 3cm; ">
+1959
+</td>
+<td style="text-align:center;width: 3cm; ">
+68.66
+</td>
+</tr>
+<tr>
+<td style="text-align:center;width: 3cm; ">
+114.2
+</td>
+<td style="text-align:center;width: 3cm; ">
+502.6
+</td>
+<td style="text-align:center;width: 3cm; ">
+393.1
+</td>
+<td style="text-align:center;width: 3cm; ">
+251.4
+</td>
+<td style="text-align:center;width: 3cm; ">
+125.4
+</td>
+<td style="text-align:center;width: 3cm; ">
+1960
+</td>
+<td style="text-align:center;width: 3cm; ">
+69.56
+</td>
+</tr>
+<tr>
+<td style="text-align:center;width: 3cm; ">
+115.7
+</td>
+<td style="text-align:center;width: 3cm; ">
+518.2
+</td>
+<td style="text-align:center;width: 3cm; ">
+480.6
+</td>
+<td style="text-align:center;width: 3cm; ">
+257.2
+</td>
+<td style="text-align:center;width: 3cm; ">
+127.9
+</td>
+<td style="text-align:center;width: 3cm; ">
+1961
+</td>
+<td style="text-align:center;width: 3cm; ">
+69.33
+</td>
+</tr>
+<tr>
+<td style="text-align:center;width: 3cm; ">
+116.9
+</td>
+<td style="text-align:center;width: 3cm; ">
+554.9
+</td>
+<td style="text-align:center;width: 3cm; ">
+400.7
+</td>
+<td style="text-align:center;width: 3cm; ">
+282.7
+</td>
+<td style="text-align:center;width: 3cm; ">
+130.1
+</td>
+<td style="text-align:center;width: 3cm; ">
+1962
+</td>
+<td style="text-align:center;width: 3cm; ">
+70.55
+</td>
+</tr>
+</tbody>
+</table>
+<p>Sometimes you may need to create set of values and store them in vectors, then combine the vectors into a data frame. Let us see how this can be done. First create three vectors. One contains id for ten individuals, the second vector hold the time each individual signed in the attendane book and the third vector is the distance of each individual from office. We can concatenate the set of values to make vectors.</p>
+<p>Once we have the vectors that have the same length dimension, we can use the function <code>data.frame()</code> to combine the the three vectors into one data frame shown in table <a href="getting-started.html#tab:tab23">2.3</a></p>
+<table>
+<caption>
+<span id="tab:tab23">Table 2.3: </span>The time employees enter into the office with the distance from their residential areas to the office
+</caption>
+<thead>
+<tr>
+<th style="text-align:right;">
+IDs
+</th>
+<th style="text-align:left;">
+Time
+</th>
+<th style="text-align:right;">
+Distance
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right;width: 4cm; ">
+1
+</td>
+<td style="text-align:left;width: 4cm; ">
+2018-11-20 06:35:25
+</td>
+<td style="text-align:right;width: 4cm; ">
+20
+</td>
+</tr>
+<tr>
+<td style="text-align:right;width: 4cm; ">
+2
+</td>
+<td style="text-align:left;width: 4cm; ">
+2018-11-20 06:52:05
+</td>
+<td style="text-align:right;width: 4cm; ">
+85
+</td>
+</tr>
+<tr>
+<td style="text-align:right;width: 4cm; ">
+3
+</td>
+<td style="text-align:left;width: 4cm; ">
+2018-11-20 07:08:45
+</td>
+<td style="text-align:right;width: 4cm; ">
+45
+</td>
+</tr>
+<tr>
+<td style="text-align:right;width: 4cm; ">
+4
+</td>
+<td style="text-align:left;width: 4cm; ">
+2018-11-20 07:25:25
+</td>
+<td style="text-align:right;width: 4cm; ">
+69
+</td>
+</tr>
+<tr>
+<td style="text-align:right;width: 4cm; ">
+5
+</td>
+<td style="text-align:left;width: 4cm; ">
+2018-11-20 07:42:05
+</td>
+<td style="text-align:right;width: 4cm; ">
+42
+</td>
+</tr>
+<tr>
+<td style="text-align:right;width: 4cm; ">
+6
+</td>
+<td style="text-align:left;width: 4cm; ">
+2018-11-20 07:58:45
+</td>
+<td style="text-align:right;width: 4cm; ">
+52
+</td>
+</tr>
+<tr>
+<td style="text-align:right;width: 4cm; ">
+7
+</td>
+<td style="text-align:left;width: 4cm; ">
+2018-11-20 08:15:25
+</td>
+<td style="text-align:right;width: 4cm; ">
+6
+</td>
+</tr>
+<tr>
+<td style="text-align:right;width: 4cm; ">
+8
+</td>
+<td style="text-align:left;width: 4cm; ">
+2018-11-20 08:32:05
+</td>
+<td style="text-align:right;width: 4cm; ">
+45
+</td>
+</tr>
+<tr>
+<td style="text-align:right;width: 4cm; ">
+9
+</td>
+<td style="text-align:left;width: 4cm; ">
+2018-11-20 08:48:45
+</td>
+<td style="text-align:right;width: 4cm; ">
+36
+</td>
+</tr>
+<tr>
+<td style="text-align:right;width: 4cm; ">
+10
+</td>
+<td style="text-align:left;width: 4cm; ">
+2018-11-20 09:05:25
+</td>
+<td style="text-align:right;width: 4cm; ">
+7
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="exercise" class="section level2">
+<h2><span class="header-section-number">2.7</span> Exercise</h2>
+<ol style="list-style-type: decimal">
+<li>Create a vector of character strings with six elements</li>
+</ol>
+<p>and then</p>
+<ul>
+<li>Transform the test vector just you created into a factor.
+<ul>
+<li>Use the <code>levels()</code> command to determine the levels (and order) of the factor you just created.</li>
+<li>Transform the factor you just created into integers. Comment on the relationship between the integers and the order of the levels you found in part (b).</li>
+<li>Use some sort of comparison to create a vector that identifies which factor elements are the red group.</li>
+</ul></li>
+</ul>
+<ol start="2" style="list-style-type: decimal">
+<li>Suppose we vectors that give a students name, their GPA, and their major. We want to come up with a list of forestry students with a GPA of greater than 3.0.</li>
+</ol>
+<ul>
+<li>Create a vector of TRUE/FALSE values that indicate whether the students GPA is greater than 3.0.
+<ul>
+<li>Create a vector of TRUE/FALSE values that indicate whether the students’ major is forestry.</li>
+<li>Create a vector of TRUE/FALSE values that indicates if a student has a GPA greater than 3.0 and is a forestry major.</li>
+<li>Convert the vector of TRUE/FALSE values in part (c) to integer values using the as.numeric() function. Which numeric value corresponds to TRUE?</li>
+<li>Sum (using the sum() function) the vector you created to count the number of students with GPA &gt; 3.0 and are a forestry major.</li>
+</ul></li>
+</ul>
+</div>
+<div id="exercise-1" class="section level2">
+<h2><span class="header-section-number">2.8</span> Exercise</h2>
+<ol style="list-style-type: decimal">
+<li>Create a data.frame named my.trees that has the following columns:</li>
+</ol>
+<ol style="list-style-type: lower-alpha">
+<li>Extract the third observation (i.e. the third row)</li>
+<li>Extract the Girth column referring to it by name (don’t use whatever order you placed the columns in).</li>
+<li>Print out a data frame of all the observations except for the fourth observation. (i.e. Remove the fourth observation/row.)</li>
+</ol>
+
+</div>
+</div>
+<div class="footnotes">
+<hr />
+<ol start="4">
+<li id="fn4"><p>The state of preceding priority<a href="getting-started.html#fnref4" class="footnote-back">↩</a></p></li>
+</ol>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="intro.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="readr.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"download": ["spatil_r.pdf", "spatil_r.epub", "spatil_r.mobi"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:" && /^https?:/.test(src))
+      src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

@@ -1,0 +1,1075 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 7 Importing data with readr | A glimpse of GIS and Remote Sensing with R</title>
+  <meta name="description" content="Introdution to geographical information system and remote sensing using an open source and powerful statical tool, R" />
+  <meta name="generator" content="bookdown 0.10 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 7 Importing data with readr | A glimpse of GIS and Remote Sensing with R" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="Introdution to geographical information system and remote sensing using an open source and powerful statical tool, R" />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 7 Importing data with readr | A glimpse of GIS and Remote Sensing with R" />
+  
+  <meta name="twitter:description" content="Introdution to geographical information system and remote sensing using an open source and powerful statical tool, R" />
+  
+
+<meta name="author" content="Masumbuko Semba" />
+
+
+<meta name="date" content="2019-06-10" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="introduction-to-tidyverse.html">
+<link rel="next" href="tidy.html">
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<script src="libs/htmlwidgets-1.3/htmlwidgets.js"></script>
+<link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
+<script src="libs/datatables-binding-0.6/datatables.js"></script>
+<link href="libs/dt-core-1.10.16/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="libs/dt-core-1.10.16/css/jquery.dataTables.extra.css" rel="stylesheet" />
+<script src="libs/dt-core-1.10.16/js/jquery.dataTables.min.js"></script>
+<link href="libs/crosstalk-1.0.0/css/crosstalk.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.0.0/js/crosstalk.min.js"></script>
+<link href="libs/dygraphs-1.1.1/dygraph.css" rel="stylesheet" />
+<script src="libs/dygraphs-1.1.1/dygraph-combined.js"></script>
+<script src="libs/dygraphs-1.1.1/shapes.js"></script>
+<script src="libs/moment-2.8.4/moment.js"></script>
+<script src="libs/moment-timezone-0.2.5/moment-timezone-with-data.js"></script>
+<script src="libs/moment-fquarter-1.0.0/moment-fquarter.min.js"></script>
+<script src="libs/dygraphs-binding-1.1.1.6/dygraphs.js"></script>
+<script src="libs/Dygraph.Plugins.Unzoom-1.0/unzoom.js"></script>
+
+
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">A glimpse of GIS and Remote Sensing with R</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Prerequisites</a></li>
+<li class="chapter" data-level="" data-path="sources.html"><a href="sources.html"><i class="fa fa-check"></i>Sources</a></li>
+<li class="chapter" data-level="" data-path="note-to-the-reader.html"><a href="note-to-the-reader.html"><i class="fa fa-check"></i>Note to the reader</a></li>
+<li class="chapter" data-level="" data-path="what-is-r.html"><a href="what-is-r.html"><i class="fa fa-check"></i>What is R?</a></li>
+<li class="chapter" data-level="" data-path="who-is-this-book-for.html"><a href="who-is-this-book-for.html"><i class="fa fa-check"></i>Who is this book for?</a></li>
+<li class="chapter" data-level="1" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>1</b> Introduction</a><ul>
+<li class="chapter" data-level="1.1" data-path="intro.html"><a href="intro.html#why-learn-computer-programming"><i class="fa fa-check"></i><b>1.1</b> Why learn computer Programming?</a></li>
+<li class="chapter" data-level="1.2" data-path="intro.html"><a href="intro.html#learning-to-program"><i class="fa fa-check"></i><b>1.2</b> Learning to program</a></li>
+<li class="chapter" data-level="1.3" data-path="intro.html"><a href="intro.html#programming-in-r"><i class="fa fa-check"></i><b>1.3</b> Programming in R</a><ul>
+<li class="chapter" data-level="1.3.1" data-path="intro.html"><a href="intro.html#what-is-r-1"><i class="fa fa-check"></i><b>1.3.1</b> What is R?</a></li>
+<li class="chapter" data-level="1.3.2" data-path="intro.html"><a href="intro.html#installing-r"><i class="fa fa-check"></i><b>1.3.2</b> Installing R</a></li>
+<li class="chapter" data-level="1.3.3" data-path="intro.html"><a href="intro.html#what-is-rstudio"><i class="fa fa-check"></i><b>1.3.3</b> What is RStudio?</a></li>
+<li class="chapter" data-level="1.3.4" data-path="intro.html"><a href="intro.html#basic-features-of-rstudio"><i class="fa fa-check"></i><b>1.3.4</b> Basic Features of RStudio</a></li>
+<li class="chapter" data-level="1.3.5" data-path="intro.html"><a href="intro.html#rstudio-editor"><i class="fa fa-check"></i><b>1.3.5</b> Rstudio editor</a></li>
+<li class="chapter" data-level="1.3.6" data-path="intro.html"><a href="intro.html#rmarkdown"><i class="fa fa-check"></i><b>1.3.6</b> Rmarkdown</a></li>
+<li class="chapter" data-level="1.3.7" data-path="intro.html"><a href="intro.html#use-descriptive-names"><i class="fa fa-check"></i><b>1.3.7</b> Use descriptive names</a></li>
+<li class="chapter" data-level="1.3.8" data-path="intro.html"><a href="intro.html#use-comments"><i class="fa fa-check"></i><b>1.3.8</b> Use comments</a></li>
+<li class="chapter" data-level="1.3.9" data-path="intro.html"><a href="intro.html#getting-help-in-r"><i class="fa fa-check"></i><b>1.3.9</b> Getting Help in R</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="get-started.html"><a href="get-started.html"><i class="fa fa-check"></i><b>2</b> Getting started</a><ul>
+<li class="chapter" data-level="2.1" data-path="get-started.html"><a href="get-started.html#maths-in-r"><i class="fa fa-check"></i><b>2.1</b> Maths in R</a><ul>
+<li class="chapter" data-level="2.1.1" data-path="get-started.html"><a href="get-started.html#r-operators"><i class="fa fa-check"></i><b>2.1.1</b> R operators</a></li>
+<li class="chapter" data-level="2.1.2" data-path="get-started.html"><a href="get-started.html#precedence"><i class="fa fa-check"></i><b>2.1.2</b> Precedence</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="get-started.html"><a href="get-started.html#assignment-operator"><i class="fa fa-check"></i><b>2.2</b> Assignment operator</a><ul>
+<li class="chapter" data-level="2.2.1" data-path="get-started.html"><a href="get-started.html#variables"><i class="fa fa-check"></i><b>2.2.1</b> Variables</a></li>
+<li class="chapter" data-level="2.2.2" data-path="get-started.html"><a href="get-started.html#naming-conventions"><i class="fa fa-check"></i><b>2.2.2</b> Naming conventions</a></li>
+<li class="chapter" data-level="2.2.3" data-path="get-started.html"><a href="get-started.html#functions"><i class="fa fa-check"></i><b>2.2.3</b> Functions</a></li>
+<li class="chapter" data-level="2.2.4" data-path="get-started.html"><a href="get-started.html#essential-functions"><i class="fa fa-check"></i><b>2.2.4</b> Essential functions</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="get-started.html"><a href="get-started.html#wdirectory"><i class="fa fa-check"></i><b>2.3</b> Setting Working Directory</a></li>
+<li class="chapter" data-level="2.4" data-path="get-started.html"><a href="get-started.html#packages-or-libraries"><i class="fa fa-check"></i><b>2.4</b> Packages or Libraries</a><ul>
+<li class="chapter" data-level="2.4.1" data-path="get-started.html"><a href="get-started.html#installing-packages"><i class="fa fa-check"></i><b>2.4.1</b> Installing packages</a></li>
+<li class="chapter" data-level="2.4.2" data-path="get-started.html"><a href="get-started.html#loading-packages"><i class="fa fa-check"></i><b>2.4.2</b> Loading packages</a></li>
+</ul></li>
+<li class="chapter" data-level="2.5" data-path="get-started.html"><a href="get-started.html#understanding-data-in-r"><i class="fa fa-check"></i><b>2.5</b> Understanding Data in R</a><ul>
+<li class="chapter" data-level="2.5.1" data-path="get-started.html"><a href="get-started.html#data-types"><i class="fa fa-check"></i><b>2.5.1</b> Data Types</a></li>
+<li class="chapter" data-level="2.5.2" data-path="get-started.html"><a href="get-started.html#vectors"><i class="fa fa-check"></i><b>2.5.2</b> Vectors</a></li>
+<li class="chapter" data-level="2.5.3" data-path="get-started.html"><a href="get-started.html#indexing-the-element"><i class="fa fa-check"></i><b>2.5.3</b> Indexing the element</a></li>
+<li class="chapter" data-level="2.5.4" data-path="get-started.html"><a href="get-started.html#adding-and-replacing-an-element-in-a-vector"><i class="fa fa-check"></i><b>2.5.4</b> Adding and Replacing an element in a vector</a></li>
+<li class="chapter" data-level="2.5.5" data-path="get-started.html"><a href="get-started.html#number-of-elements-in-a-vector"><i class="fa fa-check"></i><b>2.5.5</b> Number of elements in a vector</a></li>
+</ul></li>
+<li class="chapter" data-level="2.6" data-path="get-started.html"><a href="get-started.html#data-frame"><i class="fa fa-check"></i><b>2.6</b> Data Frame</a></li>
+<li class="chapter" data-level="2.7" data-path="get-started.html"><a href="get-started.html#tibbles"><i class="fa fa-check"></i><b>2.7</b> tibbles</a><ul>
+<li class="chapter" data-level="2.7.1" data-path="get-started.html"><a href="get-started.html#column-names"><i class="fa fa-check"></i><b>2.7.1</b> Column Names</a></li>
+<li class="chapter" data-level="2.7.2" data-path="get-started.html"><a href="get-started.html#add-rows-and-columns"><i class="fa fa-check"></i><b>2.7.2</b> Add rows and columns</a></li>
+</ul></li>
+<li class="chapter" data-level="2.8" data-path="get-started.html"><a href="get-started.html#exercise"><i class="fa fa-check"></i><b>2.8</b> Exercise</a></li>
+<li class="chapter" data-level="2.9" data-path="get-started.html"><a href="get-started.html#exercise-1"><i class="fa fa-check"></i><b>2.9</b> Exercise</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="get-familiar-with-r-markdown.html"><a href="get-familiar-with-r-markdown.html"><i class="fa fa-check"></i><b>3</b> Get familiar with R Markdown</a><ul>
+<li class="chapter" data-level="3.1" data-path="get-familiar-with-r-markdown.html"><a href="get-familiar-with-r-markdown.html#r-markdown"><i class="fa fa-check"></i><b>3.1</b> R Markdown</a></li>
+<li class="chapter" data-level="3.2" data-path="get-familiar-with-r-markdown.html"><a href="get-familiar-with-r-markdown.html#text-formating"><i class="fa fa-check"></i><b>3.2</b> Text Formating</a></li>
+<li class="chapter" data-level="3.3" data-path="get-familiar-with-r-markdown.html"><a href="get-familiar-with-r-markdown.html#hyperlinks"><i class="fa fa-check"></i><b>3.3</b> Hyperlinks</a></li>
+<li class="chapter" data-level="3.4" data-path="get-familiar-with-r-markdown.html"><a href="get-familiar-with-r-markdown.html#images"><i class="fa fa-check"></i><b>3.4</b> Images</a></li>
+<li class="chapter" data-level="3.5" data-path="get-familiar-with-r-markdown.html"><a href="get-familiar-with-r-markdown.html#tables"><i class="fa fa-check"></i><b>3.5</b> Tables</a></li>
+<li class="chapter" data-level="3.6" data-path="get-familiar-with-r-markdown.html"><a href="get-familiar-with-r-markdown.html#cross-referencing"><i class="fa fa-check"></i><b>3.6</b> Cross-referencing</a></li>
+<li class="chapter" data-level="3.7" data-path="get-familiar-with-r-markdown.html"><a href="get-familiar-with-r-markdown.html#bibliographies"><i class="fa fa-check"></i><b>3.7</b> Bibliographies</a></li>
+<li class="chapter" data-level="3.8" data-path="get-familiar-with-r-markdown.html"><a href="get-familiar-with-r-markdown.html#create-.rmd-file"><i class="fa fa-check"></i><b>3.8</b> Create .Rmd FIle</a></li>
+<li class="chapter" data-level="3.9" data-path="get-familiar-with-r-markdown.html"><a href="get-familiar-with-r-markdown.html#rendering-markdown"><i class="fa fa-check"></i><b>3.9</b> Rendering Markdown</a></li>
+<li class="chapter" data-level="3.10" data-path="get-familiar-with-r-markdown.html"><a href="get-familiar-with-r-markdown.html#structure-of-an-rmarkdown-file"><i class="fa fa-check"></i><b>3.10</b> Structure of an Rmarkdown FIle</a></li>
+<li class="chapter" data-level="3.11" data-path="get-familiar-with-r-markdown.html"><a href="get-familiar-with-r-markdown.html#inserting-code-chunk"><i class="fa fa-check"></i><b>3.11</b> Inserting code chunk</a></li>
+<li class="chapter" data-level="3.12" data-path="get-familiar-with-r-markdown.html"><a href="get-familiar-with-r-markdown.html#chunk-name"><i class="fa fa-check"></i><b>3.12</b> Chunk name</a></li>
+<li class="chapter" data-level="3.13" data-path="get-familiar-with-r-markdown.html"><a href="get-familiar-with-r-markdown.html#chunk-options"><i class="fa fa-check"></i><b>3.13</b> Chunk options</a></li>
+<li class="chapter" data-level="3.14" data-path="get-familiar-with-r-markdown.html"><a href="get-familiar-with-r-markdown.html#inline-code"><i class="fa fa-check"></i><b>3.14</b> Inline code</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="dataTypes.html"><a href="dataTypes.html"><i class="fa fa-check"></i><b>4</b> Understanding Data in R</a><ul>
+<li class="chapter" data-level="4.0.1" data-path="dataTypes.html"><a href="dataTypes.html#data-types-1"><i class="fa fa-check"></i><b>4.0.1</b> Data Types</a></li>
+<li class="chapter" data-level="4.0.2" data-path="dataTypes.html"><a href="dataTypes.html#vectors-1"><i class="fa fa-check"></i><b>4.0.2</b> Vectors</a></li>
+<li class="chapter" data-level="4.0.3" data-path="dataTypes.html"><a href="dataTypes.html#indexing-the-element-1"><i class="fa fa-check"></i><b>4.0.3</b> Indexing the element</a></li>
+<li class="chapter" data-level="4.0.4" data-path="dataTypes.html"><a href="dataTypes.html#adding-and-replacing-an-element-in-a-vector-1"><i class="fa fa-check"></i><b>4.0.4</b> Adding and Replacing an element in a vector</a></li>
+<li class="chapter" data-level="4.0.5" data-path="dataTypes.html"><a href="dataTypes.html#number-of-elements-in-a-vector-1"><i class="fa fa-check"></i><b>4.0.5</b> Number of elements in a vector</a></li>
+<li class="chapter" data-level="4.0.6" data-path="dataTypes.html"><a href="dataTypes.html#generating-sequence-of-vectors-numbers"><i class="fa fa-check"></i><b>4.0.6</b> Generating sequence of vectors Numbers</a></li>
+<li class="chapter" data-level="4.0.7" data-path="dataTypes.html"><a href="dataTypes.html#generating-vector-of-normal-distribution"><i class="fa fa-check"></i><b>4.0.7</b> Generating vector of normal distribution</a></li>
+<li class="chapter" data-level="4.0.8" data-path="dataTypes.html"><a href="dataTypes.html#rounding-off-numbers"><i class="fa fa-check"></i><b>4.0.8</b> Rounding off numbers</a></li>
+<li class="chapter" data-level="4.1" data-path="dataTypes.html"><a href="dataTypes.html#data-frame-1"><i class="fa fa-check"></i><b>4.1</b> Data Frame</a><ul>
+<li class="chapter" data-level="4.1.1" data-path="dataTypes.html"><a href="dataTypes.html#creating-data-frames"><i class="fa fa-check"></i><b>4.1.1</b> Creating data frames</a></li>
+</ul></li>
+<li class="chapter" data-level="4.2" data-path="dataTypes.html"><a href="dataTypes.html#matrix"><i class="fa fa-check"></i><b>4.2</b> Matrix</a><ul>
+<li class="chapter" data-level="4.2.1" data-path="dataTypes.html"><a href="dataTypes.html#creating-matrices"><i class="fa fa-check"></i><b>4.2.1</b> Creating Matrices</a></li>
+<li class="chapter" data-level="4.2.2" data-path="dataTypes.html"><a href="dataTypes.html#adding-attributes-to-matrices"><i class="fa fa-check"></i><b>4.2.2</b> Adding attributes to Matrices</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="dataTypes.html"><a href="dataTypes.html#arrays"><i class="fa fa-check"></i><b>4.3</b> Arrays</a></li>
+<li class="chapter" data-level="4.4" data-path="dataTypes.html"><a href="dataTypes.html#dealing-with-misiing-values"><i class="fa fa-check"></i><b>4.4</b> Dealing with Misiing Values</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="vector.html"><a href="vector.html"><i class="fa fa-check"></i><b>5</b> Vector Data</a><ul>
+<li class="chapter" data-level="5.1" data-path="vector.html"><a href="vector.html#introduction"><i class="fa fa-check"></i><b>5.1</b> Introduction</a></li>
+<li class="chapter" data-level="5.2" data-path="vector.html"><a href="vector.html#numeric-vector"><i class="fa fa-check"></i><b>5.2</b> Numeric Vector</a></li>
+<li class="chapter" data-level="5.3" data-path="vector.html"><a href="vector.html#integer-vector"><i class="fa fa-check"></i><b>5.3</b> Integer vector</a></li>
+<li class="chapter" data-level="5.4" data-path="vector.html"><a href="vector.html#character-vector"><i class="fa fa-check"></i><b>5.4</b> Character vector</a></li>
+<li class="chapter" data-level="5.5" data-path="vector.html"><a href="vector.html#logical-vector"><i class="fa fa-check"></i><b>5.5</b> Logical Vector</a></li>
+<li class="chapter" data-level="5.6" data-path="vector.html"><a href="vector.html#vector-data"><i class="fa fa-check"></i><b>5.6</b> Vector Data</a><ul>
+<li class="chapter" data-level="5.6.1" data-path="vector.html"><a href="vector.html#simple-features"><i class="fa fa-check"></i><b>5.6.1</b> Simple features</a></li>
+</ul></li>
+<li class="chapter" data-level="5.7" data-path="vector.html"><a href="vector.html#reading-vector-data"><i class="fa fa-check"></i><b>5.7</b> Reading vector data</a><ul>
+<li class="chapter" data-level="5.7.1" data-path="vector.html"><a href="vector.html#reading-shapefiles"><i class="fa fa-check"></i><b>5.7.1</b> Reading shapefiles</a></li>
+<li class="chapter" data-level="5.7.2" data-path="vector.html"><a href="vector.html#reading-gpx-file"><i class="fa fa-check"></i><b>5.7.2</b> Reading GPX file</a></li>
+</ul></li>
+<li class="chapter" data-level="5.8" data-path="vector.html"><a href="vector.html#make-shapefiles-from-tabular-data"><i class="fa fa-check"></i><b>5.8</b> Make shapefiles from Tabular data</a></li>
+<li class="chapter" data-level="5.9" data-path="vector.html"><a href="vector.html#export-simple-feature-as-shapefile"><i class="fa fa-check"></i><b>5.9</b> Export simple feature as shapefile</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="introduction-to-tidyverse.html"><a href="introduction-to-tidyverse.html"><i class="fa fa-check"></i><b>6</b> Introduction to tidyverse</a><ul>
+<li class="chapter" data-level="6.1" data-path="introduction-to-tidyverse.html"><a href="introduction-to-tidyverse.html#readr"><i class="fa fa-check"></i><b>6.1</b> readr</a></li>
+<li class="chapter" data-level="6.2" data-path="introduction-to-tidyverse.html"><a href="introduction-to-tidyverse.html#dplyr"><i class="fa fa-check"></i><b>6.2</b> dplyr</a></li>
+<li class="chapter" data-level="6.3" data-path="introduction-to-tidyverse.html"><a href="introduction-to-tidyverse.html#tidyr"><i class="fa fa-check"></i><b>6.3</b> tidyr</a></li>
+<li class="chapter" data-level="6.4" data-path="introduction-to-tidyverse.html"><a href="introduction-to-tidyverse.html#ggplot2"><i class="fa fa-check"></i><b>6.4</b> ggplot2</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="introduction-to-tidyverse.html"><a href="introduction-to-tidyverse.html#readr"><i class="fa fa-check"></i><b>7</b> Importing data with <strong>readr</strong></a><ul>
+<li class="chapter" data-level="7.1" data-path="readr.html"><a href="readr.html"><i class="fa fa-check"></i><b>7.1</b> <em>Comma-Separated (.csv)</em></a></li>
+<li class="chapter" data-level="7.2" data-path="readr.html"><a href="readr.html#microsoft-excel.xlsx"><i class="fa fa-check"></i><b>7.2</b> Microsoft Excel(.xlsx)</a></li>
+<li class="chapter" data-level="7.3" data-path="readr.html"><a href="readr.html#writing-t-a-file"><i class="fa fa-check"></i><b>7.3</b> Writing t a File</a></li>
+<li class="chapter" data-level="7.4" data-path="readr.html"><a href="readr.html#basic-data-manipulation"><i class="fa fa-check"></i><b>7.4</b> Basic Data Manipulation</a><ul>
+<li class="chapter" data-level="7.4.1" data-path="readr.html"><a href="readr.html#explore-the-data-frame"><i class="fa fa-check"></i><b>7.4.1</b> Explore the Data Frame</a></li>
+<li class="chapter" data-level="7.4.2" data-path="readr.html"><a href="readr.html#simmple-summary-statistics"><i class="fa fa-check"></i><b>7.4.2</b> simmple summary statistics</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="tidy.html"><a href="tidy.html"><i class="fa fa-check"></i><b>8</b> Reshaping data with <strong>tidyr</strong></a><ul>
+<li class="chapter" data-level="8.1" data-path="tidy.html"><a href="tidy.html#gatherfrom-wide-to-long-format."><i class="fa fa-check"></i><b>8.1</b> Gather—from wide to long format.</a></li>
+<li class="chapter" data-level="8.2" data-path="tidy.html"><a href="tidy.html#spread-from-long-to-wide-format"><i class="fa fa-check"></i><b>8.2</b> spread() —from long to wide format</a></li>
+<li class="chapter" data-level="8.3" data-path="tidy.html"><a href="tidy.html#separate"><i class="fa fa-check"></i><b>8.3</b> separate()</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="introduction-to-tidyverse.html"><a href="introduction-to-tidyverse.html#dplyr"><i class="fa fa-check"></i><b>9</b> Manipulating Data with <strong>dplyr</strong></a><ul>
+<li class="chapter" data-level="9.1" data-path="dplyr.html"><a href="dplyr.html"><i class="fa fa-check"></i><b>9.1</b> Why use dplyr?</a></li>
+<li class="chapter" data-level="9.2" data-path="dplyr.html"><a href="dplyr.html#core-dplyr-functions"><i class="fa fa-check"></i><b>9.2</b> Core dplyr Functions</a></li>
+<li class="chapter" data-level="9.3" data-path="dplyr.html"><a href="dplyr.html#data"><i class="fa fa-check"></i><b>9.3</b> Data</a></li>
+<li class="chapter" data-level="9.4" data-path="dplyr.html"><a href="dplyr.html#choosing-rows-filtering-observations"><i class="fa fa-check"></i><b>9.4</b> Choosing rows: Filtering observations</a></li>
+<li class="chapter" data-level="9.5" data-path="dplyr.html"><a href="dplyr.html#select"><i class="fa fa-check"></i><b>9.5</b> select</a><ul>
+<li class="chapter" data-level="9.5.1" data-path="dplyr.html"><a href="dplyr.html#adding-new-variables-mutate-transmute-add_rownames"><i class="fa fa-check"></i><b>9.5.1</b> Adding new variables: mutate, transmute, add_rownames</a></li>
+<li class="chapter" data-level="9.5.2" data-path="dplyr.html"><a href="dplyr.html#arranging-rows"><i class="fa fa-check"></i><b>9.5.2</b> Arranging rows</a></li>
+</ul></li>
+<li class="chapter" data-level="9.6" data-path="dplyr.html"><a href="dplyr.html#summarizing-and-grouping"><i class="fa fa-check"></i><b>9.6</b> Summarizing and Grouping</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="working-with-dates-and-time.html"><a href="working-with-dates-and-time.html"><i class="fa fa-check"></i><b>10</b> Working with Dates and Time</a><ul>
+<li class="chapter" data-level="10.1" data-path="working-with-dates-and-time.html"><a href="working-with-dates-and-time.html#getting-the-date-and-time-with-localtime"><i class="fa fa-check"></i><b>10.1</b> Getting the Date and Time with localtime</a></li>
+<li class="chapter" data-level="10.2" data-path="working-with-dates-and-time.html"><a href="working-with-dates-and-time.html#converting-strings-to-dates"><i class="fa fa-check"></i><b>10.2</b> Converting strings to Dates</a><ul>
+<li class="chapter" data-level="10.2.1" data-path="working-with-dates-and-time.html"><a href="working-with-dates-and-time.html#convert-strings-to-dates"><i class="fa fa-check"></i><b>10.2.1</b> convert strings to dates</a></li>
+</ul></li>
+<li class="chapter" data-level="10.3" data-path="working-with-dates-and-time.html"><a href="working-with-dates-and-time.html#converting-date-with-lubridate-package"><i class="fa fa-check"></i><b>10.3</b> Converting date with <strong>lubridate</strong> package</a></li>
+<li class="chapter" data-level="10.4" data-path="working-with-dates-and-time.html"><a href="working-with-dates-and-time.html#create-dates-by-merging-data"><i class="fa fa-check"></i><b>10.4</b> Create Dates by Merging Data</a></li>
+<li class="chapter" data-level="10.5" data-path="working-with-dates-and-time.html"><a href="working-with-dates-and-time.html#isodate-converts-to-a-posixct-object"><i class="fa fa-check"></i><b>10.5</b> ISOdate converts to a POSIXct object</a></li>
+<li class="chapter" data-level="10.6" data-path="working-with-dates-and-time.html"><a href="working-with-dates-and-time.html#extract-and-manipulate-parts-of-dates"><i class="fa fa-check"></i><b>10.6</b> Extract and Manipulate Parts of Dates</a></li>
+<li class="chapter" data-level="10.7" data-path="working-with-dates-and-time.html"><a href="working-with-dates-and-time.html#creating-date-sequences"><i class="fa fa-check"></i><b>10.7</b> Creating Date Sequences</a></li>
+<li class="chapter" data-level="10.8" data-path="working-with-dates-and-time.html"><a href="working-with-dates-and-time.html#calculations-with-dates"><i class="fa fa-check"></i><b>10.8</b> Calculations with Dates</a></li>
+<li class="chapter" data-level="10.9" data-path="working-with-dates-and-time.html"><a href="working-with-dates-and-time.html#time-difference-of-15-days"><i class="fa fa-check"></i><b>10.9</b> Time difference of 15 days</a></li>
+<li class="chapter" data-level="10.10" data-path="working-with-dates-and-time.html"><a href="working-with-dates-and-time.html#example-with-time-zones"><i class="fa fa-check"></i><b>10.10</b> example with time zones</a></li>
+<li class="chapter" data-level="10.11" data-path="working-with-dates-and-time.html"><a href="working-with-dates-and-time.html#time-interval"><i class="fa fa-check"></i><b>10.11</b> Time Interval</a></li>
+<li class="chapter" data-level="10.12" data-path="working-with-dates-and-time.html"><a href="working-with-dates-and-time.html#ctd-list"><i class="fa fa-check"></i><b>10.12</b> ctd list</a></li>
+<li class="chapter" data-level="10.13" data-path="working-with-dates-and-time.html"><a href="working-with-dates-and-time.html#arithmetic-with-date-times"><i class="fa fa-check"></i><b>10.13</b> Arithmetic with date times</a></li>
+<li class="chapter" data-level="10.14" data-path="working-with-dates-and-time.html"><a href="working-with-dates-and-time.html#dealing-with-time-zones"><i class="fa fa-check"></i><b>10.14</b> Dealing with Time Zones</a></li>
+<li class="chapter" data-level="10.15" data-path="working-with-dates-and-time.html"><a href="working-with-dates-and-time.html#case-study-working-with-date-and-time-of-argo-float-observations"><i class="fa fa-check"></i><b>10.15</b> Case study: Working with Date and Time of Argo float observations</a></li>
+<li class="chapter" data-level="10.16" data-path="working-with-dates-and-time.html"><a href="working-with-dates-and-time.html#data-1"><i class="fa fa-check"></i><b>10.16</b> Data</a></li>
+<li class="chapter" data-level="10.17" data-path="working-with-dates-and-time.html"><a href="working-with-dates-and-time.html#data-processing"><i class="fa fa-check"></i><b>10.17</b> Data processing</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="control-flow.html"><a href="control-flow.html"><i class="fa fa-check"></i><b>11</b> Control flow</a><ul>
+<li class="chapter" data-level="11.1" data-path="control-flow.html"><a href="control-flow.html#for-loop"><i class="fa fa-check"></i><b>11.1</b> for loop</a><ul>
+<li class="chapter" data-level="11.1.1" data-path="control-flow.html"><a href="control-flow.html#for-loop-on-array"><i class="fa fa-check"></i><b>11.1.1</b> For loop on array</a></li>
+</ul></li>
+<li class="chapter" data-level="11.2" data-path="control-flow.html"><a href="control-flow.html#if-and-else-statement"><i class="fa fa-check"></i><b>11.2</b> if and else statement</a></li>
+<li class="chapter" data-level="11.3" data-path="control-flow.html"><a href="control-flow.html#functions-1"><i class="fa fa-check"></i><b>11.3</b> Functions</a><ul>
+<li class="chapter" data-level="11.3.1" data-path="control-flow.html"><a href="control-flow.html#core-functions"><i class="fa fa-check"></i><b>11.3.1</b> core functions</a></li>
+<li class="chapter" data-level="11.3.2" data-path="control-flow.html"><a href="control-flow.html#user-defined-functions"><i class="fa fa-check"></i><b>11.3.2</b> user defined functions</a></li>
+</ul></li>
+<li class="chapter" data-level="11.4" data-path="control-flow.html"><a href="control-flow.html#packages"><i class="fa fa-check"></i><b>11.4</b> packages</a></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="functions-and-packages.html"><a href="functions-and-packages.html"><i class="fa fa-check"></i><b>12</b> Functions and packages</a><ul>
+<li class="chapter" data-level="12.0.1" data-path="functions-and-packages.html"><a href="functions-and-packages.html#core-functions-1"><i class="fa fa-check"></i><b>12.0.1</b> core functions</a></li>
+<li class="chapter" data-level="12.0.2" data-path="functions-and-packages.html"><a href="functions-and-packages.html#user-defined-functions-1"><i class="fa fa-check"></i><b>12.0.2</b> user defined functions</a></li>
+<li class="chapter" data-level="12.1" data-path="functions-and-packages.html"><a href="functions-and-packages.html#packages-1"><i class="fa fa-check"></i><b>12.1</b> packages</a></li>
+<li class="chapter" data-level="12.2" data-path="functions-and-packages.html"><a href="functions-and-packages.html#function-pipelines"><i class="fa fa-check"></i><b>12.2</b> function pipelines</a></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="raster.html"><a href="raster.html"><i class="fa fa-check"></i><b>13</b> Raster Data</a><ul>
+<li class="chapter" data-level="13.1" data-path="raster.html"><a href="raster.html#introduction-to-raster-data"><i class="fa fa-check"></i><b>13.1</b> Introduction to Raster data</a><ul>
+<li class="chapter" data-level="13.1.1" data-path="raster.html"><a href="raster.html#geotiff"><i class="fa fa-check"></i><b>13.1.1</b> GeoTiff</a></li>
+<li class="chapter" data-level="13.1.2" data-path="raster.html"><a href="raster.html#explore-the-raster-attribute"><i class="fa fa-check"></i><b>13.1.2</b> Explore the raster attribute</a></li>
+<li class="chapter" data-level="13.1.3" data-path="raster.html"><a href="raster.html#read-a-geotiff-raster-data"><i class="fa fa-check"></i><b>13.1.3</b> Read a GeoTIFF raster data</a></li>
+<li class="chapter" data-level="13.1.4" data-path="raster.html"><a href="raster.html#view-raster-coordinate-reference-system"><i class="fa fa-check"></i><b>13.1.4</b> View Raster Coordinate Reference System</a></li>
+<li class="chapter" data-level="13.1.5" data-path="raster.html"><a href="raster.html#dealing-with-missing-data-in-raster"><i class="fa fa-check"></i><b>13.1.5</b> Dealing with missing data in raster</a></li>
+</ul></li>
+<li class="chapter" data-level="13.2" data-path="raster.html"><a href="raster.html#assign-projection-and-reproject-raster-data-in-r"><i class="fa fa-check"></i><b>13.2</b> Assign projection and Reproject Raster Data in R</a></li>
+<li class="chapter" data-level="13.3" data-path="raster.html"><a href="raster.html#raster-resolution"><i class="fa fa-check"></i><b>13.3</b> Raster resolution</a></li>
+<li class="chapter" data-level="13.4" data-path="raster.html"><a href="raster.html#raster-calculation"><i class="fa fa-check"></i><b>13.4</b> Raster Calculation</a></li>
+<li class="chapter" data-level="13.5" data-path="raster.html"><a href="raster.html#multi-bands-satellite-imagery"><i class="fa fa-check"></i><b>13.5</b> Multi-bands satellite imagery</a><ul>
+<li class="chapter" data-level="13.5.1" data-path="raster.html"><a href="raster.html#rater-stacks"><i class="fa fa-check"></i><b>13.5.1</b> Rater Stacks</a></li>
+</ul></li>
+<li class="chapter" data-level="13.6" data-path="raster.html"><a href="raster.html#manipulate-raster"><i class="fa fa-check"></i><b>13.6</b> Manipulate raster</a></li>
+<li class="chapter" data-level="13.7" data-path="raster.html"><a href="raster.html#raster-time-series-data"><i class="fa fa-check"></i><b>13.7</b> Raster time series data</a></li>
+<li class="chapter" data-level="13.8" data-path="raster.html"><a href="raster.html#comparing-ndvi-from-two-different-sites"><i class="fa fa-check"></i><b>13.8</b> comparing NDVI from Two different sites</a></li>
+</ul></li>
+<li class="chapter" data-level="14" data-path="plotting-in-r-with-ggplot2.html"><a href="plotting-in-r-with-ggplot2.html"><i class="fa fa-check"></i><b>14</b> Plotting in R with <code>ggplot2</code></a><ul>
+<li class="chapter" data-level="14.1" data-path="plotting-in-r-with-ggplot2.html"><a href="plotting-in-r-with-ggplot2.html#a-dataset"><i class="fa fa-check"></i><b>14.1</b> A dataset</a></li>
+<li class="chapter" data-level="14.2" data-path="plotting-in-r-with-ggplot2.html"><a href="plotting-in-r-with-ggplot2.html#components-of-ggplot-objects-components"><i class="fa fa-check"></i><b>14.2</b> Components of ggplot objects {components}</a></li>
+<li class="chapter" data-level="14.3" data-path="plotting-in-r-with-ggplot2.html"><a href="plotting-in-r-with-ggplot2.html#building-a-plot"><i class="fa fa-check"></i><b>14.3</b> Building a plot</a><ul>
+<li class="chapter" data-level="14.3.1" data-path="plotting-in-r-with-ggplot2.html"><a href="plotting-in-r-with-ggplot2.html#plotting-layers"><i class="fa fa-check"></i><b>14.3.1</b> Plotting layers</a></li>
+<li class="chapter" data-level="14.3.2" data-path="plotting-in-r-with-ggplot2.html"><a href="plotting-in-r-with-ggplot2.html#customize-legend"><i class="fa fa-check"></i><b>14.3.2</b> Customize legend</a></li>
+<li class="chapter" data-level="14.3.3" data-path="plotting-in-r-with-ggplot2.html"><a href="plotting-in-r-with-ggplot2.html#working-with-titles-and-labels"><i class="fa fa-check"></i><b>14.3.3</b> Working with titles and labels</a></li>
+</ul></li>
+<li class="chapter" data-level="14.4" data-path="plotting-in-r-with-ggplot2.html"><a href="plotting-in-r-with-ggplot2.html#customize-glidline-and-axis-labels"><i class="fa fa-check"></i><b>14.4</b> Customize glidline and axis labels</a><ul>
+<li class="chapter" data-level="14.4.1" data-path="plotting-in-r-with-ggplot2.html"><a href="plotting-in-r-with-ggplot2.html#remove-the-gray-box-of-points-on-legend"><i class="fa fa-check"></i><b>14.4.1</b> Remove the gray box of points on legend</a></li>
+</ul></li>
+<li class="chapter" data-level="14.5" data-path="plotting-in-r-with-ggplot2.html"><a href="plotting-in-r-with-ggplot2.html#modify-the-position-of-the-legend"><i class="fa fa-check"></i><b>14.5</b> Modify the position of the legend</a><ul>
+<li class="chapter" data-level="14.5.1" data-path="plotting-in-r-with-ggplot2.html"><a href="plotting-in-r-with-ggplot2.html#change-the-legend-background-and-stroke-color"><i class="fa fa-check"></i><b>14.5.1</b> Change the legend background and stroke color</a></li>
+<li class="chapter" data-level="14.5.2" data-path="plotting-in-r-with-ggplot2.html"><a href="plotting-in-r-with-ggplot2.html#modify-background-colors"><i class="fa fa-check"></i><b>14.5.2</b> Modify background colors</a></li>
+<li class="chapter" data-level="14.5.3" data-path="plotting-in-r-with-ggplot2.html"><a href="plotting-in-r-with-ggplot2.html#change-the-gridlines"><i class="fa fa-check"></i><b>14.5.3</b> change the gridlines</a></li>
+<li class="chapter" data-level="14.5.4" data-path="plotting-in-r-with-ggplot2.html"><a href="plotting-in-r-with-ggplot2.html#change-the-font-size-for-axis-labels-and-titles"><i class="fa fa-check"></i><b>14.5.4</b> Change the font size for axis, labels and titles</a></li>
+<li class="chapter" data-level="14.5.5" data-path="plotting-in-r-with-ggplot2.html"><a href="plotting-in-r-with-ggplot2.html#limit-axis-to-a-range"><i class="fa fa-check"></i><b>14.5.5</b> Limit axis to a range</a></li>
+<li class="chapter" data-level="14.5.6" data-path="plotting-in-r-with-ggplot2.html"><a href="plotting-in-r-with-ggplot2.html#adding-labels"><i class="fa fa-check"></i><b>14.5.6</b> Adding labels</a></li>
+<li class="chapter" data-level="14.5.7" data-path="plotting-in-r-with-ggplot2.html"><a href="plotting-in-r-with-ggplot2.html#add-text-annotation"><i class="fa fa-check"></i><b>14.5.7</b> Add text annotation</a></li>
+<li class="chapter" data-level="14.5.8" data-path="plotting-in-r-with-ggplot2.html"><a href="plotting-in-r-with-ggplot2.html#make-the-x-and-y-axis-the-same"><i class="fa fa-check"></i><b>14.5.8</b> Make the x and y axis the same</a></li>
+<li class="chapter" data-level="14.5.9" data-path="plotting-in-r-with-ggplot2.html"><a href="plotting-in-r-with-ggplot2.html#faceting-creating-multipanel-plots"><i class="fa fa-check"></i><b>14.5.9</b> Faceting —Creating multi–panel plots</a></li>
+<li class="chapter" data-level="14.5.10" data-path="plotting-in-r-with-ggplot2.html"><a href="plotting-in-r-with-ggplot2.html#allow-scales-to-roam-free-scales"><i class="fa fa-check"></i><b>14.5.10</b> Allow scales to roam free (scales)</a></li>
+</ul></li>
+<li class="chapter" data-level="14.6" data-path="plotting-in-r-with-ggplot2.html"><a href="plotting-in-r-with-ggplot2.html#basic-plots"><i class="fa fa-check"></i><b>14.6</b> Basic plots</a><ul>
+<li class="chapter" data-level="14.6.1" data-path="plotting-in-r-with-ggplot2.html"><a href="plotting-in-r-with-ggplot2.html#scatterplot"><i class="fa fa-check"></i><b>14.6.1</b> scatterplot</a></li>
+<li class="chapter" data-level="14.6.2" data-path="plotting-in-r-with-ggplot2.html"><a href="plotting-in-r-with-ggplot2.html#adding-regression-line"><i class="fa fa-check"></i><b>14.6.2</b> adding regression line</a></li>
+</ul></li>
+<li class="chapter" data-level="14.7" data-path="plotting-in-r-with-ggplot2.html"><a href="plotting-in-r-with-ggplot2.html#linegraph"><i class="fa fa-check"></i><b>14.7</b> Linegraph</a><ul>
+<li class="chapter" data-level="14.7.1" data-path="plotting-in-r-with-ggplot2.html"><a href="plotting-in-r-with-ggplot2.html#histogram"><i class="fa fa-check"></i><b>14.7.1</b> histogram</a></li>
+<li class="chapter" data-level="14.7.2" data-path="plotting-in-r-with-ggplot2.html"><a href="plotting-in-r-with-ggplot2.html#boxplot"><i class="fa fa-check"></i><b>14.7.2</b> boxplot</a></li>
+<li class="chapter" data-level="14.7.3" data-path="plotting-in-r-with-ggplot2.html"><a href="plotting-in-r-with-ggplot2.html#barplot"><i class="fa fa-check"></i><b>14.7.3</b> barplot</a></li>
+<li class="chapter" data-level="14.7.4" data-path="plotting-in-r-with-ggplot2.html"><a href="plotting-in-r-with-ggplot2.html#barplot-for-values"><i class="fa fa-check"></i><b>14.7.4</b> barplot for values</a></li>
+</ul></li>
+<li class="chapter" data-level="14.8" data-path="plotting-in-r-with-ggplot2.html"><a href="plotting-in-r-with-ggplot2.html#advanced-plots"><i class="fa fa-check"></i><b>14.8</b> Advanced plots</a><ul>
+<li class="chapter" data-level="14.8.1" data-path="plotting-in-r-with-ggplot2.html"><a href="plotting-in-r-with-ggplot2.html#facets"><i class="fa fa-check"></i><b>14.8.1</b> Facets</a></li>
+<li class="chapter" data-level="14.8.2" data-path="plotting-in-r-with-ggplot2.html"><a href="plotting-in-r-with-ggplot2.html#sea-surface-temperature"><i class="fa fa-check"></i><b>14.8.2</b> Sea Surface Temperature</a></li>
+<li class="chapter" data-level="14.8.3" data-path="plotting-in-r-with-ggplot2.html"><a href="plotting-in-r-with-ggplot2.html#subplot"><i class="fa fa-check"></i><b>14.8.3</b> Subplot</a></li>
+</ul></li>
+<li class="chapter" data-level="14.9" data-path="plotting-in-r-with-ggplot2.html"><a href="plotting-in-r-with-ggplot2.html#colour"><i class="fa fa-check"></i><b>14.9</b> Colour</a></li>
+<li class="chapter" data-level="14.10" data-path="plotting-in-r-with-ggplot2.html"><a href="plotting-in-r-with-ggplot2.html#size"><i class="fa fa-check"></i><b>14.10</b> size</a></li>
+<li class="chapter" data-level="14.11" data-path="plotting-in-r-with-ggplot2.html"><a href="plotting-in-r-with-ggplot2.html#scaling"><i class="fa fa-check"></i><b>14.11</b> scaling</a></li>
+<li class="chapter" data-level="14.12" data-path="plotting-in-r-with-ggplot2.html"><a href="plotting-in-r-with-ggplot2.html#guides"><i class="fa fa-check"></i><b>14.12</b> Guides</a></li>
+<li class="chapter" data-level="14.13" data-path="plotting-in-r-with-ggplot2.html"><a href="plotting-in-r-with-ggplot2.html#add-on-packages"><i class="fa fa-check"></i><b>14.13</b> Add-on packages</a></li>
+<li class="chapter" data-level="14.14" data-path="plotting-in-r-with-ggplot2.html"><a href="plotting-in-r-with-ggplot2.html#ggridges"><i class="fa fa-check"></i><b>14.14</b> ggridges</a></li>
+<li class="chapter" data-level="14.15" data-path="plotting-in-r-with-ggplot2.html"><a href="plotting-in-r-with-ggplot2.html#varying-fill-colors-along-the-x-axis"><i class="fa fa-check"></i><b>14.15</b> Varying fill colors along the x axis</a></li>
+<li class="chapter" data-level="14.16" data-path="plotting-in-r-with-ggplot2.html"><a href="plotting-in-r-with-ggplot2.html#metr"><i class="fa fa-check"></i><b>14.16</b> metR</a></li>
+</ul></li>
+<li class="chapter" data-level="15" data-path="a-grammar-for-graphics.html"><a href="a-grammar-for-graphics.html"><i class="fa fa-check"></i><b>15</b> A grammar for graphics</a><ul>
+<li class="chapter" data-level="15.1" data-path="a-grammar-for-graphics.html"><a href="a-grammar-for-graphics.html#geoms"><i class="fa fa-check"></i><b>15.1</b> geoms</a><ul>
+<li class="chapter" data-level="15.1.1" data-path="a-grammar-for-graphics.html"><a href="a-grammar-for-graphics.html#regression-line"><i class="fa fa-check"></i><b>15.1.1</b> Regression Line</a></li>
+<li class="chapter" data-level="15.1.2" data-path="a-grammar-for-graphics.html"><a href="a-grammar-for-graphics.html#horizontal-vertical-lines"><i class="fa fa-check"></i><b>15.1.2</b> Horizontal/ vertical lines</a></li>
+</ul></li>
+<li class="chapter" data-level="15.2" data-path="a-grammar-for-graphics.html"><a href="a-grammar-for-graphics.html#aes"><i class="fa fa-check"></i><b>15.2</b> aes()</a><ul>
+<li class="chapter" data-level="15.2.1" data-path="a-grammar-for-graphics.html"><a href="a-grammar-for-graphics.html#color"><i class="fa fa-check"></i><b>15.2.1</b> Color</a></li>
+<li class="chapter" data-level="15.2.2" data-path="a-grammar-for-graphics.html"><a href="a-grammar-for-graphics.html#shape"><i class="fa fa-check"></i><b>15.2.2</b> shape</a></li>
+</ul></li>
+<li class="chapter" data-level="15.3" data-path="a-grammar-for-graphics.html"><a href="a-grammar-for-graphics.html#axis-and-labels"><i class="fa fa-check"></i><b>15.3</b> Axis and labels</a></li>
+<li class="chapter" data-level="15.4" data-path="a-grammar-for-graphics.html"><a href="a-grammar-for-graphics.html#text-annotaion"><i class="fa fa-check"></i><b>15.4</b> Text annotaion</a></li>
+<li class="chapter" data-level="15.5" data-path="a-grammar-for-graphics.html"><a href="a-grammar-for-graphics.html#scales"><i class="fa fa-check"></i><b>15.5</b> Scales</a></li>
+<li class="chapter" data-level="15.6" data-path="a-grammar-for-graphics.html"><a href="a-grammar-for-graphics.html#guides-1"><i class="fa fa-check"></i><b>15.6</b> Guides</a></li>
+<li class="chapter" data-level="15.7" data-path="a-grammar-for-graphics.html"><a href="a-grammar-for-graphics.html#themes"><i class="fa fa-check"></i><b>15.7</b> Themes</a></li>
+</ul></li>
+<li class="chapter" data-level="16" data-path="graphics.html"><a href="graphics.html"><i class="fa fa-check"></i><b>16</b> Making Maps</a><ul>
+<li class="chapter" data-level="16.1" data-path="graphics.html"><a href="graphics.html#geographical-data-in-a-tidy-format"><i class="fa fa-check"></i><b>16.1</b> Geographical data in a tidy format</a><ul>
+<li class="chapter" data-level="16.1.1" data-path="graphics.html"><a href="graphics.html#create-simple-feature-from-data.frame"><i class="fa fa-check"></i><b>16.1.1</b> Create simple feature from data.frame</a></li>
+<li class="chapter" data-level="16.1.2" data-path="graphics.html"><a href="graphics.html#importing-shapefile"><i class="fa fa-check"></i><b>16.1.2</b> Importing shapefile</a></li>
+<li class="chapter" data-level="16.1.3" data-path="graphics.html"><a href="graphics.html#reading-other-format"><i class="fa fa-check"></i><b>16.1.3</b> Reading other format</a></li>
+</ul></li>
+<li class="chapter" data-level="16.2" data-path="graphics.html"><a href="graphics.html#introduction-1"><i class="fa fa-check"></i><b>16.2</b> Introduction</a></li>
+<li class="chapter" data-level="16.3" data-path="graphics.html"><a href="graphics.html#static-maps"><i class="fa fa-check"></i><b>16.3</b> Static Maps</a><ul>
+<li class="chapter" data-level="16.3.1" data-path="graphics.html"><a href="graphics.html#the-bathmetry-data"><i class="fa fa-check"></i><b>16.3.1</b> The bathmetry data</a></li>
+</ul></li>
+<li class="chapter" data-level="16.4" data-path="graphics.html"><a href="graphics.html#basemap"><i class="fa fa-check"></i><b>16.4</b> Basemap</a></li>
+<li class="chapter" data-level="16.5" data-path="graphics.html"><a href="graphics.html#creating-contour-map"><i class="fa fa-check"></i><b>16.5</b> Creating contour map</a></li>
+<li class="chapter" data-level="16.6" data-path="graphics.html"><a href="graphics.html#inset-maps"><i class="fa fa-check"></i><b>16.6</b> Inset maps</a><ul>
+<li class="chapter" data-level="16.6.1" data-path="graphics.html"><a href="graphics.html#choropleth-maps"><i class="fa fa-check"></i><b>16.6.1</b> Choropleth maps</a></li>
+</ul></li>
+<li class="chapter" data-level="16.7" data-path="graphics.html"><a href="graphics.html#animated-maps"><i class="fa fa-check"></i><b>16.7</b> Animated maps</a></li>
+<li class="chapter" data-level="16.8" data-path="graphics.html"><a href="graphics.html#interactive-maps"><i class="fa fa-check"></i><b>16.8</b> Interactive maps</a></li>
+</ul></li>
+<li class="chapter" data-level="17" data-path="animation.html"><a href="animation.html"><i class="fa fa-check"></i><b>17</b> Animation</a><ul>
+<li class="chapter" data-level="17.1" data-path="animation.html"><a href="animation.html#animation-1"><i class="fa fa-check"></i><b>17.1</b> Animation</a></li>
+<li class="chapter" data-level="17.2" data-path="animation.html"><a href="animation.html#isosurface"><i class="fa fa-check"></i><b>17.2</b> isosurface</a></li>
+<li class="chapter" data-level="17.3" data-path="animation.html"><a href="animation.html#checking-for-proper-interpolation-methods"><i class="fa fa-check"></i><b>17.3</b> checking for proper interpolation methods</a><ul>
+<li class="chapter" data-level="17.3.1" data-path="animation.html"><a href="animation.html#fluorescence-section"><i class="fa fa-check"></i><b>17.3.1</b> Fluorescence section</a></li>
+<li class="chapter" data-level="17.3.2" data-path="animation.html"><a href="animation.html#temperature-section"><i class="fa fa-check"></i><b>17.3.2</b> Temperature section</a></li>
+<li class="chapter" data-level="17.3.3" data-path="animation.html"><a href="animation.html#dissolved-oxygen-section"><i class="fa fa-check"></i><b>17.3.3</b> Dissolved Oxygen section</a></li>
+<li class="chapter" data-level="17.3.4" data-path="animation.html"><a href="animation.html#salinity-section"><i class="fa fa-check"></i><b>17.3.4</b> Salinity section</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="18" data-path="forecast-time-series.html"><a href="forecast-time-series.html"><i class="fa fa-check"></i><b>18</b> Forecast time series</a><ul>
+<li class="chapter" data-level="18.1" data-path="forecast-time-series.html"><a href="forecast-time-series.html#introduction-2"><i class="fa fa-check"></i><b>18.1</b> introduction</a></li>
+<li class="chapter" data-level="18.2" data-path="forecast-time-series.html"><a href="forecast-time-series.html#data-2"><i class="fa fa-check"></i><b>18.2</b> Data</a></li>
+<li class="chapter" data-level="18.3" data-path="forecast-time-series.html"><a href="forecast-time-series.html#data-processing-1"><i class="fa fa-check"></i><b>18.3</b> Data processing</a></li>
+<li class="chapter" data-level="18.4" data-path="forecast-time-series.html"><a href="forecast-time-series.html#forecasting"><i class="fa fa-check"></i><b>18.4</b> Forecasting</a></li>
+<li class="chapter" data-level="18.5" data-path="forecast-time-series.html"><a href="forecast-time-series.html#visualize-the-forecasted-values"><i class="fa fa-check"></i><b>18.5</b> Visualize the forecasted values</a></li>
+<li class="chapter" data-level="18.6" data-path="forecast-time-series.html"><a href="forecast-time-series.html#conclusion"><i class="fa fa-check"></i><b>18.6</b> conclusion</a></li>
+</ul></li>
+<li class="chapter" data-level="19" data-path="reading-netcdf.html"><a href="reading-netcdf.html"><i class="fa fa-check"></i><b>19</b> Reading NetCDF</a><ul>
+<li class="chapter" data-level="19.1" data-path="reading-netcdf.html"><a href="reading-netcdf.html#introduction-3"><i class="fa fa-check"></i><b>19.1</b> Introduction</a></li>
+<li class="chapter" data-level="19.2" data-path="reading-netcdf.html"><a href="reading-netcdf.html#types-of-netcdf-file"><i class="fa fa-check"></i><b>19.2</b> Types of netCDF file</a></li>
+<li class="chapter" data-level="19.3" data-path="reading-netcdf.html"><a href="reading-netcdf.html#rading-netcdf-with-ncdf4-package"><i class="fa fa-check"></i><b>19.3</b> Rading NetCDF with ncdf4 package</a><ul>
+<li class="chapter" data-level="19.3.1" data-path="reading-netcdf.html"><a href="reading-netcdf.html#extracting-the-dimensions"><i class="fa fa-check"></i><b>19.3.1</b> Extracting the dimensions</a></li>
+<li class="chapter" data-level="19.3.2" data-path="reading-netcdf.html"><a href="reading-netcdf.html#extracting-time"><i class="fa fa-check"></i><b>19.3.2</b> Extracting time</a></li>
+<li class="chapter" data-level="19.3.3" data-path="reading-netcdf.html"><a href="reading-netcdf.html#extracting-latitude"><i class="fa fa-check"></i><b>19.3.3</b> Extracting Latitude</a></li>
+<li class="chapter" data-level="19.3.4" data-path="reading-netcdf.html"><a href="reading-netcdf.html#extracting-longitude"><i class="fa fa-check"></i><b>19.3.4</b> Extracting Longitude</a></li>
+<li class="chapter" data-level="19.3.5" data-path="reading-netcdf.html"><a href="reading-netcdf.html#extracting-the-variable"><i class="fa fa-check"></i><b>19.3.5</b> Extracting the variable</a></li>
+<li class="chapter" data-level="19.3.6" data-path="reading-netcdf.html"><a href="reading-netcdf.html#replace-fillvalue-with-na"><i class="fa fa-check"></i><b>19.3.6</b> Replace FillValue with NA</a></li>
+<li class="chapter" data-level="19.3.7" data-path="reading-netcdf.html"><a href="reading-netcdf.html#obtain-a-slice"><i class="fa fa-check"></i><b>19.3.7</b> Obtain a slice</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="20" data-path="packages-2.html"><a href="packages-2.html"><i class="fa fa-check"></i><b>20</b> packages</a><ul>
+<li class="chapter" data-level="20.1" data-path="packages-2.html"><a href="packages-2.html#one-sample-t-test"><i class="fa fa-check"></i><b>20.1</b> One Sample t Test</a></li>
+<li class="chapter" data-level="20.2" data-path="packages-2.html"><a href="packages-2.html#paired-t-test"><i class="fa fa-check"></i><b>20.2</b> Paired t test</a></li>
+<li class="chapter" data-level="20.3" data-path="packages-2.html"><a href="packages-2.html#levenes-test"><i class="fa fa-check"></i><b>20.3</b> Levene’s Test</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">A glimpse of GIS and Remote Sensing with R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="readr" class="section level1">
+<h1><span class="header-section-number">Chapter 7</span> Importing data with <strong>readr</strong></h1>
+<pre><code>## [conflicted] Removing existing preference</code></pre>
+<pre><code>## [conflicted] Will prefer dplyr::filter over any other package</code></pre>
+<pre><code>## [conflicted] Removing existing preference</code></pre>
+<pre><code>## [conflicted] Will prefer dplyr::select over any other package</code></pre>
+<p>You can lean R with the dataset it comes with when you install it in your machine. But sometimes you want to use the real data you or someone gathered already. One of critical steps for data processing is to import data with special format into R workspace.Data import refers to read data from the working directory into the workspace <span class="citation">(<span class="citeproc-not-found" data-reference-id="mathew"><strong>???</strong></span>)</span>. In this chapter you will learn how to import common files into R. We will only focus on two common types of tabular data storage format—The comma-seprated <code>.csv</code> and excell spreadsheet (<code>.xlsx</code>). In later chapter we will explain how to read other types of data into R.</p>
+<div id="comma-separated-.csv" class="section level2">
+<h2><span class="header-section-number">7.1</span> <em>Comma-Separated (.csv)</em></h2>
+<p>The most commonly format that R like is the <code>comma-separated</code> files. Although Base R provides various functions like <code>read.table()</code>, <code>read.csv()</code>, <code>read.table()</code> and <code>read.csv2()</code> to import data from the local directories into R workspace, for this book we use an <code>read_csv()</code> function from <code>readr</code>. Before we import the data, we need to load the packages that we will use their functions in this chapeter</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">require</span>(dplyr)
+<span class="kw">require</span>(readr)
+<span class="kw">require</span>(lubridate)
+<span class="kw">require</span>(readxl)
+<span class="kw">require</span>(haven)
+<span class="kw">require</span>(ggplot2)
+<span class="kw">require</span>(kableExtra)</code></pre>
+Consider a tabular data stored in my working directory in the <code>.csv</code> format in figure <a href="readr.html#fig:fig31">7.1</a>.
+<div class="figure" style="text-align: center"><span id="fig:fig31"></span>
+<img src="images/data_screenshot.png" alt="A screenshot of the sample dataset" width="100%" />
+<p class="caption">
+Figure 7.1: A screenshot of the sample dataset
+</p>
+</div>
+<p>We can import it with the <code>read_csv()</code> functions as:</p>
+<pre class="sourceCode r"><code class="sourceCode r">algoa.ctd =<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;algoa_ctd.csv&quot;</span>) </code></pre>
+<pre><code>Parsed with column specification:
+cols(
+  station = col_character(),
+  time = col_datetime(format = &quot;&quot;),
+  lon = col_double(),
+  lat = col_double(),
+  pressure = col_double(),
+  temperature = col_double(),
+  salinity = col_double(),
+  oxygen = col_double(),
+  fluorescence = col_double(),
+  spar = col_double(),
+  par = col_double(),
+  density = col_double()
+)</code></pre>
+<p>When <code>read_csv()</code> has imported the data into R workspace, it prints out the name and type of of data for each variable.</p>
+<p>By simply glimpse the dataset, we see the format of the data is as expected. It has six variables(columns) and 177 observations (rows) similar to figure <a href="readr.html#fig:fig31">7.1</a>. Table <a href="readr.html#tab:tab30">7.1</a> show sample of imported dataset.</p>
+<table>
+<caption>
+<span id="tab:tab30">Table 7.1: </span>CTD profiles
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+Station
+</th>
+<th style="text-align:left;">
+Time
+</th>
+<th style="text-align:right;">
+Lon
+</th>
+<th style="text-align:right;">
+Lat
+</th>
+<th style="text-align:right;">
+Pressure
+</th>
+<th style="text-align:right;">
+Temperature
+</th>
+<th style="text-align:right;">
+Salinity
+</th>
+<th style="text-align:right;">
+Oxygen
+</th>
+<th style="text-align:right;">
+Fluorescence
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;width: 3cm; color: black !important;">
+st1
+</td>
+<td style="text-align:left;width: 3cm; color: black !important;">
+2004-08-18
+</td>
+<td style="text-align:right;width: 3cm; color: black !important;">
+40.61
+</td>
+<td style="text-align:right;width: 3cm; color: black !important;">
+-10.54
+</td>
+<td style="text-align:right;width: 3cm; color: black !important;">
+5
+</td>
+<td style="text-align:right;width: 3cm; color: black !important;">
+25.17
+</td>
+<td style="text-align:right;width: 3cm; color: black !important;">
+33.92
+</td>
+<td style="text-align:right;width: 3cm; color: black !important;">
+3.93
+</td>
+<td style="text-align:right;width: 3cm; color: black !important;">
+0.56
+</td>
+</tr>
+<tr>
+<td style="text-align:left;width: 3cm; color: black !important;">
+st1
+</td>
+<td style="text-align:left;width: 3cm; color: black !important;">
+2004-08-18
+</td>
+<td style="text-align:right;width: 3cm; color: black !important;">
+40.61
+</td>
+<td style="text-align:right;width: 3cm; color: black !important;">
+-10.54
+</td>
+<td style="text-align:right;width: 3cm; color: black !important;">
+10
+</td>
+<td style="text-align:right;width: 3cm; color: black !important;">
+25.13
+</td>
+<td style="text-align:right;width: 3cm; color: black !important;">
+34.86
+</td>
+<td style="text-align:right;width: 3cm; color: black !important;">
+4.49
+</td>
+<td style="text-align:right;width: 3cm; color: black !important;">
+0.60
+</td>
+</tr>
+<tr>
+<td style="text-align:left;width: 3cm; color: black !important;">
+st1
+</td>
+<td style="text-align:left;width: 3cm; color: black !important;">
+2004-08-18
+</td>
+<td style="text-align:right;width: 3cm; color: black !important;">
+40.61
+</td>
+<td style="text-align:right;width: 3cm; color: black !important;">
+-10.54
+</td>
+<td style="text-align:right;width: 3cm; color: black !important;">
+15
+</td>
+<td style="text-align:right;width: 3cm; color: black !important;">
+25.11
+</td>
+<td style="text-align:right;width: 3cm; color: black !important;">
+34.86
+</td>
+<td style="text-align:right;width: 3cm; color: black !important;">
+4.50
+</td>
+<td style="text-align:right;width: 3cm; color: black !important;">
+0.65
+</td>
+</tr>
+<tr>
+<td style="text-align:left;width: 3cm; color: black !important;">
+st1
+</td>
+<td style="text-align:left;width: 3cm; color: black !important;">
+2004-08-18
+</td>
+<td style="text-align:right;width: 3cm; color: black !important;">
+40.61
+</td>
+<td style="text-align:right;width: 3cm; color: black !important;">
+-10.54
+</td>
+<td style="text-align:right;width: 3cm; color: black !important;">
+20
+</td>
+<td style="text-align:right;width: 3cm; color: black !important;">
+25.04
+</td>
+<td style="text-align:right;width: 3cm; color: black !important;">
+34.86
+</td>
+<td style="text-align:right;width: 3cm; color: black !important;">
+4.51
+</td>
+<td style="text-align:right;width: 3cm; color: black !important;">
+0.68
+</td>
+</tr>
+<tr>
+<td style="text-align:left;width: 3cm; color: black !important;">
+st1
+</td>
+<td style="text-align:left;width: 3cm; color: black !important;">
+2004-08-18
+</td>
+<td style="text-align:right;width: 3cm; color: black !important;">
+40.61
+</td>
+<td style="text-align:right;width: 3cm; color: black !important;">
+-10.54
+</td>
+<td style="text-align:right;width: 3cm; color: black !important;">
+25
+</td>
+<td style="text-align:right;width: 3cm; color: black !important;">
+24.95
+</td>
+<td style="text-align:right;width: 3cm; color: black !important;">
+34.86
+</td>
+<td style="text-align:right;width: 3cm; color: black !important;">
+4.51
+</td>
+<td style="text-align:right;width: 3cm; color: black !important;">
+0.76
+</td>
+</tr>
+<tr>
+<td style="text-align:left;width: 3cm; color: black !important;">
+st1
+</td>
+<td style="text-align:left;width: 3cm; color: black !important;">
+2004-08-18
+</td>
+<td style="text-align:right;width: 3cm; color: black !important;">
+40.61
+</td>
+<td style="text-align:right;width: 3cm; color: black !important;">
+-10.54
+</td>
+<td style="text-align:right;width: 3cm; color: black !important;">
+30
+</td>
+<td style="text-align:right;width: 3cm; color: black !important;">
+24.91
+</td>
+<td style="text-align:right;width: 3cm; color: black !important;">
+34.86
+</td>
+<td style="text-align:right;width: 3cm; color: black !important;">
+4.50
+</td>
+<td style="text-align:right;width: 3cm; color: black !important;">
+0.73
+</td>
+</tr>
+<tr>
+<td style="text-align:left;width: 3cm; color: black !important;">
+st1
+</td>
+<td style="text-align:left;width: 3cm; color: black !important;">
+2004-08-18
+</td>
+<td style="text-align:right;width: 3cm; color: black !important;">
+40.61
+</td>
+<td style="text-align:right;width: 3cm; color: black !important;">
+-10.54
+</td>
+<td style="text-align:right;width: 3cm; color: black !important;">
+35
+</td>
+<td style="text-align:right;width: 3cm; color: black !important;">
+24.88
+</td>
+<td style="text-align:right;width: 3cm; color: black !important;">
+34.87
+</td>
+<td style="text-align:right;width: 3cm; color: black !important;">
+4.49
+</td>
+<td style="text-align:right;width: 3cm; color: black !important;">
+0.74
+</td>
+</tr>
+<tr>
+<td style="text-align:left;width: 3cm; color: black !important;">
+st1
+</td>
+<td style="text-align:left;width: 3cm; color: black !important;">
+2004-08-18
+</td>
+<td style="text-align:right;width: 3cm; color: black !important;">
+40.61
+</td>
+<td style="text-align:right;width: 3cm; color: black !important;">
+-10.54
+</td>
+<td style="text-align:right;width: 3cm; color: black !important;">
+40
+</td>
+<td style="text-align:right;width: 3cm; color: black !important;">
+24.85
+</td>
+<td style="text-align:right;width: 3cm; color: black !important;">
+34.87
+</td>
+<td style="text-align:right;width: 3cm; color: black !important;">
+4.48
+</td>
+<td style="text-align:right;width: 3cm; color: black !important;">
+0.69
+</td>
+</tr>
+<tr>
+<td style="text-align:left;width: 3cm; color: black !important;">
+st1
+</td>
+<td style="text-align:left;width: 3cm; color: black !important;">
+2004-08-18
+</td>
+<td style="text-align:right;width: 3cm; color: black !important;">
+40.61
+</td>
+<td style="text-align:right;width: 3cm; color: black !important;">
+-10.54
+</td>
+<td style="text-align:right;width: 3cm; color: black !important;">
+45
+</td>
+<td style="text-align:right;width: 3cm; color: black !important;">
+24.80
+</td>
+<td style="text-align:right;width: 3cm; color: black !important;">
+34.88
+</td>
+<td style="text-align:right;width: 3cm; color: black !important;">
+4.46
+</td>
+<td style="text-align:right;width: 3cm; color: black !important;">
+0.70
+</td>
+</tr>
+<tr>
+<td style="text-align:left;width: 3cm; color: black !important;">
+st1
+</td>
+<td style="text-align:left;width: 3cm; color: black !important;">
+2004-08-18
+</td>
+<td style="text-align:right;width: 3cm; color: black !important;">
+40.61
+</td>
+<td style="text-align:right;width: 3cm; color: black !important;">
+-10.54
+</td>
+<td style="text-align:right;width: 3cm; color: black !important;">
+50
+</td>
+<td style="text-align:right;width: 3cm; color: black !important;">
+24.61
+</td>
+<td style="text-align:right;width: 3cm; color: black !important;">
+34.89
+</td>
+<td style="text-align:right;width: 3cm; color: black !important;">
+4.44
+</td>
+<td style="text-align:right;width: 3cm; color: black !important;">
+0.75
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="microsoft-excel.xlsx" class="section level2">
+<h2><span class="header-section-number">7.2</span> Microsoft Excel(.xlsx)</h2>
+<p>Commonly our data is stored as a MS Excel file. we can import the file with <code>read_xlsx()</code> function of <code>readxl</code> package. The <code>readxl</code> package provides a function read_exel() that allows us to specify which sheet within the Excel file to read and what character specifies missing data (it assumes a blank cell is missing data if you don’t specifying anything). The function automatically convert the worksheet into a <code>.csv</code> file and read it. Let’s us import the the data in first sheet of the <code>primary_productivity.xlsx</code>. The dataset contain primary productivity value. We will use this file to illustrate how to import the excel file into R workspace with <code>readxl</code> package <span class="citation">(Wickham and Bryan <a href="#ref-readxl">2018</a>)</span>.</p>
+<pre class="sourceCode r"><code class="sourceCode r">sheet1 =<span class="st"> </span>readxl<span class="op">::</span><span class="kw">read_xlsx</span>(<span class="st">&quot;./data/primary_productivity.xlsx&quot;</span>, <span class="dt">sheet =</span> <span class="dv">1</span>)
+sheet1 <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">sample_n</span>(<span class="dv">5</span>)</code></pre>
+<pre><code>## # A tibble: 5 x 7
+##   date                 year value              month   day site  variable
+##   &lt;dttm&gt;              &lt;dbl&gt; &lt;chr&gt;              &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;   
+## 1 2010-09-15 00:00:00  2010 863.90467825443704     9    15 Pemba pp      
+## 2 2006-06-15 00:00:00  2006 869.29662433154999     6    15 Pemba pp      
+## 3 2003-12-15 00:00:00  2003 608.17409539473601    12    15 Pemba pp      
+## 4 2009-11-15 00:00:00  2009 577.39827558290096    11    15 Pemba pp      
+## 5 2011-05-15 00:00:00  2011 556.17832137978098     5    15 Pemba pp</code></pre>
+<p>By printing the sheet1, we notice that the sheet contains monthly average value of primary productivity from the Pemba channel.</p>
+<pre class="sourceCode r"><code class="sourceCode r">sheet2 =<span class="st"> </span>readxl<span class="op">::</span><span class="kw">read_xlsx</span>(<span class="st">&quot;./data/primary_productivity.xlsx&quot;</span>, <span class="dt">sheet =</span> <span class="dv">2</span>)
+sheet2 <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">sample_n</span>(<span class="dv">5</span>)</code></pre>
+<pre><code>## # A tibble: 5 x 7
+##   date                 year value              month   day site    variable
+##   &lt;dttm&gt;              &lt;dbl&gt; &lt;chr&gt;              &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;   
+## 1 2014-07-15 00:00:00  2014 1063.5653409090901     7    15 Zanzib~ pp      
+## 2 2006-08-15 00:00:00  2006 947.38417968750002     8    15 Zanzib~ pp      
+## 3 2009-06-15 00:00:00  2009 877.44613970588205     6    15 Zanzib~ pp      
+## 4 2003-04-15 00:00:00  2003 938.74180640243901     4    15 Zanzib~ pp      
+## 5 2015-04-15 00:00:00  2015 648.14237132352901     4    15 Zanzib~ pp</code></pre>
+<p>sheet2 contains monthly average value of primary productivity from the Zanzibar channel.</p>
+<pre class="sourceCode r"><code class="sourceCode r">sheet3 =<span class="st"> </span>readxl<span class="op">::</span><span class="kw">read_xlsx</span>(<span class="st">&quot;./data/primary_productivity.xlsx&quot;</span>, <span class="dt">sheet =</span> <span class="dv">3</span>)
+sheet3 <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">sample_n</span>(<span class="dv">5</span>)</code></pre>
+<pre><code>## # A tibble: 5 x 7
+##   date                 year value            month   day site  variable
+##   &lt;dttm&gt;              &lt;dbl&gt; &lt;chr&gt;            &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;   
+## 1 2018-08-15 00:00:00  2018 NA                   8    15 Mafia pp      
+## 2 2011-02-15 00:00:00  2011 1095.05932800751     2    15 Mafia pp      
+## 3 2015-11-15 00:00:00  2015 1044.16794288079    11    15 Mafia pp      
+## 4 2008-09-15 00:00:00  2008 1210.32626748251     9    15 Mafia pp      
+## 5 2015-05-15 00:00:00  2015 1018.11701642335     5    15 Mafia pp</code></pre>
+<p>sheet3 contains monthly average value of primary productivity from the Mafia channel.</p>
+<p>We look on the internal structure of the <code>sheet3</code> file with the <code>glimpse()</code> function. You can interact with the table that show all variables and observations (Table <a href="#tab:tab31"><strong>??</strong></a>)</p>
+<pre class="sourceCode r"><code class="sourceCode r">sheet3<span class="op">%&gt;%</span><span class="kw">glimpse</span>()</code></pre>
+<pre><code>## Observations: 192
+## Variables: 7
+## $ date     &lt;dttm&gt; 2003-01-15, 2003-02-15, 2003-03-15, 2003-04-15, 2003...
+## $ year     &lt;dbl&gt; 2003, 2003, 2003, 2003, 2003, 2003, 2003, 2003, 2003,...
+## $ value    &lt;chr&gt; &quot;1311.50104865771&quot;, &quot;1211.3158482142801&quot;, &quot;1302.45291...
+## $ month    &lt;dbl&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 1, 2, 3, 4, 5,...
+## $ day      &lt;dbl&gt; 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 1...
+## $ site     &lt;chr&gt; &quot;Mafia&quot;, &quot;Mafia&quot;, &quot;Mafia&quot;, &quot;Mafia&quot;, &quot;Mafia&quot;, &quot;Mafia&quot;,...
+## $ variable &lt;chr&gt; &quot;pp&quot;, &quot;pp&quot;, &quot;pp&quot;, &quot;pp&quot;, &quot;pp&quot;, &quot;pp&quot;, &quot;pp&quot;, &quot;pp&quot;, &quot;pp&quot;,...</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r">sheet2 <span class="op">%&gt;%</span><span class="st"> </span>DT<span class="op">::</span><span class="kw">datatable</span>(<span class="dt">rownames =</span> <span class="ot">FALSE</span>, <span class="dt">caption =</span> <span class="st">&quot;An Interactive table of primary productivity in the Zanzibar channel&quot;</span>)</code></pre>
+<div id="htmlwidget-8d707f8d5b4e2eb86c1a" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-8d707f8d5b4e2eb86c1a">{"x":{"filter":"none","caption":"<caption>An Interactive table of primary productivity in the Zanzibar channel<\/caption>","data":[["2003-01-15T00:00:00Z","2003-02-15T00:00:00Z","2003-03-15T00:00:00Z","2003-04-15T00:00:00Z","2003-05-15T00:00:00Z","2003-06-15T00:00:00Z","2003-07-15T00:00:00Z","2003-08-15T00:00:00Z","2003-09-15T00:00:00Z","2003-10-15T00:00:00Z","2003-11-15T00:00:00Z","2003-12-15T00:00:00Z","2004-01-15T00:00:00Z","2004-02-15T00:00:00Z","2004-03-15T00:00:00Z","2004-04-15T00:00:00Z","2004-05-15T00:00:00Z","2004-06-15T00:00:00Z","2004-07-15T00:00:00Z","2004-08-15T00:00:00Z","2004-09-15T00:00:00Z","2004-10-15T00:00:00Z","2004-11-15T00:00:00Z","2004-12-15T00:00:00Z","2005-01-15T00:00:00Z","2005-02-15T00:00:00Z","2005-03-15T00:00:00Z","2005-04-15T00:00:00Z","2005-05-15T00:00:00Z","2005-06-15T00:00:00Z","2005-07-15T00:00:00Z","2005-08-15T00:00:00Z","2005-09-15T00:00:00Z","2005-10-15T00:00:00Z","2005-11-15T00:00:00Z","2005-12-15T00:00:00Z","2006-01-15T00:00:00Z","2006-02-15T00:00:00Z","2006-03-15T00:00:00Z","2006-04-15T00:00:00Z","2006-05-15T00:00:00Z","2006-06-15T00:00:00Z","2006-07-15T00:00:00Z","2006-08-15T00:00:00Z","2006-09-15T00:00:00Z","2006-10-15T00:00:00Z","2006-11-15T00:00:00Z","2006-12-15T00:00:00Z","2007-01-15T00:00:00Z","2007-02-15T00:00:00Z","2007-03-15T00:00:00Z","2007-04-15T00:00:00Z","2007-05-15T00:00:00Z","2007-06-15T00:00:00Z","2007-07-15T00:00:00Z","2007-08-15T00:00:00Z","2007-09-15T00:00:00Z","2007-10-15T00:00:00Z","2007-11-15T00:00:00Z","2007-12-15T00:00:00Z","2008-01-15T00:00:00Z","2008-02-15T00:00:00Z","2008-03-15T00:00:00Z","2008-04-15T00:00:00Z","2008-05-15T00:00:00Z","2008-06-15T00:00:00Z","2008-07-15T00:00:00Z","2008-08-15T00:00:00Z","2008-09-15T00:00:00Z","2008-10-15T00:00:00Z","2008-11-15T00:00:00Z","2008-12-15T00:00:00Z","2009-01-15T00:00:00Z","2009-02-15T00:00:00Z","2009-03-15T00:00:00Z","2009-04-15T00:00:00Z","2009-05-15T00:00:00Z","2009-06-15T00:00:00Z","2009-07-15T00:00:00Z","2009-08-15T00:00:00Z","2009-09-15T00:00:00Z","2009-10-15T00:00:00Z","2009-11-15T00:00:00Z","2009-12-15T00:00:00Z","2010-01-15T00:00:00Z","2010-02-15T00:00:00Z","2010-03-15T00:00:00Z","2010-04-15T00:00:00Z","2010-05-15T00:00:00Z","2010-06-15T00:00:00Z","2010-07-15T00:00:00Z","2010-08-15T00:00:00Z","2010-09-15T00:00:00Z","2010-10-15T00:00:00Z","2010-11-15T00:00:00Z","2010-12-15T00:00:00Z","2011-01-15T00:00:00Z","2011-02-15T00:00:00Z","2011-03-15T00:00:00Z","2011-04-15T00:00:00Z","2011-05-15T00:00:00Z","2011-06-15T00:00:00Z","2011-07-15T00:00:00Z","2011-08-15T00:00:00Z","2011-09-15T00:00:00Z","2011-10-15T00:00:00Z","2011-11-15T00:00:00Z","2011-12-15T00:00:00Z","2012-01-15T00:00:00Z","2012-02-15T00:00:00Z","2012-03-15T00:00:00Z","2012-04-15T00:00:00Z","2012-05-15T00:00:00Z","2012-06-15T00:00:00Z","2012-07-15T00:00:00Z","2012-08-15T00:00:00Z","2012-09-15T00:00:00Z","2012-10-15T00:00:00Z","2012-11-15T00:00:00Z","2012-12-15T00:00:00Z","2013-01-15T00:00:00Z","2013-02-15T00:00:00Z","2013-03-15T00:00:00Z","2013-04-15T00:00:00Z","2013-05-15T00:00:00Z","2013-06-15T00:00:00Z","2013-07-15T00:00:00Z","2013-08-15T00:00:00Z","2013-09-15T00:00:00Z","2013-10-15T00:00:00Z","2013-11-15T00:00:00Z","2013-12-15T00:00:00Z","2014-01-15T00:00:00Z","2014-02-15T00:00:00Z","2014-03-15T00:00:00Z","2014-04-15T00:00:00Z","2014-05-15T00:00:00Z","2014-06-15T00:00:00Z","2014-07-15T00:00:00Z","2014-08-15T00:00:00Z","2014-09-15T00:00:00Z","2014-10-15T00:00:00Z","2014-11-15T00:00:00Z","2014-12-15T00:00:00Z","2015-01-15T00:00:00Z","2015-02-15T00:00:00Z","2015-03-15T00:00:00Z","2015-04-15T00:00:00Z","2015-05-15T00:00:00Z","2015-06-15T00:00:00Z","2015-07-15T00:00:00Z","2015-08-15T00:00:00Z","2015-09-15T00:00:00Z","2015-10-15T00:00:00Z","2015-11-15T00:00:00Z","2015-12-15T00:00:00Z","2016-01-15T00:00:00Z","2016-02-15T00:00:00Z","2016-03-15T00:00:00Z","2016-04-15T00:00:00Z","2016-05-15T00:00:00Z","2016-06-15T00:00:00Z","2016-07-15T00:00:00Z","2016-08-15T00:00:00Z","2016-09-15T00:00:00Z","2016-10-15T00:00:00Z","2016-11-15T00:00:00Z","2016-12-15T00:00:00Z","2017-01-15T00:00:00Z","2017-02-15T00:00:00Z","2017-03-15T00:00:00Z","2017-04-15T00:00:00Z","2017-05-15T00:00:00Z","2017-06-15T00:00:00Z","2017-07-15T00:00:00Z","2017-08-15T00:00:00Z","2017-09-15T00:00:00Z","2017-10-15T00:00:00Z","2017-11-15T00:00:00Z","2017-12-15T00:00:00Z","2018-01-15T00:00:00Z","2018-02-15T00:00:00Z","2018-03-15T00:00:00Z","2018-04-15T00:00:00Z","2018-05-15T00:00:00Z","2018-06-15T00:00:00Z","2018-07-15T00:00:00Z","2018-08-15T00:00:00Z","2018-09-15T00:00:00Z","2018-10-15T00:00:00Z","2018-11-15T00:00:00Z","2018-12-15T00:00:00Z"],[2003,2003,2003,2003,2003,2003,2003,2003,2003,2003,2003,2003,2004,2004,2004,2004,2004,2004,2004,2004,2004,2004,2004,2004,2005,2005,2005,2005,2005,2005,2005,2005,2005,2005,2005,2005,2006,2006,2006,2006,2006,2006,2006,2006,2006,2006,2006,2006,2007,2007,2007,2007,2007,2007,2007,2007,2007,2007,2007,2007,2008,2008,2008,2008,2008,2008,2008,2008,2008,2008,2008,2008,2009,2009,2009,2009,2009,2009,2009,2009,2009,2009,2009,2009,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2011,2011,2011,2011,2011,2011,2011,2011,2011,2011,2011,2011,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2015,2015,2015,2015,2015,2015,2015,2015,2015,2015,2015,2015,2016,2016,2016,2016,2016,2016,2016,2016,2016,2016,2016,2016,2017,2017,2017,2017,2017,2017,2017,2017,2017,2017,2017,2017,2018,2018,2018,2018,2018,2018,2018,2018,2018,2018,2018,2018],["1085.69466560509","772.58056640625","887.09799494219601","938.74180640243901","942.90266719745205","1008.3602221385499","1165.25306919642","1299.3226943597499","1153.3556170886","1021.1027097902","748.43854166666597","746.27599597953201","708.12015086206895","706.53722734899304","718.16731366459601","737.44974512411295","856.54830545774598","1012.28618421052","1136.0395710059099","1289.1514274691301","1163.21856398809","997.49597679640704","787.59718351910794","735.74891493055497","806.10526842948696","694.73935231854796","766.46158030063202","882.538726993865","815.65686274509801","910.61595911949598","1006.22567114093","1034.2730654761899","1139.8058320063601","918.38245033112503","766.42148437499998","740.93514683734895","769.17177483974297","766.80372299382702","681.77963709677397","692.04565746753201","848.62257543103397","987.41377314814804","1016.19997970779","947.38417968750002","1023.47791666666","916.77368630573199","800.90885416666595","781.67482311320703","1104.83502155172","717.719396551724","758.45996732026094","756.83522727272702","770.62869822485197","890.35863095238096","981.481231508875","945.06011146496803","896.07228915662597","804.75667425496601","679.67556288819799","654.07702323717899","724.64460784313701","740.87162162162099","689.03733766233699","925.95358187134502","893.93318014705801","922.66156045751598","979.72072784810098","949.84641768292602","913.82903225806399","791.67430449695098","637.64215686274497","686.79636101973597","783.99421672077904","707.77996439873402","765.31602822580601","768.50592830882294","794.06226325757495","877.44613970588205","1036.08229813664","940.29125816993405","841.89158950617195","804.29480698529403","674.27241443452294","706.21984011627899","784.39684078467099","662.11144301470495","758.47065304487103","794.85214710884304","854.41591401734104","905.64215874233105","1051.3528645833301","1086.2358141447301","1019.95008389261","930.57793328220805","719.96626838235295","683.23304115853603","856.25496651785704","826.57663445723597","688.24702380952294","763.51282051281999","805.34853316326496","825.8515625","955.08098323170702","934.15604838709601","875.22487745097999","732.57456961077798","582.73487463662696","770.80625982704396","1045.7999799679401","714.65321969696902","690.91738281250002","784.80443548387098","805.32998991935403","942.99589843750005","1046.6980932203301","957.15362903225798","943.569972826087","803.19362207602296","660.80995973926304","789.46257267441797","952.18709935897402","826.32307841614897","719.924779647435","837.84525602409599","956.03920284431103","982.348295454545","1125.9228766025601","1018.37219827586","997.83249999999998","759.43255046583795","669.50753837719299","648.828725961538","771.77933902877703","618.70003939075605","554.41333705357101","757.56878810975604","830.74354383680497","833.07986111111097","1063.5653409090901","955.84980867346906","950.20773381294896","809.00847630718897","639.20238095238096","643.02426242236004","916.56731592465701","694.65173192770999","574.64216549295702","648.14237132352901","672.55675899621201","822.32483057228899","999.49498456790104","963.35219594594503","934.31077516233699","780.45285744862997","754.57488567073096","734.86603180473298","788.56097898229996","838.31770833333303","700.65467825443704","751.77677149681494","847.79886363636297","1018.54975076687","1091.6653196839","1018.63382711038","961.46830357142801","995.677734375","749.48032407407402","717.17890188547403","944.82786016949103","773.59691011235896","796.52548462566801","819.64769553072597","1098.4197168508199","993.04940878378295","1016.0394425675599","1008.42455357142","990.71856725146199","955.95772058823502","800.32691062176104","771.85974482248503","984.95870535714198","714.40359042553098","824.67072368420997","735.89568014705799","883.10287921348299","950.661326142132","1012.078125","NA","NA","NA","NA","NA"],[1,2,3,4,5,6,7,8,9,10,11,12,1,2,3,4,5,6,7,8,9,10,11,12,1,2,3,4,5,6,7,8,9,10,11,12,1,2,3,4,5,6,7,8,9,10,11,12,1,2,3,4,5,6,7,8,9,10,11,12,1,2,3,4,5,6,7,8,9,10,11,12,1,2,3,4,5,6,7,8,9,10,11,12,1,2,3,4,5,6,7,8,9,10,11,12,1,2,3,4,5,6,7,8,9,10,11,12,1,2,3,4,5,6,7,8,9,10,11,12,1,2,3,4,5,6,7,8,9,10,11,12,1,2,3,4,5,6,7,8,9,10,11,12,1,2,3,4,5,6,7,8,9,10,11,12,1,2,3,4,5,6,7,8,9,10,11,12,1,2,3,4,5,6,7,8,9,10,11,12,1,2,3,4,5,6,7,8,9,10,11,12],[15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15],["Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar","Zanzibar"],["pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp","pp"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>date<\/th>\n      <th>year<\/th>\n      <th>value<\/th>\n      <th>month<\/th>\n      <th>day<\/th>\n      <th>site<\/th>\n      <th>variable<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":[1,3,4]}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+</div>
+<div id="writing-t-a-file" class="section level2">
+<h2><span class="header-section-number">7.3</span> Writing t a File</h2>
+<p>Sometimes you work in the document and you want to export to a file. <strong>readr</strong> has
+<code>write_csv()</code> and <code>write_tsv()</code> functions that allows to export data frames from workspace to working directory</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">write_csv</span>(<span class="dt">x =</span> sheet1, <span class="dt">path =</span> <span class="st">&quot;./data/Primary_productivity_Pemba.csv&quot;</span>)</code></pre>
+<p><span class="citation">Wickham and Grolemund (<a href="#ref-r4d">2016</a>)</span> recomment the use of <code>write_excel_csv()</code> function when you want to export a data frame to Excel. <strong>readr</strong> has other tools that export files to other software like SAS, SPSS and more …</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">write_excel_csv</span>(<span class="dt">x =</span> sheet1, <span class="dt">path =</span> <span class="st">&quot;./data/Primary_productivity_Pemba.csv&quot;</span>)</code></pre>
+</div>
+<div id="basic-data-manipulation" class="section level2">
+<h2><span class="header-section-number">7.4</span> Basic Data Manipulation</h2>
+<p>In this section, we brifely introduce some basic data handling and manipulation techniques, which are mostly associated with data frame. A data frame is a a tabular shaped contains columns and rows of equal length. In general a data frame structure with rows representing observations or measurements and with columns containing variables.</p>
+<div id="explore-the-data-frame" class="section level3">
+<h3><span class="header-section-number">7.4.1</span> Explore the Data Frame</h3>
+<p>We can visualize the table by simply run the name of the data <code>flights</code></p>
+<pre class="sourceCode r"><code class="sourceCode r">octopus =<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;./data/octopus_data.csv&quot;</span>)</code></pre>
+<pre><code>## Parsed with column specification:
+## cols(
+##   date = col_date(format = &quot;&quot;),
+##   village = col_character(),
+##   port = col_character(),
+##   ground = col_character(),
+##   sex = col_character(),
+##   dml = col_double(),
+##   tl = col_double(),
+##   weight = col_double(),
+##   lat = col_double(),
+##   lon = col_double()
+## )</code></pre>
+<p>we can use <code>class()</code> to check if the data is data frame</p>
+<pre class="sourceCode r"><code class="sourceCode r">octopus <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">class</span>()</code></pre>
+<pre><code>## [1] &quot;spec_tbl_df&quot; &quot;tbl_df&quot;      &quot;tbl&quot;         &quot;data.frame&quot;</code></pre>
+<p>We can use <code>names()</code> to extract the variable names</p>
+<pre class="sourceCode r"><code class="sourceCode r">octopus <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">names</span>()</code></pre>
+<pre><code>##  [1] &quot;date&quot;    &quot;village&quot; &quot;port&quot;    &quot;ground&quot;  &quot;sex&quot;     &quot;dml&quot;     &quot;tl&quot;     
+##  [8] &quot;weight&quot;  &quot;lat&quot;     &quot;lon&quot;</code></pre>
+<p>We can explore the internal structure of <code>flights</code> object with a <code>dplyr()</code>’s function <code>glimpse()</code></p>
+<pre class="sourceCode r"><code class="sourceCode r">octopus <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">glimpse</span>()</code></pre>
+<pre><code>## Observations: 1,079
+## Variables: 10
+## $ date    &lt;date&gt; 2018-02-12, 2018-01-30, 2018-02-01, 2018-01-21, 2018-...
+## $ village &lt;chr&gt; &quot;Somanga&quot;, &quot;Bwejuu&quot;, &quot;Somanga&quot;, &quot;Somanga&quot;, &quot;Somanga&quot;, ...
+## $ port    &lt;chr&gt; &quot;Mbuyuni&quot;, &quot;Kusini&quot;, &quot;Mbuyuni&quot;, &quot;Mbuyuni&quot;, &quot;Mbuyuni&quot;, ...
+## $ ground  &lt;chr&gt; &quot;CHAMBA CHA MACHANGE&quot;, &quot;NYAMALILE&quot;, &quot;BANIANI&quot;, &quot;CHAMBA...
+## $ sex     &lt;chr&gt; &quot;F&quot;, &quot;M&quot;, &quot;M&quot;, &quot;M&quot;, &quot;M&quot;, &quot;F&quot;, &quot;M&quot;, &quot;M&quot;, &quot;M&quot;, &quot;F&quot;, &quot;F&quot;,...
+## $ dml     &lt;dbl&gt; 14.0, 14.5, 17.0, 20.0, 12.0, 16.0, 15.0, 17.0, 12.0, ...
+## $ tl      &lt;dbl&gt; 110.0, 115.0, 115.0, 130.0, 68.0, 90.0, 96.0, 110.0, 7...
+## $ weight  &lt;dbl&gt; 1.385, 1.750, 1.000, 2.601, 0.670, 0.870, 1.020, 1.990...
+## $ lat     &lt;dbl&gt; -8.397838, -7.915809, -8.392644, -8.391614, -8.391146,...
+## $ lon     &lt;dbl&gt; 39.28079, 39.65424, 39.28153, 39.28089, 39.28251, 39.2...</code></pre>
+<p>We can check how rows (observations/measurements) and columns (variables/fields) are in the data</p>
+<pre class="sourceCode r"><code class="sourceCode r">octopus <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">dim</span>()</code></pre>
+<pre><code>## [1] 1079   10</code></pre>
+<p>The number of rows (observation) can be obtained using <code>nrow()</code> function</p>
+<pre class="sourceCode r"><code class="sourceCode r">octopus <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">nrow</span>()</code></pre>
+<pre><code>## [1] 1079</code></pre>
+<p>The number of columns (variables) can be obtained using <code>ncol()</code> function</p>
+<pre class="sourceCode r"><code class="sourceCode r">octopus <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">ncol</span>()</code></pre>
+<pre><code>## [1] 10</code></pre>
+<p>The length of the data frame is given by</p>
+<pre class="sourceCode r"><code class="sourceCode r">octopus <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">length</span>()</code></pre>
+<pre><code>## [1] 10</code></pre>
+<p>Count the number of sample at each sex of octopus</p>
+<pre class="sourceCode r"><code class="sourceCode r">octopus <span class="op">%$%</span><span class="st"> </span><span class="kw">table</span>(sex) </code></pre>
+<pre><code>## sex
+##   F   M 
+## 581 498</code></pre>
+<p>Count the number and compute the proportion of sample at each sex of octopus</p>
+<pre class="sourceCode r"><code class="sourceCode r">octopus <span class="op">%$%</span><span class="st"> </span><span class="kw">table</span>(sex) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">prop.table</span>() <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">round</span>(<span class="dt">digits =</span> <span class="dv">2</span>)</code></pre>
+<pre><code>## sex
+##    F    M 
+## 0.54 0.46</code></pre>
+</div>
+<div id="simmple-summary-statistics" class="section level3">
+<h3><span class="header-section-number">7.4.2</span> simmple summary statistics</h3>
+<p>The most helpful function for for summarizing rows and columns is <code>summary()</code>, which gives a collection of basim cummary statistics. The first method is to calculate some basic summary statistics (minimum, 25th, 50th, 75th percentiles, maximum and mean) of each column. If a column is categorical, the summary function will return the number of observations in each category.</p>
+<pre class="sourceCode r"><code class="sourceCode r">octopus <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">summary</span>()</code></pre>
+<pre><code>##       date              village              port          
+##  Min.   :2017-12-18   Length:1079        Length:1079       
+##  1st Qu.:2018-01-14   Class :character   Class :character  
+##  Median :2018-01-20   Mode  :character   Mode  :character  
+##  Mean   :2018-01-26                                        
+##  3rd Qu.:2018-02-15                                        
+##  Max.   :2018-03-12                                        
+##     ground              sex                 dml             tl        
+##  Length:1079        Length:1079        Min.   : 6.0   Min.   : 11.00  
+##  Class :character   Class :character   1st Qu.:10.0   1st Qu.: 68.00  
+##  Mode  :character   Mode  :character   Median :12.0   Median : 82.00  
+##                                        Mean   :12.8   Mean   : 86.01  
+##                                        3rd Qu.:15.0   3rd Qu.:100.00  
+##                                        Max.   :24.0   Max.   :180.00  
+##      weight           lat              lon       
+##  Min.   :0.055   Min.   :-8.904   Min.   : 0.00  
+##  1st Qu.:0.600   1st Qu.:-8.523   1st Qu.:39.28  
+##  Median :0.915   Median :-8.392   Median :39.50  
+##  Mean   :1.232   Mean   :-8.069   Mean   :38.69  
+##  3rd Qu.:1.577   3rd Qu.:-7.973   3rd Qu.:39.67  
+##  Max.   :5.210   Max.   : 0.000   Max.   :39.75</code></pre>
+<p>You noticed that the <code>summary()</code> function provide the common metric for <code>central tendency</code> and <code>measure of dispersion</code>. We will look at them later. Now we turn to our favourite package <code>dplyr</code></p>
+
+</div>
+</div>
+</div>
+<h3>References</h3>
+<div id="refs" class="references">
+<div id="ref-readxl">
+<p>Wickham, Hadley, and Jennifer Bryan. 2018. <em>Readxl: Read Excel Files</em>. <a href="https://CRAN.R-project.org/package=readxl">https://CRAN.R-project.org/package=readxl</a>.</p>
+</div>
+<div id="ref-r4d">
+<p>Wickham, Hadley, and Garrett Grolemund. 2016. <em>R for Data Science: Import, Tidy, Transform, Visualize, and Model Data</em>. " O’Reilly Media, Inc.".</p>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="introduction-to-tidyverse.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="tidy.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"download": ["spatil_r.pdf", "spatil_r.epub", "spatil_r.mobi"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:" && /^https?:/.test(src))
+      src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

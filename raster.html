@@ -1,0 +1,934 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 13 Raster Data | A glimpse of GIS and Remote Sensing with R</title>
+  <meta name="description" content="Introdution to geographical information system and remote sensing using an open source and powerful statical tool, R" />
+  <meta name="generator" content="bookdown 0.10 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 13 Raster Data | A glimpse of GIS and Remote Sensing with R" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="Introdution to geographical information system and remote sensing using an open source and powerful statical tool, R" />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 13 Raster Data | A glimpse of GIS and Remote Sensing with R" />
+  
+  <meta name="twitter:description" content="Introdution to geographical information system and remote sensing using an open source and powerful statical tool, R" />
+  
+
+<meta name="author" content="Masumbuko Semba" />
+
+
+<meta name="date" content="2019-06-10" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="functions-and-packages.html">
+<link rel="next" href="plotting-in-r-with-ggplot2.html">
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<script src="libs/htmlwidgets-1.3/htmlwidgets.js"></script>
+<link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
+<script src="libs/datatables-binding-0.6/datatables.js"></script>
+<link href="libs/dt-core-1.10.16/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="libs/dt-core-1.10.16/css/jquery.dataTables.extra.css" rel="stylesheet" />
+<script src="libs/dt-core-1.10.16/js/jquery.dataTables.min.js"></script>
+<link href="libs/crosstalk-1.0.0/css/crosstalk.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.0.0/js/crosstalk.min.js"></script>
+<link href="libs/dygraphs-1.1.1/dygraph.css" rel="stylesheet" />
+<script src="libs/dygraphs-1.1.1/dygraph-combined.js"></script>
+<script src="libs/dygraphs-1.1.1/shapes.js"></script>
+<script src="libs/moment-2.8.4/moment.js"></script>
+<script src="libs/moment-timezone-0.2.5/moment-timezone-with-data.js"></script>
+<script src="libs/moment-fquarter-1.0.0/moment-fquarter.min.js"></script>
+<script src="libs/dygraphs-binding-1.1.1.6/dygraphs.js"></script>
+<script src="libs/Dygraph.Plugins.Unzoom-1.0/unzoom.js"></script>
+
+
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">A glimpse of GIS and Remote Sensing with R</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Prerequisites</a></li>
+<li class="chapter" data-level="" data-path="sources.html"><a href="sources.html"><i class="fa fa-check"></i>Sources</a></li>
+<li class="chapter" data-level="" data-path="note-to-the-reader.html"><a href="note-to-the-reader.html"><i class="fa fa-check"></i>Note to the reader</a></li>
+<li class="chapter" data-level="" data-path="what-is-r.html"><a href="what-is-r.html"><i class="fa fa-check"></i>What is R?</a></li>
+<li class="chapter" data-level="" data-path="who-is-this-book-for.html"><a href="who-is-this-book-for.html"><i class="fa fa-check"></i>Who is this book for?</a></li>
+<li class="chapter" data-level="1" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>1</b> Introduction</a><ul>
+<li class="chapter" data-level="1.1" data-path="intro.html"><a href="intro.html#why-learn-computer-programming"><i class="fa fa-check"></i><b>1.1</b> Why learn computer Programming?</a></li>
+<li class="chapter" data-level="1.2" data-path="intro.html"><a href="intro.html#learning-to-program"><i class="fa fa-check"></i><b>1.2</b> Learning to program</a></li>
+<li class="chapter" data-level="1.3" data-path="intro.html"><a href="intro.html#programming-in-r"><i class="fa fa-check"></i><b>1.3</b> Programming in R</a><ul>
+<li class="chapter" data-level="1.3.1" data-path="intro.html"><a href="intro.html#what-is-r-1"><i class="fa fa-check"></i><b>1.3.1</b> What is R?</a></li>
+<li class="chapter" data-level="1.3.2" data-path="intro.html"><a href="intro.html#installing-r"><i class="fa fa-check"></i><b>1.3.2</b> Installing R</a></li>
+<li class="chapter" data-level="1.3.3" data-path="intro.html"><a href="intro.html#what-is-rstudio"><i class="fa fa-check"></i><b>1.3.3</b> What is RStudio?</a></li>
+<li class="chapter" data-level="1.3.4" data-path="intro.html"><a href="intro.html#basic-features-of-rstudio"><i class="fa fa-check"></i><b>1.3.4</b> Basic Features of RStudio</a></li>
+<li class="chapter" data-level="1.3.5" data-path="intro.html"><a href="intro.html#rstudio-editor"><i class="fa fa-check"></i><b>1.3.5</b> Rstudio editor</a></li>
+<li class="chapter" data-level="1.3.6" data-path="intro.html"><a href="intro.html#rmarkdown"><i class="fa fa-check"></i><b>1.3.6</b> Rmarkdown</a></li>
+<li class="chapter" data-level="1.3.7" data-path="intro.html"><a href="intro.html#use-descriptive-names"><i class="fa fa-check"></i><b>1.3.7</b> Use descriptive names</a></li>
+<li class="chapter" data-level="1.3.8" data-path="intro.html"><a href="intro.html#use-comments"><i class="fa fa-check"></i><b>1.3.8</b> Use comments</a></li>
+<li class="chapter" data-level="1.3.9" data-path="intro.html"><a href="intro.html#getting-help-in-r"><i class="fa fa-check"></i><b>1.3.9</b> Getting Help in R</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="get-started.html"><a href="get-started.html"><i class="fa fa-check"></i><b>2</b> Getting started</a><ul>
+<li class="chapter" data-level="2.1" data-path="get-started.html"><a href="get-started.html#maths-in-r"><i class="fa fa-check"></i><b>2.1</b> Maths in R</a><ul>
+<li class="chapter" data-level="2.1.1" data-path="get-started.html"><a href="get-started.html#r-operators"><i class="fa fa-check"></i><b>2.1.1</b> R operators</a></li>
+<li class="chapter" data-level="2.1.2" data-path="get-started.html"><a href="get-started.html#precedence"><i class="fa fa-check"></i><b>2.1.2</b> Precedence</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="get-started.html"><a href="get-started.html#assignment-operator"><i class="fa fa-check"></i><b>2.2</b> Assignment operator</a><ul>
+<li class="chapter" data-level="2.2.1" data-path="get-started.html"><a href="get-started.html#variables"><i class="fa fa-check"></i><b>2.2.1</b> Variables</a></li>
+<li class="chapter" data-level="2.2.2" data-path="get-started.html"><a href="get-started.html#naming-conventions"><i class="fa fa-check"></i><b>2.2.2</b> Naming conventions</a></li>
+<li class="chapter" data-level="2.2.3" data-path="get-started.html"><a href="get-started.html#functions"><i class="fa fa-check"></i><b>2.2.3</b> Functions</a></li>
+<li class="chapter" data-level="2.2.4" data-path="get-started.html"><a href="get-started.html#essential-functions"><i class="fa fa-check"></i><b>2.2.4</b> Essential functions</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="get-started.html"><a href="get-started.html#wdirectory"><i class="fa fa-check"></i><b>2.3</b> Setting Working Directory</a></li>
+<li class="chapter" data-level="2.4" data-path="get-started.html"><a href="get-started.html#packages-or-libraries"><i class="fa fa-check"></i><b>2.4</b> Packages or Libraries</a><ul>
+<li class="chapter" data-level="2.4.1" data-path="get-started.html"><a href="get-started.html#installing-packages"><i class="fa fa-check"></i><b>2.4.1</b> Installing packages</a></li>
+<li class="chapter" data-level="2.4.2" data-path="get-started.html"><a href="get-started.html#loading-packages"><i class="fa fa-check"></i><b>2.4.2</b> Loading packages</a></li>
+</ul></li>
+<li class="chapter" data-level="2.5" data-path="get-started.html"><a href="get-started.html#understanding-data-in-r"><i class="fa fa-check"></i><b>2.5</b> Understanding Data in R</a><ul>
+<li class="chapter" data-level="2.5.1" data-path="get-started.html"><a href="get-started.html#data-types"><i class="fa fa-check"></i><b>2.5.1</b> Data Types</a></li>
+<li class="chapter" data-level="2.5.2" data-path="get-started.html"><a href="get-started.html#vectors"><i class="fa fa-check"></i><b>2.5.2</b> Vectors</a></li>
+<li class="chapter" data-level="2.5.3" data-path="get-started.html"><a href="get-started.html#indexing-the-element"><i class="fa fa-check"></i><b>2.5.3</b> Indexing the element</a></li>
+<li class="chapter" data-level="2.5.4" data-path="get-started.html"><a href="get-started.html#adding-and-replacing-an-element-in-a-vector"><i class="fa fa-check"></i><b>2.5.4</b> Adding and Replacing an element in a vector</a></li>
+<li class="chapter" data-level="2.5.5" data-path="get-started.html"><a href="get-started.html#number-of-elements-in-a-vector"><i class="fa fa-check"></i><b>2.5.5</b> Number of elements in a vector</a></li>
+</ul></li>
+<li class="chapter" data-level="2.6" data-path="get-started.html"><a href="get-started.html#data-frame"><i class="fa fa-check"></i><b>2.6</b> Data Frame</a></li>
+<li class="chapter" data-level="2.7" data-path="get-started.html"><a href="get-started.html#tibbles"><i class="fa fa-check"></i><b>2.7</b> tibbles</a><ul>
+<li class="chapter" data-level="2.7.1" data-path="get-started.html"><a href="get-started.html#column-names"><i class="fa fa-check"></i><b>2.7.1</b> Column Names</a></li>
+<li class="chapter" data-level="2.7.2" data-path="get-started.html"><a href="get-started.html#add-rows-and-columns"><i class="fa fa-check"></i><b>2.7.2</b> Add rows and columns</a></li>
+</ul></li>
+<li class="chapter" data-level="2.8" data-path="get-started.html"><a href="get-started.html#exercise"><i class="fa fa-check"></i><b>2.8</b> Exercise</a></li>
+<li class="chapter" data-level="2.9" data-path="get-started.html"><a href="get-started.html#exercise-1"><i class="fa fa-check"></i><b>2.9</b> Exercise</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="get-familiar-with-r-markdown.html"><a href="get-familiar-with-r-markdown.html"><i class="fa fa-check"></i><b>3</b> Get familiar with R Markdown</a><ul>
+<li class="chapter" data-level="3.1" data-path="get-familiar-with-r-markdown.html"><a href="get-familiar-with-r-markdown.html#r-markdown"><i class="fa fa-check"></i><b>3.1</b> R Markdown</a></li>
+<li class="chapter" data-level="3.2" data-path="get-familiar-with-r-markdown.html"><a href="get-familiar-with-r-markdown.html#text-formating"><i class="fa fa-check"></i><b>3.2</b> Text Formating</a></li>
+<li class="chapter" data-level="3.3" data-path="get-familiar-with-r-markdown.html"><a href="get-familiar-with-r-markdown.html#hyperlinks"><i class="fa fa-check"></i><b>3.3</b> Hyperlinks</a></li>
+<li class="chapter" data-level="3.4" data-path="get-familiar-with-r-markdown.html"><a href="get-familiar-with-r-markdown.html#images"><i class="fa fa-check"></i><b>3.4</b> Images</a></li>
+<li class="chapter" data-level="3.5" data-path="get-familiar-with-r-markdown.html"><a href="get-familiar-with-r-markdown.html#tables"><i class="fa fa-check"></i><b>3.5</b> Tables</a></li>
+<li class="chapter" data-level="3.6" data-path="get-familiar-with-r-markdown.html"><a href="get-familiar-with-r-markdown.html#cross-referencing"><i class="fa fa-check"></i><b>3.6</b> Cross-referencing</a></li>
+<li class="chapter" data-level="3.7" data-path="get-familiar-with-r-markdown.html"><a href="get-familiar-with-r-markdown.html#bibliographies"><i class="fa fa-check"></i><b>3.7</b> Bibliographies</a></li>
+<li class="chapter" data-level="3.8" data-path="get-familiar-with-r-markdown.html"><a href="get-familiar-with-r-markdown.html#create-.rmd-file"><i class="fa fa-check"></i><b>3.8</b> Create .Rmd FIle</a></li>
+<li class="chapter" data-level="3.9" data-path="get-familiar-with-r-markdown.html"><a href="get-familiar-with-r-markdown.html#rendering-markdown"><i class="fa fa-check"></i><b>3.9</b> Rendering Markdown</a></li>
+<li class="chapter" data-level="3.10" data-path="get-familiar-with-r-markdown.html"><a href="get-familiar-with-r-markdown.html#structure-of-an-rmarkdown-file"><i class="fa fa-check"></i><b>3.10</b> Structure of an Rmarkdown FIle</a></li>
+<li class="chapter" data-level="3.11" data-path="get-familiar-with-r-markdown.html"><a href="get-familiar-with-r-markdown.html#inserting-code-chunk"><i class="fa fa-check"></i><b>3.11</b> Inserting code chunk</a></li>
+<li class="chapter" data-level="3.12" data-path="get-familiar-with-r-markdown.html"><a href="get-familiar-with-r-markdown.html#chunk-name"><i class="fa fa-check"></i><b>3.12</b> Chunk name</a></li>
+<li class="chapter" data-level="3.13" data-path="get-familiar-with-r-markdown.html"><a href="get-familiar-with-r-markdown.html#chunk-options"><i class="fa fa-check"></i><b>3.13</b> Chunk options</a></li>
+<li class="chapter" data-level="3.14" data-path="get-familiar-with-r-markdown.html"><a href="get-familiar-with-r-markdown.html#inline-code"><i class="fa fa-check"></i><b>3.14</b> Inline code</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="dataTypes.html"><a href="dataTypes.html"><i class="fa fa-check"></i><b>4</b> Understanding Data in R</a><ul>
+<li class="chapter" data-level="4.0.1" data-path="dataTypes.html"><a href="dataTypes.html#data-types-1"><i class="fa fa-check"></i><b>4.0.1</b> Data Types</a></li>
+<li class="chapter" data-level="4.0.2" data-path="dataTypes.html"><a href="dataTypes.html#vectors-1"><i class="fa fa-check"></i><b>4.0.2</b> Vectors</a></li>
+<li class="chapter" data-level="4.0.3" data-path="dataTypes.html"><a href="dataTypes.html#indexing-the-element-1"><i class="fa fa-check"></i><b>4.0.3</b> Indexing the element</a></li>
+<li class="chapter" data-level="4.0.4" data-path="dataTypes.html"><a href="dataTypes.html#adding-and-replacing-an-element-in-a-vector-1"><i class="fa fa-check"></i><b>4.0.4</b> Adding and Replacing an element in a vector</a></li>
+<li class="chapter" data-level="4.0.5" data-path="dataTypes.html"><a href="dataTypes.html#number-of-elements-in-a-vector-1"><i class="fa fa-check"></i><b>4.0.5</b> Number of elements in a vector</a></li>
+<li class="chapter" data-level="4.0.6" data-path="dataTypes.html"><a href="dataTypes.html#generating-sequence-of-vectors-numbers"><i class="fa fa-check"></i><b>4.0.6</b> Generating sequence of vectors Numbers</a></li>
+<li class="chapter" data-level="4.0.7" data-path="dataTypes.html"><a href="dataTypes.html#generating-vector-of-normal-distribution"><i class="fa fa-check"></i><b>4.0.7</b> Generating vector of normal distribution</a></li>
+<li class="chapter" data-level="4.0.8" data-path="dataTypes.html"><a href="dataTypes.html#rounding-off-numbers"><i class="fa fa-check"></i><b>4.0.8</b> Rounding off numbers</a></li>
+<li class="chapter" data-level="4.1" data-path="dataTypes.html"><a href="dataTypes.html#data-frame-1"><i class="fa fa-check"></i><b>4.1</b> Data Frame</a><ul>
+<li class="chapter" data-level="4.1.1" data-path="dataTypes.html"><a href="dataTypes.html#creating-data-frames"><i class="fa fa-check"></i><b>4.1.1</b> Creating data frames</a></li>
+</ul></li>
+<li class="chapter" data-level="4.2" data-path="dataTypes.html"><a href="dataTypes.html#matrix"><i class="fa fa-check"></i><b>4.2</b> Matrix</a><ul>
+<li class="chapter" data-level="4.2.1" data-path="dataTypes.html"><a href="dataTypes.html#creating-matrices"><i class="fa fa-check"></i><b>4.2.1</b> Creating Matrices</a></li>
+<li class="chapter" data-level="4.2.2" data-path="dataTypes.html"><a href="dataTypes.html#adding-attributes-to-matrices"><i class="fa fa-check"></i><b>4.2.2</b> Adding attributes to Matrices</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="dataTypes.html"><a href="dataTypes.html#arrays"><i class="fa fa-check"></i><b>4.3</b> Arrays</a></li>
+<li class="chapter" data-level="4.4" data-path="dataTypes.html"><a href="dataTypes.html#dealing-with-misiing-values"><i class="fa fa-check"></i><b>4.4</b> Dealing with Misiing Values</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="vector.html"><a href="vector.html"><i class="fa fa-check"></i><b>5</b> Vector Data</a><ul>
+<li class="chapter" data-level="5.1" data-path="vector.html"><a href="vector.html#introduction"><i class="fa fa-check"></i><b>5.1</b> Introduction</a></li>
+<li class="chapter" data-level="5.2" data-path="vector.html"><a href="vector.html#numeric-vector"><i class="fa fa-check"></i><b>5.2</b> Numeric Vector</a></li>
+<li class="chapter" data-level="5.3" data-path="vector.html"><a href="vector.html#integer-vector"><i class="fa fa-check"></i><b>5.3</b> Integer vector</a></li>
+<li class="chapter" data-level="5.4" data-path="vector.html"><a href="vector.html#character-vector"><i class="fa fa-check"></i><b>5.4</b> Character vector</a></li>
+<li class="chapter" data-level="5.5" data-path="vector.html"><a href="vector.html#logical-vector"><i class="fa fa-check"></i><b>5.5</b> Logical Vector</a></li>
+<li class="chapter" data-level="5.6" data-path="vector.html"><a href="vector.html#vector-data"><i class="fa fa-check"></i><b>5.6</b> Vector Data</a><ul>
+<li class="chapter" data-level="5.6.1" data-path="vector.html"><a href="vector.html#simple-features"><i class="fa fa-check"></i><b>5.6.1</b> Simple features</a></li>
+</ul></li>
+<li class="chapter" data-level="5.7" data-path="vector.html"><a href="vector.html#reading-vector-data"><i class="fa fa-check"></i><b>5.7</b> Reading vector data</a><ul>
+<li class="chapter" data-level="5.7.1" data-path="vector.html"><a href="vector.html#reading-shapefiles"><i class="fa fa-check"></i><b>5.7.1</b> Reading shapefiles</a></li>
+<li class="chapter" data-level="5.7.2" data-path="vector.html"><a href="vector.html#reading-gpx-file"><i class="fa fa-check"></i><b>5.7.2</b> Reading GPX file</a></li>
+</ul></li>
+<li class="chapter" data-level="5.8" data-path="vector.html"><a href="vector.html#make-shapefiles-from-tabular-data"><i class="fa fa-check"></i><b>5.8</b> Make shapefiles from Tabular data</a></li>
+<li class="chapter" data-level="5.9" data-path="vector.html"><a href="vector.html#export-simple-feature-as-shapefile"><i class="fa fa-check"></i><b>5.9</b> Export simple feature as shapefile</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="introduction-to-tidyverse.html"><a href="introduction-to-tidyverse.html"><i class="fa fa-check"></i><b>6</b> Introduction to tidyverse</a><ul>
+<li class="chapter" data-level="6.1" data-path="introduction-to-tidyverse.html"><a href="introduction-to-tidyverse.html#readr"><i class="fa fa-check"></i><b>6.1</b> readr</a></li>
+<li class="chapter" data-level="6.2" data-path="introduction-to-tidyverse.html"><a href="introduction-to-tidyverse.html#dplyr"><i class="fa fa-check"></i><b>6.2</b> dplyr</a></li>
+<li class="chapter" data-level="6.3" data-path="introduction-to-tidyverse.html"><a href="introduction-to-tidyverse.html#tidyr"><i class="fa fa-check"></i><b>6.3</b> tidyr</a></li>
+<li class="chapter" data-level="6.4" data-path="introduction-to-tidyverse.html"><a href="introduction-to-tidyverse.html#ggplot2"><i class="fa fa-check"></i><b>6.4</b> ggplot2</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="introduction-to-tidyverse.html"><a href="introduction-to-tidyverse.html#readr"><i class="fa fa-check"></i><b>7</b> Importing data with <strong>readr</strong></a><ul>
+<li class="chapter" data-level="7.1" data-path="readr.html"><a href="readr.html"><i class="fa fa-check"></i><b>7.1</b> <em>Comma-Separated (.csv)</em></a></li>
+<li class="chapter" data-level="7.2" data-path="readr.html"><a href="readr.html#microsoft-excel.xlsx"><i class="fa fa-check"></i><b>7.2</b> Microsoft Excel(.xlsx)</a></li>
+<li class="chapter" data-level="7.3" data-path="readr.html"><a href="readr.html#writing-t-a-file"><i class="fa fa-check"></i><b>7.3</b> Writing t a File</a></li>
+<li class="chapter" data-level="7.4" data-path="readr.html"><a href="readr.html#basic-data-manipulation"><i class="fa fa-check"></i><b>7.4</b> Basic Data Manipulation</a><ul>
+<li class="chapter" data-level="7.4.1" data-path="readr.html"><a href="readr.html#explore-the-data-frame"><i class="fa fa-check"></i><b>7.4.1</b> Explore the Data Frame</a></li>
+<li class="chapter" data-level="7.4.2" data-path="readr.html"><a href="readr.html#simmple-summary-statistics"><i class="fa fa-check"></i><b>7.4.2</b> simmple summary statistics</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="tidy.html"><a href="tidy.html"><i class="fa fa-check"></i><b>8</b> Reshaping data with <strong>tidyr</strong></a><ul>
+<li class="chapter" data-level="8.1" data-path="tidy.html"><a href="tidy.html#gatherfrom-wide-to-long-format."><i class="fa fa-check"></i><b>8.1</b> Gather—from wide to long format.</a></li>
+<li class="chapter" data-level="8.2" data-path="tidy.html"><a href="tidy.html#spread-from-long-to-wide-format"><i class="fa fa-check"></i><b>8.2</b> spread() —from long to wide format</a></li>
+<li class="chapter" data-level="8.3" data-path="tidy.html"><a href="tidy.html#separate"><i class="fa fa-check"></i><b>8.3</b> separate()</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="introduction-to-tidyverse.html"><a href="introduction-to-tidyverse.html#dplyr"><i class="fa fa-check"></i><b>9</b> Manipulating Data with <strong>dplyr</strong></a><ul>
+<li class="chapter" data-level="9.1" data-path="dplyr.html"><a href="dplyr.html"><i class="fa fa-check"></i><b>9.1</b> Why use dplyr?</a></li>
+<li class="chapter" data-level="9.2" data-path="dplyr.html"><a href="dplyr.html#core-dplyr-functions"><i class="fa fa-check"></i><b>9.2</b> Core dplyr Functions</a></li>
+<li class="chapter" data-level="9.3" data-path="dplyr.html"><a href="dplyr.html#data"><i class="fa fa-check"></i><b>9.3</b> Data</a></li>
+<li class="chapter" data-level="9.4" data-path="dplyr.html"><a href="dplyr.html#choosing-rows-filtering-observations"><i class="fa fa-check"></i><b>9.4</b> Choosing rows: Filtering observations</a></li>
+<li class="chapter" data-level="9.5" data-path="dplyr.html"><a href="dplyr.html#select"><i class="fa fa-check"></i><b>9.5</b> select</a><ul>
+<li class="chapter" data-level="9.5.1" data-path="dplyr.html"><a href="dplyr.html#adding-new-variables-mutate-transmute-add_rownames"><i class="fa fa-check"></i><b>9.5.1</b> Adding new variables: mutate, transmute, add_rownames</a></li>
+<li class="chapter" data-level="9.5.2" data-path="dplyr.html"><a href="dplyr.html#arranging-rows"><i class="fa fa-check"></i><b>9.5.2</b> Arranging rows</a></li>
+</ul></li>
+<li class="chapter" data-level="9.6" data-path="dplyr.html"><a href="dplyr.html#summarizing-and-grouping"><i class="fa fa-check"></i><b>9.6</b> Summarizing and Grouping</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="working-with-dates-and-time.html"><a href="working-with-dates-and-time.html"><i class="fa fa-check"></i><b>10</b> Working with Dates and Time</a><ul>
+<li class="chapter" data-level="10.1" data-path="working-with-dates-and-time.html"><a href="working-with-dates-and-time.html#getting-the-date-and-time-with-localtime"><i class="fa fa-check"></i><b>10.1</b> Getting the Date and Time with localtime</a></li>
+<li class="chapter" data-level="10.2" data-path="working-with-dates-and-time.html"><a href="working-with-dates-and-time.html#converting-strings-to-dates"><i class="fa fa-check"></i><b>10.2</b> Converting strings to Dates</a><ul>
+<li class="chapter" data-level="10.2.1" data-path="working-with-dates-and-time.html"><a href="working-with-dates-and-time.html#convert-strings-to-dates"><i class="fa fa-check"></i><b>10.2.1</b> convert strings to dates</a></li>
+</ul></li>
+<li class="chapter" data-level="10.3" data-path="working-with-dates-and-time.html"><a href="working-with-dates-and-time.html#converting-date-with-lubridate-package"><i class="fa fa-check"></i><b>10.3</b> Converting date with <strong>lubridate</strong> package</a></li>
+<li class="chapter" data-level="10.4" data-path="working-with-dates-and-time.html"><a href="working-with-dates-and-time.html#create-dates-by-merging-data"><i class="fa fa-check"></i><b>10.4</b> Create Dates by Merging Data</a></li>
+<li class="chapter" data-level="10.5" data-path="working-with-dates-and-time.html"><a href="working-with-dates-and-time.html#isodate-converts-to-a-posixct-object"><i class="fa fa-check"></i><b>10.5</b> ISOdate converts to a POSIXct object</a></li>
+<li class="chapter" data-level="10.6" data-path="working-with-dates-and-time.html"><a href="working-with-dates-and-time.html#extract-and-manipulate-parts-of-dates"><i class="fa fa-check"></i><b>10.6</b> Extract and Manipulate Parts of Dates</a></li>
+<li class="chapter" data-level="10.7" data-path="working-with-dates-and-time.html"><a href="working-with-dates-and-time.html#creating-date-sequences"><i class="fa fa-check"></i><b>10.7</b> Creating Date Sequences</a></li>
+<li class="chapter" data-level="10.8" data-path="working-with-dates-and-time.html"><a href="working-with-dates-and-time.html#calculations-with-dates"><i class="fa fa-check"></i><b>10.8</b> Calculations with Dates</a></li>
+<li class="chapter" data-level="10.9" data-path="working-with-dates-and-time.html"><a href="working-with-dates-and-time.html#time-difference-of-15-days"><i class="fa fa-check"></i><b>10.9</b> Time difference of 15 days</a></li>
+<li class="chapter" data-level="10.10" data-path="working-with-dates-and-time.html"><a href="working-with-dates-and-time.html#example-with-time-zones"><i class="fa fa-check"></i><b>10.10</b> example with time zones</a></li>
+<li class="chapter" data-level="10.11" data-path="working-with-dates-and-time.html"><a href="working-with-dates-and-time.html#time-interval"><i class="fa fa-check"></i><b>10.11</b> Time Interval</a></li>
+<li class="chapter" data-level="10.12" data-path="working-with-dates-and-time.html"><a href="working-with-dates-and-time.html#ctd-list"><i class="fa fa-check"></i><b>10.12</b> ctd list</a></li>
+<li class="chapter" data-level="10.13" data-path="working-with-dates-and-time.html"><a href="working-with-dates-and-time.html#arithmetic-with-date-times"><i class="fa fa-check"></i><b>10.13</b> Arithmetic with date times</a></li>
+<li class="chapter" data-level="10.14" data-path="working-with-dates-and-time.html"><a href="working-with-dates-and-time.html#dealing-with-time-zones"><i class="fa fa-check"></i><b>10.14</b> Dealing with Time Zones</a></li>
+<li class="chapter" data-level="10.15" data-path="working-with-dates-and-time.html"><a href="working-with-dates-and-time.html#case-study-working-with-date-and-time-of-argo-float-observations"><i class="fa fa-check"></i><b>10.15</b> Case study: Working with Date and Time of Argo float observations</a></li>
+<li class="chapter" data-level="10.16" data-path="working-with-dates-and-time.html"><a href="working-with-dates-and-time.html#data-1"><i class="fa fa-check"></i><b>10.16</b> Data</a></li>
+<li class="chapter" data-level="10.17" data-path="working-with-dates-and-time.html"><a href="working-with-dates-and-time.html#data-processing"><i class="fa fa-check"></i><b>10.17</b> Data processing</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="control-flow.html"><a href="control-flow.html"><i class="fa fa-check"></i><b>11</b> Control flow</a><ul>
+<li class="chapter" data-level="11.1" data-path="control-flow.html"><a href="control-flow.html#for-loop"><i class="fa fa-check"></i><b>11.1</b> for loop</a><ul>
+<li class="chapter" data-level="11.1.1" data-path="control-flow.html"><a href="control-flow.html#for-loop-on-array"><i class="fa fa-check"></i><b>11.1.1</b> For loop on array</a></li>
+</ul></li>
+<li class="chapter" data-level="11.2" data-path="control-flow.html"><a href="control-flow.html#if-and-else-statement"><i class="fa fa-check"></i><b>11.2</b> if and else statement</a></li>
+<li class="chapter" data-level="11.3" data-path="control-flow.html"><a href="control-flow.html#functions-1"><i class="fa fa-check"></i><b>11.3</b> Functions</a><ul>
+<li class="chapter" data-level="11.3.1" data-path="control-flow.html"><a href="control-flow.html#core-functions"><i class="fa fa-check"></i><b>11.3.1</b> core functions</a></li>
+<li class="chapter" data-level="11.3.2" data-path="control-flow.html"><a href="control-flow.html#user-defined-functions"><i class="fa fa-check"></i><b>11.3.2</b> user defined functions</a></li>
+</ul></li>
+<li class="chapter" data-level="11.4" data-path="control-flow.html"><a href="control-flow.html#packages"><i class="fa fa-check"></i><b>11.4</b> packages</a></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="functions-and-packages.html"><a href="functions-and-packages.html"><i class="fa fa-check"></i><b>12</b> Functions and packages</a><ul>
+<li class="chapter" data-level="12.0.1" data-path="functions-and-packages.html"><a href="functions-and-packages.html#core-functions-1"><i class="fa fa-check"></i><b>12.0.1</b> core functions</a></li>
+<li class="chapter" data-level="12.0.2" data-path="functions-and-packages.html"><a href="functions-and-packages.html#user-defined-functions-1"><i class="fa fa-check"></i><b>12.0.2</b> user defined functions</a></li>
+<li class="chapter" data-level="12.1" data-path="functions-and-packages.html"><a href="functions-and-packages.html#packages-1"><i class="fa fa-check"></i><b>12.1</b> packages</a></li>
+<li class="chapter" data-level="12.2" data-path="functions-and-packages.html"><a href="functions-and-packages.html#function-pipelines"><i class="fa fa-check"></i><b>12.2</b> function pipelines</a></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="raster.html"><a href="raster.html"><i class="fa fa-check"></i><b>13</b> Raster Data</a><ul>
+<li class="chapter" data-level="13.1" data-path="raster.html"><a href="raster.html#introduction-to-raster-data"><i class="fa fa-check"></i><b>13.1</b> Introduction to Raster data</a><ul>
+<li class="chapter" data-level="13.1.1" data-path="raster.html"><a href="raster.html#geotiff"><i class="fa fa-check"></i><b>13.1.1</b> GeoTiff</a></li>
+<li class="chapter" data-level="13.1.2" data-path="raster.html"><a href="raster.html#explore-the-raster-attribute"><i class="fa fa-check"></i><b>13.1.2</b> Explore the raster attribute</a></li>
+<li class="chapter" data-level="13.1.3" data-path="raster.html"><a href="raster.html#read-a-geotiff-raster-data"><i class="fa fa-check"></i><b>13.1.3</b> Read a GeoTIFF raster data</a></li>
+<li class="chapter" data-level="13.1.4" data-path="raster.html"><a href="raster.html#view-raster-coordinate-reference-system"><i class="fa fa-check"></i><b>13.1.4</b> View Raster Coordinate Reference System</a></li>
+<li class="chapter" data-level="13.1.5" data-path="raster.html"><a href="raster.html#dealing-with-missing-data-in-raster"><i class="fa fa-check"></i><b>13.1.5</b> Dealing with missing data in raster</a></li>
+</ul></li>
+<li class="chapter" data-level="13.2" data-path="raster.html"><a href="raster.html#assign-projection-and-reproject-raster-data-in-r"><i class="fa fa-check"></i><b>13.2</b> Assign projection and Reproject Raster Data in R</a></li>
+<li class="chapter" data-level="13.3" data-path="raster.html"><a href="raster.html#raster-resolution"><i class="fa fa-check"></i><b>13.3</b> Raster resolution</a></li>
+<li class="chapter" data-level="13.4" data-path="raster.html"><a href="raster.html#raster-calculation"><i class="fa fa-check"></i><b>13.4</b> Raster Calculation</a></li>
+<li class="chapter" data-level="13.5" data-path="raster.html"><a href="raster.html#multi-bands-satellite-imagery"><i class="fa fa-check"></i><b>13.5</b> Multi-bands satellite imagery</a><ul>
+<li class="chapter" data-level="13.5.1" data-path="raster.html"><a href="raster.html#rater-stacks"><i class="fa fa-check"></i><b>13.5.1</b> Rater Stacks</a></li>
+</ul></li>
+<li class="chapter" data-level="13.6" data-path="raster.html"><a href="raster.html#manipulate-raster"><i class="fa fa-check"></i><b>13.6</b> Manipulate raster</a></li>
+<li class="chapter" data-level="13.7" data-path="raster.html"><a href="raster.html#raster-time-series-data"><i class="fa fa-check"></i><b>13.7</b> Raster time series data</a></li>
+<li class="chapter" data-level="13.8" data-path="raster.html"><a href="raster.html#comparing-ndvi-from-two-different-sites"><i class="fa fa-check"></i><b>13.8</b> comparing NDVI from Two different sites</a></li>
+</ul></li>
+<li class="chapter" data-level="14" data-path="plotting-in-r-with-ggplot2.html"><a href="plotting-in-r-with-ggplot2.html"><i class="fa fa-check"></i><b>14</b> Plotting in R with <code>ggplot2</code></a><ul>
+<li class="chapter" data-level="14.1" data-path="plotting-in-r-with-ggplot2.html"><a href="plotting-in-r-with-ggplot2.html#a-dataset"><i class="fa fa-check"></i><b>14.1</b> A dataset</a></li>
+<li class="chapter" data-level="14.2" data-path="plotting-in-r-with-ggplot2.html"><a href="plotting-in-r-with-ggplot2.html#components-of-ggplot-objects-components"><i class="fa fa-check"></i><b>14.2</b> Components of ggplot objects {components}</a></li>
+<li class="chapter" data-level="14.3" data-path="plotting-in-r-with-ggplot2.html"><a href="plotting-in-r-with-ggplot2.html#building-a-plot"><i class="fa fa-check"></i><b>14.3</b> Building a plot</a><ul>
+<li class="chapter" data-level="14.3.1" data-path="plotting-in-r-with-ggplot2.html"><a href="plotting-in-r-with-ggplot2.html#plotting-layers"><i class="fa fa-check"></i><b>14.3.1</b> Plotting layers</a></li>
+<li class="chapter" data-level="14.3.2" data-path="plotting-in-r-with-ggplot2.html"><a href="plotting-in-r-with-ggplot2.html#customize-legend"><i class="fa fa-check"></i><b>14.3.2</b> Customize legend</a></li>
+<li class="chapter" data-level="14.3.3" data-path="plotting-in-r-with-ggplot2.html"><a href="plotting-in-r-with-ggplot2.html#working-with-titles-and-labels"><i class="fa fa-check"></i><b>14.3.3</b> Working with titles and labels</a></li>
+</ul></li>
+<li class="chapter" data-level="14.4" data-path="plotting-in-r-with-ggplot2.html"><a href="plotting-in-r-with-ggplot2.html#customize-glidline-and-axis-labels"><i class="fa fa-check"></i><b>14.4</b> Customize glidline and axis labels</a><ul>
+<li class="chapter" data-level="14.4.1" data-path="plotting-in-r-with-ggplot2.html"><a href="plotting-in-r-with-ggplot2.html#remove-the-gray-box-of-points-on-legend"><i class="fa fa-check"></i><b>14.4.1</b> Remove the gray box of points on legend</a></li>
+</ul></li>
+<li class="chapter" data-level="14.5" data-path="plotting-in-r-with-ggplot2.html"><a href="plotting-in-r-with-ggplot2.html#modify-the-position-of-the-legend"><i class="fa fa-check"></i><b>14.5</b> Modify the position of the legend</a><ul>
+<li class="chapter" data-level="14.5.1" data-path="plotting-in-r-with-ggplot2.html"><a href="plotting-in-r-with-ggplot2.html#change-the-legend-background-and-stroke-color"><i class="fa fa-check"></i><b>14.5.1</b> Change the legend background and stroke color</a></li>
+<li class="chapter" data-level="14.5.2" data-path="plotting-in-r-with-ggplot2.html"><a href="plotting-in-r-with-ggplot2.html#modify-background-colors"><i class="fa fa-check"></i><b>14.5.2</b> Modify background colors</a></li>
+<li class="chapter" data-level="14.5.3" data-path="plotting-in-r-with-ggplot2.html"><a href="plotting-in-r-with-ggplot2.html#change-the-gridlines"><i class="fa fa-check"></i><b>14.5.3</b> change the gridlines</a></li>
+<li class="chapter" data-level="14.5.4" data-path="plotting-in-r-with-ggplot2.html"><a href="plotting-in-r-with-ggplot2.html#change-the-font-size-for-axis-labels-and-titles"><i class="fa fa-check"></i><b>14.5.4</b> Change the font size for axis, labels and titles</a></li>
+<li class="chapter" data-level="14.5.5" data-path="plotting-in-r-with-ggplot2.html"><a href="plotting-in-r-with-ggplot2.html#limit-axis-to-a-range"><i class="fa fa-check"></i><b>14.5.5</b> Limit axis to a range</a></li>
+<li class="chapter" data-level="14.5.6" data-path="plotting-in-r-with-ggplot2.html"><a href="plotting-in-r-with-ggplot2.html#adding-labels"><i class="fa fa-check"></i><b>14.5.6</b> Adding labels</a></li>
+<li class="chapter" data-level="14.5.7" data-path="plotting-in-r-with-ggplot2.html"><a href="plotting-in-r-with-ggplot2.html#add-text-annotation"><i class="fa fa-check"></i><b>14.5.7</b> Add text annotation</a></li>
+<li class="chapter" data-level="14.5.8" data-path="plotting-in-r-with-ggplot2.html"><a href="plotting-in-r-with-ggplot2.html#make-the-x-and-y-axis-the-same"><i class="fa fa-check"></i><b>14.5.8</b> Make the x and y axis the same</a></li>
+<li class="chapter" data-level="14.5.9" data-path="plotting-in-r-with-ggplot2.html"><a href="plotting-in-r-with-ggplot2.html#faceting-creating-multipanel-plots"><i class="fa fa-check"></i><b>14.5.9</b> Faceting —Creating multi–panel plots</a></li>
+<li class="chapter" data-level="14.5.10" data-path="plotting-in-r-with-ggplot2.html"><a href="plotting-in-r-with-ggplot2.html#allow-scales-to-roam-free-scales"><i class="fa fa-check"></i><b>14.5.10</b> Allow scales to roam free (scales)</a></li>
+</ul></li>
+<li class="chapter" data-level="14.6" data-path="plotting-in-r-with-ggplot2.html"><a href="plotting-in-r-with-ggplot2.html#basic-plots"><i class="fa fa-check"></i><b>14.6</b> Basic plots</a><ul>
+<li class="chapter" data-level="14.6.1" data-path="plotting-in-r-with-ggplot2.html"><a href="plotting-in-r-with-ggplot2.html#scatterplot"><i class="fa fa-check"></i><b>14.6.1</b> scatterplot</a></li>
+<li class="chapter" data-level="14.6.2" data-path="plotting-in-r-with-ggplot2.html"><a href="plotting-in-r-with-ggplot2.html#adding-regression-line"><i class="fa fa-check"></i><b>14.6.2</b> adding regression line</a></li>
+</ul></li>
+<li class="chapter" data-level="14.7" data-path="plotting-in-r-with-ggplot2.html"><a href="plotting-in-r-with-ggplot2.html#linegraph"><i class="fa fa-check"></i><b>14.7</b> Linegraph</a><ul>
+<li class="chapter" data-level="14.7.1" data-path="plotting-in-r-with-ggplot2.html"><a href="plotting-in-r-with-ggplot2.html#histogram"><i class="fa fa-check"></i><b>14.7.1</b> histogram</a></li>
+<li class="chapter" data-level="14.7.2" data-path="plotting-in-r-with-ggplot2.html"><a href="plotting-in-r-with-ggplot2.html#boxplot"><i class="fa fa-check"></i><b>14.7.2</b> boxplot</a></li>
+<li class="chapter" data-level="14.7.3" data-path="plotting-in-r-with-ggplot2.html"><a href="plotting-in-r-with-ggplot2.html#barplot"><i class="fa fa-check"></i><b>14.7.3</b> barplot</a></li>
+<li class="chapter" data-level="14.7.4" data-path="plotting-in-r-with-ggplot2.html"><a href="plotting-in-r-with-ggplot2.html#barplot-for-values"><i class="fa fa-check"></i><b>14.7.4</b> barplot for values</a></li>
+</ul></li>
+<li class="chapter" data-level="14.8" data-path="plotting-in-r-with-ggplot2.html"><a href="plotting-in-r-with-ggplot2.html#advanced-plots"><i class="fa fa-check"></i><b>14.8</b> Advanced plots</a><ul>
+<li class="chapter" data-level="14.8.1" data-path="plotting-in-r-with-ggplot2.html"><a href="plotting-in-r-with-ggplot2.html#facets"><i class="fa fa-check"></i><b>14.8.1</b> Facets</a></li>
+<li class="chapter" data-level="14.8.2" data-path="plotting-in-r-with-ggplot2.html"><a href="plotting-in-r-with-ggplot2.html#sea-surface-temperature"><i class="fa fa-check"></i><b>14.8.2</b> Sea Surface Temperature</a></li>
+<li class="chapter" data-level="14.8.3" data-path="plotting-in-r-with-ggplot2.html"><a href="plotting-in-r-with-ggplot2.html#subplot"><i class="fa fa-check"></i><b>14.8.3</b> Subplot</a></li>
+</ul></li>
+<li class="chapter" data-level="14.9" data-path="plotting-in-r-with-ggplot2.html"><a href="plotting-in-r-with-ggplot2.html#colour"><i class="fa fa-check"></i><b>14.9</b> Colour</a></li>
+<li class="chapter" data-level="14.10" data-path="plotting-in-r-with-ggplot2.html"><a href="plotting-in-r-with-ggplot2.html#size"><i class="fa fa-check"></i><b>14.10</b> size</a></li>
+<li class="chapter" data-level="14.11" data-path="plotting-in-r-with-ggplot2.html"><a href="plotting-in-r-with-ggplot2.html#scaling"><i class="fa fa-check"></i><b>14.11</b> scaling</a></li>
+<li class="chapter" data-level="14.12" data-path="plotting-in-r-with-ggplot2.html"><a href="plotting-in-r-with-ggplot2.html#guides"><i class="fa fa-check"></i><b>14.12</b> Guides</a></li>
+<li class="chapter" data-level="14.13" data-path="plotting-in-r-with-ggplot2.html"><a href="plotting-in-r-with-ggplot2.html#add-on-packages"><i class="fa fa-check"></i><b>14.13</b> Add-on packages</a></li>
+<li class="chapter" data-level="14.14" data-path="plotting-in-r-with-ggplot2.html"><a href="plotting-in-r-with-ggplot2.html#ggridges"><i class="fa fa-check"></i><b>14.14</b> ggridges</a></li>
+<li class="chapter" data-level="14.15" data-path="plotting-in-r-with-ggplot2.html"><a href="plotting-in-r-with-ggplot2.html#varying-fill-colors-along-the-x-axis"><i class="fa fa-check"></i><b>14.15</b> Varying fill colors along the x axis</a></li>
+<li class="chapter" data-level="14.16" data-path="plotting-in-r-with-ggplot2.html"><a href="plotting-in-r-with-ggplot2.html#metr"><i class="fa fa-check"></i><b>14.16</b> metR</a></li>
+</ul></li>
+<li class="chapter" data-level="15" data-path="a-grammar-for-graphics.html"><a href="a-grammar-for-graphics.html"><i class="fa fa-check"></i><b>15</b> A grammar for graphics</a><ul>
+<li class="chapter" data-level="15.1" data-path="a-grammar-for-graphics.html"><a href="a-grammar-for-graphics.html#geoms"><i class="fa fa-check"></i><b>15.1</b> geoms</a><ul>
+<li class="chapter" data-level="15.1.1" data-path="a-grammar-for-graphics.html"><a href="a-grammar-for-graphics.html#regression-line"><i class="fa fa-check"></i><b>15.1.1</b> Regression Line</a></li>
+<li class="chapter" data-level="15.1.2" data-path="a-grammar-for-graphics.html"><a href="a-grammar-for-graphics.html#horizontal-vertical-lines"><i class="fa fa-check"></i><b>15.1.2</b> Horizontal/ vertical lines</a></li>
+</ul></li>
+<li class="chapter" data-level="15.2" data-path="a-grammar-for-graphics.html"><a href="a-grammar-for-graphics.html#aes"><i class="fa fa-check"></i><b>15.2</b> aes()</a><ul>
+<li class="chapter" data-level="15.2.1" data-path="a-grammar-for-graphics.html"><a href="a-grammar-for-graphics.html#color"><i class="fa fa-check"></i><b>15.2.1</b> Color</a></li>
+<li class="chapter" data-level="15.2.2" data-path="a-grammar-for-graphics.html"><a href="a-grammar-for-graphics.html#shape"><i class="fa fa-check"></i><b>15.2.2</b> shape</a></li>
+</ul></li>
+<li class="chapter" data-level="15.3" data-path="a-grammar-for-graphics.html"><a href="a-grammar-for-graphics.html#axis-and-labels"><i class="fa fa-check"></i><b>15.3</b> Axis and labels</a></li>
+<li class="chapter" data-level="15.4" data-path="a-grammar-for-graphics.html"><a href="a-grammar-for-graphics.html#text-annotaion"><i class="fa fa-check"></i><b>15.4</b> Text annotaion</a></li>
+<li class="chapter" data-level="15.5" data-path="a-grammar-for-graphics.html"><a href="a-grammar-for-graphics.html#scales"><i class="fa fa-check"></i><b>15.5</b> Scales</a></li>
+<li class="chapter" data-level="15.6" data-path="a-grammar-for-graphics.html"><a href="a-grammar-for-graphics.html#guides-1"><i class="fa fa-check"></i><b>15.6</b> Guides</a></li>
+<li class="chapter" data-level="15.7" data-path="a-grammar-for-graphics.html"><a href="a-grammar-for-graphics.html#themes"><i class="fa fa-check"></i><b>15.7</b> Themes</a></li>
+</ul></li>
+<li class="chapter" data-level="16" data-path="graphics.html"><a href="graphics.html"><i class="fa fa-check"></i><b>16</b> Making Maps</a><ul>
+<li class="chapter" data-level="16.1" data-path="graphics.html"><a href="graphics.html#geographical-data-in-a-tidy-format"><i class="fa fa-check"></i><b>16.1</b> Geographical data in a tidy format</a><ul>
+<li class="chapter" data-level="16.1.1" data-path="graphics.html"><a href="graphics.html#create-simple-feature-from-data.frame"><i class="fa fa-check"></i><b>16.1.1</b> Create simple feature from data.frame</a></li>
+<li class="chapter" data-level="16.1.2" data-path="graphics.html"><a href="graphics.html#importing-shapefile"><i class="fa fa-check"></i><b>16.1.2</b> Importing shapefile</a></li>
+<li class="chapter" data-level="16.1.3" data-path="graphics.html"><a href="graphics.html#reading-other-format"><i class="fa fa-check"></i><b>16.1.3</b> Reading other format</a></li>
+</ul></li>
+<li class="chapter" data-level="16.2" data-path="graphics.html"><a href="graphics.html#introduction-1"><i class="fa fa-check"></i><b>16.2</b> Introduction</a></li>
+<li class="chapter" data-level="16.3" data-path="graphics.html"><a href="graphics.html#static-maps"><i class="fa fa-check"></i><b>16.3</b> Static Maps</a><ul>
+<li class="chapter" data-level="16.3.1" data-path="graphics.html"><a href="graphics.html#the-bathmetry-data"><i class="fa fa-check"></i><b>16.3.1</b> The bathmetry data</a></li>
+</ul></li>
+<li class="chapter" data-level="16.4" data-path="graphics.html"><a href="graphics.html#basemap"><i class="fa fa-check"></i><b>16.4</b> Basemap</a></li>
+<li class="chapter" data-level="16.5" data-path="graphics.html"><a href="graphics.html#creating-contour-map"><i class="fa fa-check"></i><b>16.5</b> Creating contour map</a></li>
+<li class="chapter" data-level="16.6" data-path="graphics.html"><a href="graphics.html#inset-maps"><i class="fa fa-check"></i><b>16.6</b> Inset maps</a><ul>
+<li class="chapter" data-level="16.6.1" data-path="graphics.html"><a href="graphics.html#choropleth-maps"><i class="fa fa-check"></i><b>16.6.1</b> Choropleth maps</a></li>
+</ul></li>
+<li class="chapter" data-level="16.7" data-path="graphics.html"><a href="graphics.html#animated-maps"><i class="fa fa-check"></i><b>16.7</b> Animated maps</a></li>
+<li class="chapter" data-level="16.8" data-path="graphics.html"><a href="graphics.html#interactive-maps"><i class="fa fa-check"></i><b>16.8</b> Interactive maps</a></li>
+</ul></li>
+<li class="chapter" data-level="17" data-path="animation.html"><a href="animation.html"><i class="fa fa-check"></i><b>17</b> Animation</a><ul>
+<li class="chapter" data-level="17.1" data-path="animation.html"><a href="animation.html#animation-1"><i class="fa fa-check"></i><b>17.1</b> Animation</a></li>
+<li class="chapter" data-level="17.2" data-path="animation.html"><a href="animation.html#isosurface"><i class="fa fa-check"></i><b>17.2</b> isosurface</a></li>
+<li class="chapter" data-level="17.3" data-path="animation.html"><a href="animation.html#checking-for-proper-interpolation-methods"><i class="fa fa-check"></i><b>17.3</b> checking for proper interpolation methods</a><ul>
+<li class="chapter" data-level="17.3.1" data-path="animation.html"><a href="animation.html#fluorescence-section"><i class="fa fa-check"></i><b>17.3.1</b> Fluorescence section</a></li>
+<li class="chapter" data-level="17.3.2" data-path="animation.html"><a href="animation.html#temperature-section"><i class="fa fa-check"></i><b>17.3.2</b> Temperature section</a></li>
+<li class="chapter" data-level="17.3.3" data-path="animation.html"><a href="animation.html#dissolved-oxygen-section"><i class="fa fa-check"></i><b>17.3.3</b> Dissolved Oxygen section</a></li>
+<li class="chapter" data-level="17.3.4" data-path="animation.html"><a href="animation.html#salinity-section"><i class="fa fa-check"></i><b>17.3.4</b> Salinity section</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="18" data-path="forecast-time-series.html"><a href="forecast-time-series.html"><i class="fa fa-check"></i><b>18</b> Forecast time series</a><ul>
+<li class="chapter" data-level="18.1" data-path="forecast-time-series.html"><a href="forecast-time-series.html#introduction-2"><i class="fa fa-check"></i><b>18.1</b> introduction</a></li>
+<li class="chapter" data-level="18.2" data-path="forecast-time-series.html"><a href="forecast-time-series.html#data-2"><i class="fa fa-check"></i><b>18.2</b> Data</a></li>
+<li class="chapter" data-level="18.3" data-path="forecast-time-series.html"><a href="forecast-time-series.html#data-processing-1"><i class="fa fa-check"></i><b>18.3</b> Data processing</a></li>
+<li class="chapter" data-level="18.4" data-path="forecast-time-series.html"><a href="forecast-time-series.html#forecasting"><i class="fa fa-check"></i><b>18.4</b> Forecasting</a></li>
+<li class="chapter" data-level="18.5" data-path="forecast-time-series.html"><a href="forecast-time-series.html#visualize-the-forecasted-values"><i class="fa fa-check"></i><b>18.5</b> Visualize the forecasted values</a></li>
+<li class="chapter" data-level="18.6" data-path="forecast-time-series.html"><a href="forecast-time-series.html#conclusion"><i class="fa fa-check"></i><b>18.6</b> conclusion</a></li>
+</ul></li>
+<li class="chapter" data-level="19" data-path="reading-netcdf.html"><a href="reading-netcdf.html"><i class="fa fa-check"></i><b>19</b> Reading NetCDF</a><ul>
+<li class="chapter" data-level="19.1" data-path="reading-netcdf.html"><a href="reading-netcdf.html#introduction-3"><i class="fa fa-check"></i><b>19.1</b> Introduction</a></li>
+<li class="chapter" data-level="19.2" data-path="reading-netcdf.html"><a href="reading-netcdf.html#types-of-netcdf-file"><i class="fa fa-check"></i><b>19.2</b> Types of netCDF file</a></li>
+<li class="chapter" data-level="19.3" data-path="reading-netcdf.html"><a href="reading-netcdf.html#rading-netcdf-with-ncdf4-package"><i class="fa fa-check"></i><b>19.3</b> Rading NetCDF with ncdf4 package</a><ul>
+<li class="chapter" data-level="19.3.1" data-path="reading-netcdf.html"><a href="reading-netcdf.html#extracting-the-dimensions"><i class="fa fa-check"></i><b>19.3.1</b> Extracting the dimensions</a></li>
+<li class="chapter" data-level="19.3.2" data-path="reading-netcdf.html"><a href="reading-netcdf.html#extracting-time"><i class="fa fa-check"></i><b>19.3.2</b> Extracting time</a></li>
+<li class="chapter" data-level="19.3.3" data-path="reading-netcdf.html"><a href="reading-netcdf.html#extracting-latitude"><i class="fa fa-check"></i><b>19.3.3</b> Extracting Latitude</a></li>
+<li class="chapter" data-level="19.3.4" data-path="reading-netcdf.html"><a href="reading-netcdf.html#extracting-longitude"><i class="fa fa-check"></i><b>19.3.4</b> Extracting Longitude</a></li>
+<li class="chapter" data-level="19.3.5" data-path="reading-netcdf.html"><a href="reading-netcdf.html#extracting-the-variable"><i class="fa fa-check"></i><b>19.3.5</b> Extracting the variable</a></li>
+<li class="chapter" data-level="19.3.6" data-path="reading-netcdf.html"><a href="reading-netcdf.html#replace-fillvalue-with-na"><i class="fa fa-check"></i><b>19.3.6</b> Replace FillValue with NA</a></li>
+<li class="chapter" data-level="19.3.7" data-path="reading-netcdf.html"><a href="reading-netcdf.html#obtain-a-slice"><i class="fa fa-check"></i><b>19.3.7</b> Obtain a slice</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="20" data-path="packages-2.html"><a href="packages-2.html"><i class="fa fa-check"></i><b>20</b> packages</a><ul>
+<li class="chapter" data-level="20.1" data-path="packages-2.html"><a href="packages-2.html#one-sample-t-test"><i class="fa fa-check"></i><b>20.1</b> One Sample t Test</a></li>
+<li class="chapter" data-level="20.2" data-path="packages-2.html"><a href="packages-2.html#paired-t-test"><i class="fa fa-check"></i><b>20.2</b> Paired t test</a></li>
+<li class="chapter" data-level="20.3" data-path="packages-2.html"><a href="packages-2.html#levenes-test"><i class="fa fa-check"></i><b>20.3</b> Levene’s Test</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">A glimpse of GIS and Remote Sensing with R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="raster" class="section level1">
+<h1><span class="header-section-number">Chapter 13</span> Raster Data</h1>
+<p><strong>Questions</strong></p>
+<ul>
+<li>what is a raster dataset?</li>
+<li>What tools/functions are used to import raster in R?</li>
+<li>How to I work with and plot raster data in R</li>
+<li>How missing or bad data in R are handled with R</li>
+</ul>
+<p><strong>Objectives</strong></p>
+<ul>
+<li>Describe the fundamental attributes of a raster dataset</li>
+<li>Explore raster attributtes and metadata</li>
+<li>Import raster dataset into R workspace</li>
+<li>visualize raster object</li>
+<li>Distinguish single versus multi-bands rasters</li>
+</ul>
+<div id="introduction-to-raster-data" class="section level2">
+<h2><span class="header-section-number">13.1</span> Introduction to Raster data</h2>
+<p>This this section introduce you to the fundamental principles, packages and metadata/raster attributes that are needed to work with raster data in R. The section discuss some of the core metadata elements that you need to understand to work with rasters in R, including CRS and resolution. Furthermore, missing and bad data values stored in raster will be explored and techniques to handles these elements will be illustrated.</p>
+<p>The book use several packages including the <strong>tidyverse</strong> ecosystem <span class="citation">(Wickham <a href="#ref-tidyverse">2017</a>)</span>—with popular packages like the <strong>ggplot2</strong><span class="citation">(Wickham <a href="#ref-ggplot">2016</a>)</span> and <strong>dplyr</strong> <span class="citation">(Wickham et al. <a href="#ref-dplyr">2019</a>)</span>. The widely used packages for handling raster and vector data like <strong>raster</strong> <span class="citation">(Hijmans <a href="#ref-raster">2019</a>)</span>, <strong>sp</strong><span class="citation">(Bivand, Pebesma, and Gomez-Rubio <a href="#ref-sp">2013</a>)</span>, <strong>sf</strong> <span class="citation">(Pebesma <a href="#ref-sf">2018</a>)</span> and <strong>rgdal</strong> <span class="citation">(Bivand, Keitt, and Rowlingson <a href="#ref-rgdal">2019</a>)</span> make core tools in this book. R needs these packages imported into the environment to use their functions, which can easily done with the <code>require()</code> function.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">require</span>(sf)
+<span class="kw">require</span>(sp)
+<span class="kw">require</span>(raster)
+<span class="kw">require</span>(tidyverse)
+<span class="kw">require</span>(metR)</code></pre>
+<div id="geotiff" class="section level3">
+<h3><span class="header-section-number">13.1.1</span> GeoTiff</h3>
+<p>A popular public domain raster data format is the <code>GeoTIFF</code> format. If maximum portability and platform independence is important, this file format may be a good choice.</p>
+</div>
+<div id="explore-the-raster-attribute" class="section level3">
+<h3><span class="header-section-number">13.1.2</span> Explore the raster attribute</h3>
+<p>One of the common raster file is the *GeoTiff** that embed tags of metadata information bout the raster file. This metadata provide the information of the file and hence help us understand the internal structure of the file. This information can be accessed with the <code>GDALinfo()</code> function <span class="citation">(Bivand, Keitt, and Rowlingson <a href="#ref-rgdal">2019</a>)</span>. Looking at the metadata help us have a glimpse of the file before even the file is imported into the workspace.</p>
+<pre class="sourceCode r"><code class="sourceCode r">rgdal<span class="op">::</span><span class="kw">GDALinfo</span>(<span class="st">&quot;e:/GIS/Tanzania spatial data Bank/Lake_Tanganyika_Bathymetry/Lake_Tanganyika_Bathymetry/grid/tanganyika_dbm (2013_10_23 20_44_28 UTC).tif&quot;</span>)</code></pre>
+<pre><code>rows        6589 
+columns     2575 
+bands       1 
+lower left origin.x        29.05769 
+lower left origin.y        -8.811174 
+res.x       0.000833 
+res.y       0.000833 
+ysign       -1 
+oblique.x   0 
+oblique.y   0 
+driver      GTiff 
+projection  +proj=longlat +datum=WGS84 +no_defs 
+file        e:/GIS/Tanzania spatial data Bank/Lake_Tanganyika_Bathymetry/Lake_Tanganyika_Bathymetry/grid/tanganyika_dbm (2013_10_23 20_44_28 UTC).tif 
+apparent band summary:
+   GDType hasNoDataValue   NoDataValue blockSize1 blockSize2
+1 Float32           TRUE -3.402823e+38        128        128
+apparent band statistics:
+   Bmin Bmax     Bmean      Bsd
+1 -1500    0 -607.0582 427.0307
+Metadata:
+AREA_OR_POINT=Area </code></pre>
+</div>
+<div id="read-a-geotiff-raster-data" class="section level3">
+<h3><span class="header-section-number">13.1.3</span> Read a GeoTIFF raster data</h3>
+<p>Once you have a glimpse of the information of the raster—for example the above information show that the tiff contain elevation values and provide the summary statistics of the elevation with minimum value of 0 and maximum value of 1500 with average of 607. It also show the geographical extent with minimum longitude o 29.05769 and maximul latitude of -8.811174. Furthermore, the metadata tell us that the file is projected with World Geodetic System (WGS84) and the cell has a horizontal resolution of 0.000833 degree. Once we know this information, we can read the file with the <code>raster</code> function of <strong>raster</strong> package <span class="citation">(Hijmans <a href="#ref-raster">2019</a>)</span></p>
+<p>For this example, we use the bathmetry information of Lake Tanganyika found in Africa. It the world’s longest freshwater lake, the second largest largest by volume, and the second deepest lake in the world after lake Baikal in Siberia <span class="citation">(“Lake Tanyanyika,” <a href="#ref-wiki2">n.d.</a>)</span>.</p>
+<pre class="sourceCode r"><code class="sourceCode r">lt.bath =<span class="st"> </span><span class="kw">raster</span>(<span class="st">&quot;e:/GIS/Tanzania spatial data Bank/Lake_Tanganyika_Bathymetry/Lake_Tanganyika_Bathymetry/grid/tanganyika_dbm (2013_10_23 20_44_28 UTC).tif&quot;</span>)</code></pre>
+<p>We can <code>summary</code> function to look at the statistics of the bathmetry of this lake. Looking at the descriptive statistics, we notice that the lake has the depth range from 0 to 1500 m and there is no cell without a value.</p>
+<pre class="sourceCode r"><code class="sourceCode r">lt.bath <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">summary</span>()</code></pre>
+<pre><code>        tanganyika_dbm_.2013_10_23_20_44_28_UTC.
+Min.                                  -1500.0000
+1st Qu.                                -958.3341
+Median                                 -529.9788
+3rd Qu.                                -250.8468
+Max.                                      0.0000
+NA&#39;s                                      0.0000</code></pre>
+<p>There are times when a raster file does not show the summary statistics. When this occurs you can manually calculate the cell values using the <code>setMinMax()</code> function.</p>
+<pre class="sourceCode r"><code class="sourceCode r">lt.bath <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">setMinMax</span>() </code></pre>
+<pre><code>class      : RasterLayer 
+dimensions : 6589, 2575, 16966675  (nrow, ncol, ncell)
+resolution : 0.000833, 0.000833  (x, y)
+extent     : 29.05769, 31.20266, -8.811174, -3.322537  (xmin, xmax, ymin, ymax)
+crs        : +proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0 
+source     : e:/GIS/Tanzania spatial data Bank/Lake_Tanganyika_Bathymetry/Lake_Tanganyika_Bathymetry/grid/tanganyika_dbm (2013_10_23 20_44_28 UTC).tif 
+names      : tanganyika_dbm_.2013_10_23_20_44_28_UTC. 
+values     : -1500, 0  (min, max)</code></pre>
+</div>
+<div id="view-raster-coordinate-reference-system" class="section level3">
+<h3><span class="header-section-number">13.1.4</span> View Raster Coordinate Reference System</h3>
+<p>A spatial reference system (SRS) or coordinate referene system (CRS) is a coordinate-based local, regional or global system used to locate geographical entities <span class="citation">(“Coordinate Reference System,” <a href="#ref-wiki1">n.d.</a>)</span>. A spatial reference system defines a specific map projection and transofrmation betweeen diffferent spatial reference systems. We can look the embedded CRS in the raster file with teh <code>crs()</code> function from <strong>raster</strong> package.</p>
+<pre class="sourceCode r"><code class="sourceCode r">lt.bath <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">crs</span>()</code></pre>
+<pre><code>CRS arguments:
+ +proj=longlat +datum=WGS84 +no_defs +ellps=WGS84
++towgs84=0,0,0 </code></pre>
+<p>We notice that the raster file is projected in Word Geodetic System of 1984 (WGS84). In summary the projection <code>+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0</code> tell us as follows:</p>
+<ul>
+<li><code>proj=longlat</code>: the projectionis in longitude and latitude decimal degrees</li>
+<li><code>datum=WGS84</code>: the datum is WGS84 and it referes to the 0,0 refereence for the coordinate system used in the projection</li>
+<li><code>ellps=WGS84</code>: the ellipsoidd—how the earth’s roundness is calculated for the data is WGS84</li>
+</ul>
+</div>
+<div id="dealing-with-missing-data-in-raster" class="section level3">
+<h3><span class="header-section-number">13.1.5</span> Dealing with missing data in raster</h3>
+<p>Raster data often has <code>NoData</code> value to represent the absence of data. This is a value assigned to pixels where data is missing or absent. The raster comes with a ract1 contain both the elevation and bathmetry information. But if you want to plot area contour from the coastline offshore, you will need to remove elevation information and this is when you assign the elevation pixel with the <code>NoData</code> value.</p>
+<p>The values that is conventionally used to represent missing data varies by ther raster data type. For example, for floating points rasters, the figure <code>-3.4e+38</code> is commonly used while for integers a figure <code>-9999</code> is common. However, when raster are imported,
+R assigns these missing cell with <code>NA</code>.</p>
+<pre class="sourceCode r"><code class="sourceCode r">tz.bath =<span class="st"> </span><span class="kw">raster</span>(<span class="st">&quot;e:/GIS/ROADMAP/Etopo 1/Tanzania_etopo1/tanz1_-3432.asc&quot;</span>)
+tz.bath <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">summary</span>()</code></pre>
+<pre><code>        tanz1_.3432
+Min.          -4892
+1st Qu.       -3519
+Median         -271
+3rd Qu.         615
+Max.           5435
+NA&#39;s              0</code></pre>
+</div>
+</div>
+<div id="assign-projection-and-reproject-raster-data-in-r" class="section level2">
+<h2><span class="header-section-number">13.2</span> Assign projection and Reproject Raster Data in R</h2>
+<p>Sometimes we encounter raster datasets that do not “line up” when plotted or analyzed. Rasters that don’t line up are most often in different Coordinate Reference Systems (CRS). This section explains how to deal with rasters in different, known CRSs. It will walk though reprojecting rasters in R using the <code>projectRaster()</code> function in the <strong>raster</strong> package. We can assess the projection of the two raster data we loaded earlier with the <code>crs()</code> function from <strong>raster</strong> package. Let’s begin with the bathmetry raster of Lake Tanganyika</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">crs</span>(lt.bath)</code></pre>
+<pre><code>CRS arguments:
+ +proj=longlat +datum=WGS84 +no_defs +ellps=WGS84
++towgs84=0,0,0 </code></pre>
+<p>We notice that the bathmetry raster of Lake Tanganyika has defined coordinate reference system—WGS84. let us also check the bathmetry data from the coastal water of Tanzania using the same <code>crs()</code> function.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">crs</span>(tz.bath)</code></pre>
+<pre><code>CRS arguments: NA </code></pre>
+<p>Unfortunately, the bathmetry raster of coastal water of Tanzania lack the coordinate reference systm—this idicate that the projection is not defined yet. fortunate, raster package has <code>projectRaster()</code> function that allows to reproject raster without defined CRS or reproject a raster from one CRS into another. Since the <code>lt.bath</code> has the projection, we can use its projection to define the missing coordinate system in <code>tz.bath</code> raster file. Because we need to define a projection of the missing raster, we simply use the <code>crs()</code> function to copy the projection of <code>lt.bath</code> into the <code>tz.bath</code> as the code block illustrate</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">crs</span>(tz.bath) =<span class="st"> </span><span class="kw">crs</span>(lt.bath)</code></pre>
+<p>We can check the coordinate of the two files if they are correct</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">crs</span>(tz.bath); <span class="kw">crs</span>(lt.bath)</code></pre>
+<pre><code>CRS arguments:
+ +proj=longlat +datum=WGS84 +no_defs +ellps=WGS84
++towgs84=0,0,0 </code></pre>
+<pre><code>CRS arguments:
+ +proj=longlat +datum=WGS84 +no_defs +ellps=WGS84
++towgs84=0,0,0 </code></pre>
+<p>Since we know that the coastal water of Tanzania lies at zone 37 south, we can simply assign the appropriate projection and then transform the bathmetry from WGS84 to UTM zone 37 south. Since we know the text of the zone, let us define it</p>
+<pre class="sourceCode r"><code class="sourceCode r">    tzutm =<span class="st"> &quot;+proj=utm +zone=37 +south +datum=WGS84 +units=m +no_defs&quot;</span></code></pre>
+<p>We then use the <code>projectExtent()</code> function to transform the CRS from WGS84 to UTM Zone 37 south</p>
+<pre class="sourceCode r"><code class="sourceCode r">tz.bath.utm =<span class="st"> </span><span class="kw">projectExtent</span>(tz.bath, tzutm)</code></pre>
+<p>Then check the files projections. Instead of using the <code>crs()</code> to assess the type of projection, we use the <code>projection()</code> function instead.</p>
+<pre class="sourceCode r"><code class="sourceCode r">tz.bath <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">projection</span>(<span class="dt">asText =</span> F); tz.bath.utm <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">projection</span>(<span class="dt">asText =</span> F)</code></pre>
+<pre><code>CRS arguments:
+ +proj=longlat +datum=WGS84 +no_defs +ellps=WGS84
++towgs84=0,0,0 </code></pre>
+<pre><code>CRS arguments:
+ +proj=utm +zone=37 +south +datum=WGS84 +units=m +no_defs
++ellps=WGS84 +towgs84=0,0,0 </code></pre>
+</div>
+<div id="raster-resolution" class="section level2">
+<h2><span class="header-section-number">13.3</span> Raster resolution</h2>
+<p>Let’s next have a look at the resolution of reprojected <code>tz.bath.utm</code> and the <code>tz.bath</code> files.</p>
+<pre class="sourceCode r"><code class="sourceCode r">tz.bath.utm <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">res</span>();tz.bath <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">res</span>()</code></pre>
+<pre><code>[1] 1859.258 1860.036</code></pre>
+<pre><code>[1] 0.01666667 0.01666667</code></pre>
+<p>We notice that the horizontal resolution of projected utm <code>tz.bath.utm</code> file is given in meters of 1859.258 by 1860.036. But the the wgs84 <code>tz.bath</code> is given in degree of 0.01666667 by 0.01666667. Therefore, depending on how you intend to use the raster in analysis and mapping, you will find yourself resonate between geographical coordianate system (WGS) and Universal Transeverse Mercator (UTM). The former is in degree while the later is in meters.</p>
+</div>
+<div id="raster-calculation" class="section level2">
+<h2><span class="header-section-number">13.4</span> Raster Calculation</h2>
+<p>Often times we want to perform calculations on two or more rasters to create a new output raster. For example, if we are interested in mapping the heights of trees across an entire field site, we might want to calculate the difference between the Digital Surface Model (DSM, tops of trees) and the Digital Terrain Model (DTM, ground level). The resulting dataset is referred to as a Canopy Height Model (CHM) and represents the actual height of trees, buildings, etc. with the influence of ground elevation removed.</p>
+</div>
+<div id="multi-bands-satellite-imagery" class="section level2">
+<h2><span class="header-section-number">13.5</span> Multi-bands satellite imagery</h2>
+<p>High resolution digital globe multispectral image. Let us explore the image first</p>
+<pre class="sourceCode r"><code class="sourceCode r">rgdal<span class="op">::</span><span class="kw">GDALinfo</span>(<span class="st">&quot;e:/GIS/trevor/053575070010_01/053575070010_01_P001_MUL/14AUG19082006-M2AS-053575070010_01_P001.TIF&quot;</span>)</code></pre>
+<pre><code>rows        5013 
+columns     2340 
+bands       8 
+lower left origin.x        431076 
+lower left origin.y        7020086 
+res.x       2 
+res.y       2 
+ysign       -1 
+oblique.x   0 
+oblique.y   0 
+driver      GTiff 
+projection  +proj=utm +zone=36 +south +datum=WGS84 +units=m +no_defs 
+file        e:/GIS/trevor/053575070010_01/053575070010_01_P001_MUL/14AUG19082006-M2AS-053575070010_01_P001.TIF 
+apparent band summary:
+  GDType hasNoDataValue NoDataValue blockSize1 blockSize2
+1 UInt16          FALSE           0        224       2340
+2 UInt16          FALSE           0        224       2340
+3 UInt16          FALSE           0        224       2340
+4 UInt16          FALSE           0        224       2340
+5 UInt16          FALSE           0        224       2340
+6 UInt16          FALSE           0        224       2340
+7 UInt16          FALSE           0        224       2340
+8 UInt16          FALSE           0        224       2340
+apparent band statistics:
+  Bmin Bmax    Bmean        Bsd
+1  214 1012 241.0628   6.579988
+2  172 1235 203.5383  11.027946
+3  170 2047 240.6267  24.320807
+4  101 2047 212.6599  37.599717
+5   49 1528 128.3042  32.559744
+6  100 2047 306.6574  67.605365
+7   56 1729 353.3486 106.036615
+8   32 1723 333.0844  98.604913
+Metadata:
+AREA_OR_POINT=Area 
+TIFFTAG_COPYRIGHT=(C) COPYRIGHT 2014 DigitalGlobe, Inc., Longmont CO USA 80503 
+TIFFTAG_DATETIME=2014:08:19 12:17:12 
+TIFFTAG_IMAGEDESCRIPTION={
+  bandList = 
+  [
+    6;
+    2;
+    3;
+    7;
+    4;
+    8;
+    5;
+    9;
+  ]
+} 
+TIFFTAG_MAXSAMPLEVALUE=2047 
+TIFFTAG_MINSAMPLEVALUE=0 </code></pre>
+<pre class="sourceCode r"><code class="sourceCode r">dg =<span class="st"> </span><span class="kw">raster</span>(<span class="st">&quot;e:/GIS/trevor/053575070010_01/053575070010_01_P001_MUL/14AUG19082006-M2AS-053575070010_01_P001.TIF&quot;</span>)</code></pre>
+<p>When we explore the raster file, it tell that the class is raster layer and it has eight bands with spatial resolution of 2 meters.</p>
+<pre class="sourceCode r"><code class="sourceCode r">dg</code></pre>
+<pre><code>class      : RasterLayer 
+band       : 1  (of  8  bands)
+dimensions : 5013, 2340, 11730420  (nrow, ncol, ncell)
+resolution : 2, 2  (x, y)
+extent     : 431076, 435756, 7020086, 7030112  (xmin, xmax, ymin, ymax)
+crs        : +proj=utm +zone=36 +south +datum=WGS84 +units=m +no_defs +ellps=WGS84 +towgs84=0,0,0 
+source     : e:/GIS/trevor/053575070010_01/053575070010_01_P001_MUL/14AUG19082006-M2AS-053575070010_01_P001.TIF 
+names      : X14AUG19082006.M2AS.053575070010_01_P001 
+values     : 214, 1012  (min, max)</code></pre>
+<p>Check for geographical coordinate system</p>
+<pre class="sourceCode r"><code class="sourceCode r">dg <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">projection</span>()</code></pre>
+<pre><code>[1] &quot;+proj=utm +zone=36 +south +datum=WGS84 +units=m +no_defs +ellps=WGS84 +towgs84=0,0,0&quot;</code></pre>
+<p>check for the resolution</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">res</span>(dg)</code></pre>
+<pre><code>[1] 2 2</code></pre>
+<div id="rater-stacks" class="section level3">
+<h3><span class="header-section-number">13.5.1</span> Rater Stacks</h3>
+<p>The multi-bands raster in R are handled easily with the <code>stack()</code> function, which bling all bands of multi-band raster</p>
+<pre class="sourceCode r"><code class="sourceCode r">dg.bands =<span class="st"> </span><span class="kw">stack</span>(<span class="st">&quot;e:/GIS/trevor/053575070010_01/053575070010_01_P001_MUL/14AUG19082006-M2AS-053575070010_01_P001.TIF&quot;</span>)</code></pre>
+<p>We then preview the attributes embedded in the stacked raster object</p>
+<pre class="sourceCode r"><code class="sourceCode r">dg.bands</code></pre>
+<pre><code>class      : RasterStack 
+dimensions : 5013, 2340, 11730420, 8  (nrow, ncol, ncell, nlayers)
+resolution : 2, 2  (x, y)
+extent     : 431076, 435756, 7020086, 7030112  (xmin, xmax, ymin, ymax)
+crs        : +proj=utm +zone=36 +south +datum=WGS84 +units=m +no_defs +ellps=WGS84 +towgs84=0,0,0 
+names      : X14AUG190//_01_P001.1, X14AUG190//_01_P001.2, X14AUG190//_01_P001.3, X14AUG190//_01_P001.4, X14AUG190//_01_P001.5, X14AUG190//_01_P001.6, X14AUG190//_01_P001.7, X14AUG190//_01_P001.8 
+min values :                   214,                   172,                   170,                   101,                    49,                   100,                    56,                    32 
+max values :                  1012,                  1235,                  2047,                  2047,                  1528,                  2047,                  1729,                  1723 </code></pre>
+<p>We can view the attributes of each band in the stack with a single output using the <code>$</code> operator and call the layer</p>
+<pre class="sourceCode r"><code class="sourceCode r">dg.bands<span class="op">@</span>layers</code></pre>
+<pre><code>[[1]]
+class      : RasterLayer 
+band       : 1  (of  8  bands)
+dimensions : 5013, 2340, 11730420  (nrow, ncol, ncell)
+resolution : 2, 2  (x, y)
+extent     : 431076, 435756, 7020086, 7030112  (xmin, xmax, ymin, ymax)
+crs        : +proj=utm +zone=36 +south +datum=WGS84 +units=m +no_defs +ellps=WGS84 +towgs84=0,0,0 
+source     : e:/GIS/trevor/053575070010_01/053575070010_01_P001_MUL/14AUG19082006-M2AS-053575070010_01_P001.TIF 
+names      : X14AUG19082006.M2AS.053575070010_01_P001.1 
+values     : 214, 1012  (min, max)
+
+
+[[2]]
+class      : RasterLayer 
+band       : 2  (of  8  bands)
+dimensions : 5013, 2340, 11730420  (nrow, ncol, ncell)
+resolution : 2, 2  (x, y)
+extent     : 431076, 435756, 7020086, 7030112  (xmin, xmax, ymin, ymax)
+crs        : +proj=utm +zone=36 +south +datum=WGS84 +units=m +no_defs +ellps=WGS84 +towgs84=0,0,0 
+source     : e:/GIS/trevor/053575070010_01/053575070010_01_P001_MUL/14AUG19082006-M2AS-053575070010_01_P001.TIF 
+names      : X14AUG19082006.M2AS.053575070010_01_P001.2 
+values     : 172, 1235  (min, max)
+
+
+[[3]]
+class      : RasterLayer 
+band       : 3  (of  8  bands)
+dimensions : 5013, 2340, 11730420  (nrow, ncol, ncell)
+resolution : 2, 2  (x, y)
+extent     : 431076, 435756, 7020086, 7030112  (xmin, xmax, ymin, ymax)
+crs        : +proj=utm +zone=36 +south +datum=WGS84 +units=m +no_defs +ellps=WGS84 +towgs84=0,0,0 
+source     : e:/GIS/trevor/053575070010_01/053575070010_01_P001_MUL/14AUG19082006-M2AS-053575070010_01_P001.TIF 
+names      : X14AUG19082006.M2AS.053575070010_01_P001.3 
+values     : 170, 2047  (min, max)
+
+
+[[4]]
+class      : RasterLayer 
+band       : 4  (of  8  bands)
+dimensions : 5013, 2340, 11730420  (nrow, ncol, ncell)
+resolution : 2, 2  (x, y)
+extent     : 431076, 435756, 7020086, 7030112  (xmin, xmax, ymin, ymax)
+crs        : +proj=utm +zone=36 +south +datum=WGS84 +units=m +no_defs +ellps=WGS84 +towgs84=0,0,0 
+source     : e:/GIS/trevor/053575070010_01/053575070010_01_P001_MUL/14AUG19082006-M2AS-053575070010_01_P001.TIF 
+names      : X14AUG19082006.M2AS.053575070010_01_P001.4 
+values     : 101, 2047  (min, max)
+
+
+[[5]]
+class      : RasterLayer 
+band       : 5  (of  8  bands)
+dimensions : 5013, 2340, 11730420  (nrow, ncol, ncell)
+resolution : 2, 2  (x, y)
+extent     : 431076, 435756, 7020086, 7030112  (xmin, xmax, ymin, ymax)
+crs        : +proj=utm +zone=36 +south +datum=WGS84 +units=m +no_defs +ellps=WGS84 +towgs84=0,0,0 
+source     : e:/GIS/trevor/053575070010_01/053575070010_01_P001_MUL/14AUG19082006-M2AS-053575070010_01_P001.TIF 
+names      : X14AUG19082006.M2AS.053575070010_01_P001.5 
+values     : 49, 1528  (min, max)
+
+
+[[6]]
+class      : RasterLayer 
+band       : 6  (of  8  bands)
+dimensions : 5013, 2340, 11730420  (nrow, ncol, ncell)
+resolution : 2, 2  (x, y)
+extent     : 431076, 435756, 7020086, 7030112  (xmin, xmax, ymin, ymax)
+crs        : +proj=utm +zone=36 +south +datum=WGS84 +units=m +no_defs +ellps=WGS84 +towgs84=0,0,0 
+source     : e:/GIS/trevor/053575070010_01/053575070010_01_P001_MUL/14AUG19082006-M2AS-053575070010_01_P001.TIF 
+names      : X14AUG19082006.M2AS.053575070010_01_P001.6 
+values     : 100, 2047  (min, max)
+
+
+[[7]]
+class      : RasterLayer 
+band       : 7  (of  8  bands)
+dimensions : 5013, 2340, 11730420  (nrow, ncol, ncell)
+resolution : 2, 2  (x, y)
+extent     : 431076, 435756, 7020086, 7030112  (xmin, xmax, ymin, ymax)
+crs        : +proj=utm +zone=36 +south +datum=WGS84 +units=m +no_defs +ellps=WGS84 +towgs84=0,0,0 
+source     : e:/GIS/trevor/053575070010_01/053575070010_01_P001_MUL/14AUG19082006-M2AS-053575070010_01_P001.TIF 
+names      : X14AUG19082006.M2AS.053575070010_01_P001.7 
+values     : 56, 1729  (min, max)
+
+
+[[8]]
+class      : RasterLayer 
+band       : 8  (of  8  bands)
+dimensions : 5013, 2340, 11730420  (nrow, ncol, ncell)
+resolution : 2, 2  (x, y)
+extent     : 431076, 435756, 7020086, 7030112  (xmin, xmax, ymin, ymax)
+crs        : +proj=utm +zone=36 +south +datum=WGS84 +units=m +no_defs +ellps=WGS84 +towgs84=0,0,0 
+source     : e:/GIS/trevor/053575070010_01/053575070010_01_P001_MUL/14AUG19082006-M2AS-053575070010_01_P001.TIF 
+names      : X14AUG19082006.M2AS.053575070010_01_P001.8 
+values     : 32, 1723  (min, max)</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plotRGB</span>(dg.bands, <span class="dt">r =</span> <span class="dv">3</span>, <span class="dt">g =</span> <span class="dv">2</span>, <span class="dt">b =</span> <span class="dv">1</span>, <span class="dt">scale =</span> <span class="dv">800</span>, <span class="dt">stretch =</span> <span class="st">&quot;hist&quot;</span>)</code></pre>
+<p><img src="spatil_r_files/figure-html/unnamed-chunk-314-1.png" width="672" /></p>
+<pre class="sourceCode r"><code class="sourceCode r">b1 =<span class="st"> </span><span class="kw">raster</span>(<span class="st">&quot;e:/bookdown/spatil_r/landsat_clip_2014/clip_LC81660652014164LGN00_B1.tif&quot;</span>)
+b2 =<span class="st"> </span><span class="kw">raster</span>(<span class="st">&quot;e:/bookdown/spatil_r/landsat_clip_2014/clip_LC81660652014164LGN00_B2.tif&quot;</span>)
+b3 =<span class="st"> </span><span class="kw">raster</span>(<span class="st">&quot;e:/bookdown/spatil_r/landsat_clip_2014/clip_LC81660652014164LGN00_B3.tif&quot;</span>)
+b4 =<span class="st"> </span><span class="kw">raster</span>(<span class="st">&quot;e:/bookdown/spatil_r/landsat_clip_2014/clip_LC81660652014164LGN00_B4.tif&quot;</span>)
+b5 =<span class="st"> </span><span class="kw">raster</span>(<span class="st">&quot;e:/bookdown/spatil_r/landsat_clip_2014/clip_LC81660652014164LGN00_B5.tif&quot;</span>)
+b6 =<span class="st"> </span><span class="kw">raster</span>(<span class="st">&quot;e:/bookdown/spatil_r/landsat_clip_2014/clip_LC81660652014164LGN00_B6.tif&quot;</span>)
+b7 =<span class="st"> </span><span class="kw">raster</span>(<span class="st">&quot;e:/bookdown/spatil_r/landsat_clip_2014/clip_LC81660652014164LGN00_B7.tif&quot;</span>)</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">stack</span>(b1, b2, b3) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">plotRGB</span>(<span class="dt">r =</span> <span class="dv">3</span>, <span class="dt">g =</span> <span class="dv">2</span>, <span class="dt">b =</span> <span class="dv">1</span>, <span class="dt">scale =</span> <span class="ot">TRUE</span>)</code></pre>
+</div>
+</div>
+<div id="manipulate-raster" class="section level2">
+<h2><span class="header-section-number">13.6</span> Manipulate raster</h2>
+</div>
+<div id="raster-time-series-data" class="section level2">
+<h2><span class="header-section-number">13.7</span> Raster time series data</h2>
+</div>
+<div id="comparing-ndvi-from-two-different-sites" class="section level2">
+<h2><span class="header-section-number">13.8</span> comparing NDVI from Two different sites</h2>
+
+</div>
+</div>
+<h3>References</h3>
+<div id="refs" class="references">
+<div id="ref-rgdal">
+<p>Bivand, Roger, Tim Keitt, and Barry Rowlingson. 2019. <em>Rgdal: Bindings for the ’Geospatial’ Data Abstraction Library</em>. <a href="https://CRAN.R-project.org/package=rgdal">https://CRAN.R-project.org/package=rgdal</a>.</p>
+</div>
+<div id="ref-sp">
+<p>Bivand, Roger S., Edzer Pebesma, and Virgilio Gomez-Rubio. 2013. <em>Applied Spatial Data Analysis with R, Second Edition</em>. Springer, NY. <a href="http://www.asdar-book.org/">http://www.asdar-book.org/</a>.</p>
+</div>
+<div id="ref-wiki1">
+<p>“Coordinate Reference System.” n.d. <a href="https://en.m.wikipedia.org/wiki/Spatial_reference_system">https://en.m.wikipedia.org/wiki/Spatial_reference_system</a>.</p>
+</div>
+<div id="ref-raster">
+<p>Hijmans, Robert J. 2019. <em>Raster: Geographic Data Analysis and Modeling</em>. <a href="https://CRAN.R-project.org/package=raster">https://CRAN.R-project.org/package=raster</a>.</p>
+</div>
+<div id="ref-wiki2">
+<p>“Lake Tanyanyika.” n.d. <a href="https://en.m.wikipedia.org/wiki/Lake_Tangnyika">https://en.m.wikipedia.org/wiki/Lake_Tangnyika</a>.</p>
+</div>
+<div id="ref-sf">
+<p>Pebesma, Edzer. 2018. “Simple Features for R: Standardized Support for Spatial Vector Data.” <em>The R Journal</em>. <a href="https://journal.r-project.org/archive/2018/RJ-2018-009/index.html">https://journal.r-project.org/archive/2018/RJ-2018-009/index.html</a>.</p>
+</div>
+<div id="ref-ggplot">
+<p>Wickham, Hadley. 2016. <em>Ggplot2: Elegant Graphics for Data Analysis</em>. Springer-Verlag New York. <a href="https://ggplot2.tidyverse.org">https://ggplot2.tidyverse.org</a>.</p>
+</div>
+<div id="ref-tidyverse">
+<p>Wickham, Hadley. 2017. <em>Tidyverse: Easily Install and Load the ’Tidyverse’</em>. <a href="https://CRAN.R-project.org/package=tidyverse">https://CRAN.R-project.org/package=tidyverse</a>.</p>
+</div>
+<div id="ref-dplyr">
+<p>Wickham, Hadley, Romain François, Lionel Henry, and Kirill Müller. 2019. <em>Dplyr: A Grammar of Data Manipulation</em>. <a href="https://CRAN.R-project.org/package=dplyr">https://CRAN.R-project.org/package=dplyr</a>.</p>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="functions-and-packages.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="plotting-in-r-with-ggplot2.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"download": ["spatil_r.pdf", "spatil_r.epub", "spatil_r.mobi"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:" && /^https?:/.test(src))
+      src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
